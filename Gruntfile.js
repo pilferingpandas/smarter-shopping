@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     uglify: {
       my_target: {
         files: {
-          /* from */ : /* to */
+          'public/**/*' : ''
         }
       }
     },
@@ -26,44 +26,41 @@ module.exports = function(grunt) {
           transform: ['reactify']
         },
         files: {
-          /* from */: /* to */
+          'src/*': 'public/js/scripts.js'
         }
       }
     },
 
     sass: {
-      options: {
-        // add options
-      },
       dist: {
         files: {
-          // what to sass
+          'scss/*':'public/css/style.css'
         }
       }
     },
 
     nodemon: {
       dev: {
-        script: // server file
+        script: 'server/server.js'
       }
     },
 
     mochaTest: {
       test: {
         options: {
-          reporter: // spec
+          reporter: 'spec'
         },
-        src: [/*spec src*/]
+        src: ['spec/**/*']
       }
     },
 
     watch: {
       scripts: {
         files: [
-          // files to watch
+          'src/**/*', 'scss/**/*', 
         ],
         tasks: [
-          // tasks to do
+          'jshint', 'browserify', 'uglify'
         ]
       }
     }
