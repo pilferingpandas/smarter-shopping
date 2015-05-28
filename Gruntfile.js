@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     uglify: {
       my_target: {
         files: {
-          'public/**/*' : ''
+          'public/js/scripts.min.js' : 'public/js/scripts.js'
         }
       }
     },
@@ -14,7 +14,6 @@ module.exports = function(grunt) {
     jshint: {
       files: [
         'server/**/*',
-        'scss/*',
         'src/*'
       ]
     },
@@ -22,11 +21,11 @@ module.exports = function(grunt) {
     browserify: {
       release: {
         options: {
-          debug: false,
+          debug: true,
           transform: ['reactify']
         },
         files: {
-          'src/*': 'public/js/scripts.js'
+          'public/js/scripts.js' : 'src/app.js'
         }
       }
     },
@@ -34,7 +33,7 @@ module.exports = function(grunt) {
     sass: {
       dist: {
         files: {
-          'scss/*':'public/css/style.css'
+          'public/css/style.css' : 'scss/**/*'
         }
       }
     },
@@ -55,12 +54,20 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      scripts: {
+      dev: {
         files: [
           'src/**/*', 'scss/**/*', 
         ],
         tasks: [
           'jshint', 'browserify', 'uglify'
+        ]
+      },
+      test: {
+        files: [
+          'spec/**/*'
+        ],
+        tasks: [
+          'mochaTest'
         ]
       }
     }
