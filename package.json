@@ -1,0 +1,18 @@
+{
+  "name": "smart-shopping",
+  "version": "1.0.0",
+  "description": "Smart Shopping List",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/savage-tadpole/smart-shopping.git"
+  },
+  "author": "Emily Shenfield, Alex Mendez, Real Provencher, Joseph Nayigiziki, Joe Prempeh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/savage-tadpole/smart-shopping/issues"
+  },
+  "homepage": "https://github.com/savage-tadpole/smart-shopping"
+}
