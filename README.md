@@ -10,12 +10,3 @@
 
 ## Solution ##
   > It removes the burden of creating a new list every week before you head to the grocery store and keeps your trip quick and efficient. 
-<!---
-## Quote from You ##
-
-## How to Get Started ##
-
-## Customer Quote ##
-
-## Closing and Call to Action ##
--->
