@@ -14,18 +14,21 @@ module.exports = function(grunt) {
     jshint: {
       files: [
         'server/**/*',
-        'src/*'
+        'public/js/*'
       ]
     },
 
     browserify: {
       release: {
         options: {
-          debug: true,
-          transform: ['reactify']
+          browserifyOptions: {
+            debug: true,
+            transform: ['reactify'],
+            extensions: ['.jsx']
+          }
         },
         files: {
-          'public/js/scripts.js' : 'src/app.js'
+          'public/js/scripts.js' : 'src/Router.jsx'
         }
       }
     },
@@ -59,7 +62,7 @@ module.exports = function(grunt) {
           'src/**/*', 'scss/**/*', 
         ],
         tasks: [
-          'jshint', 'browserify', 'uglify'
+          'build'
         ]
       },
       test: {
@@ -83,7 +86,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
 
   grunt.registerTask('test', ['mochaTest']);
-  grunt.registerTask('build', ['test', 'jshint', 'sass', 'browserify', 'uglify']);
-  grunt.registerTask('dev', ['build', 'watch', 'nodemon']);
+  grunt.registerTask('build', ['sass', 'browserify', 'uglify']);
+  grunt.registerTask('dev', ['build', 'watch:dev']);
+  grunt.registerTask('serve', ['nodemon']);
 
 };
