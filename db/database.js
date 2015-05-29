@@ -3,7 +3,7 @@ var Schema   = mongoose.Schema;
 
 
 var Item = new Schema({
-  name: ObjectId,
+  name: String,
   timestamp: { type: Date, default: Date.now },
   data: {
     frequency: Number,
