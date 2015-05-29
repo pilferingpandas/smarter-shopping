@@ -7,17 +7,6 @@ var express = require('express');
 var firebaseRequestHandler = require('./middleware/authFirebase');
 var app = express();
 
-
-//static files will be served from the public directory
-app.use(function (req, res, next) {
-  var ts = new Date();
-  console.log(req.url + ' - ' + req.method);
-  console.log('Time:', ts);
-  next();
-});
-
-app.use(express.static('public'));
-
 //static files will be served from the public directory
 app.use(function (req, res, next) {
   var ts = new Date();

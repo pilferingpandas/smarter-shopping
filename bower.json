@@ -1,0 +1,24 @@
+{
+  "name": "smart-shopping",
+  "version": "1.0.1",
+  "homepage": "https://github.com/savage-tadpole/smart-shopping",
+  "authors": [
+    "Emily Shenfield",
+    "Alex Mendez",
+    "Real Provencher",
+    "Joseph Nayigiziki",
+    "Joe Prempeh"
+  ],
+  "description": "\"Smart shopping list\"",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4"
+  }
+}
