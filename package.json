@@ -18,9 +18,11 @@
   "dependencies": {
     "express": "^4.12.4",
     "firebase": "^2.2.5",
-    "nodemon": "^1.3.7"
+    "nodemon": "^1.3.7",
+    "mongoose": "^4.0.4"
   },
   "devDependencies": {
+    "chai": "^2.3.0",
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.8.0",
     "grunt-contrib-jshint": "^0.11.2",
