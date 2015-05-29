@@ -4,9 +4,9 @@
 * */
 
 var express = require('express');
-var app = express();
 var firebaseRequestHandler = require('./middleware/authFirebase');
 
+var app = express();
 
 //static files will be served from the public directory
 app.use(function (req, res, next) {

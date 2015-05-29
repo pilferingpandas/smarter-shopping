@@ -3,3 +3,6 @@ public/bower_components/
 
 # Editor-specific files
 .idea
+
+
+.DS_Store
