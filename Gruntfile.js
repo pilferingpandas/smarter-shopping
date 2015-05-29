@@ -62,8 +62,7 @@ module.exports = function(grunt) {
           'src/**/*', 'scss/**/*', 
         ],
         tasks: [
-          //'browserify', 'jshint', 'uglify'
-          'browserify', 'uglify'
+          'build'
         ]
       },
       test: {
@@ -87,8 +86,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
 
   grunt.registerTask('test', ['mochaTest']);
-  //grunt.registerTask('build', ['sass', 'browserify', 'jshint', 'uglify']);
   grunt.registerTask('build', ['sass', 'browserify', 'uglify']);
-  grunt.registerTask('dev', ['build', 'nodemon', 'watch']);
+  grunt.registerTask('dev', ['build', 'watch:dev']);
+  grunt.registerTask('serve', ['nodemon']);
 
 };
