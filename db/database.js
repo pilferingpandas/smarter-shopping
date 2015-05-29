@@ -5,17 +5,22 @@ var Schema   = mongoose.Schema;
 var Item = new Schema({
   name: ObjectId,
   timestamp: { type: Date, default: Date.now },
-  data: []
+  data: {
+    frequency: Number,
+    coupons: [String],
+    food_category: String,
+    expiration: Date
+  }
 }); 
 
 var Cache = new Schema({
-  items: [Item]
+  items: [{ type: Schema.Types.ObjectId, ref: 'Item'}]
 })
 
 var User = new Schema({
   username: String,
-  list: [Item],
-  past_items: [Item]
+  list: [{ type: Schema.Types.ObjectId, ref: 'Item'}],
+  past_items: [{ type: Schema.Types.ObjectId, ref: 'Item'}]
 });
 
 mongoose.model('Item', Item);
