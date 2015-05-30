@@ -8,7 +8,6 @@ var list = require('../../server/lists/listController.js');
 // TODO: Write tests!
 
 // getList should return a user's list
-
 /**
  * addItem should create a new item if it doesn't exist
  * and add it to the user's list. If the item exists, 
