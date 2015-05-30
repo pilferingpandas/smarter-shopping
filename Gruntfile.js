@@ -33,6 +33,12 @@ module.exports = function(grunt) {
       }
     },
 
+    shell: {
+      mongo: {
+        command: 'mongod'
+      }
+    },
+
     sass: {
       dist: {
         files: {
@@ -70,7 +76,7 @@ module.exports = function(grunt) {
           'spec/**/*'
         ],
         tasks: [
-          'mochaTest'
+          'test'
         ]
       }
     }
@@ -84,6 +90,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-shell');
 
   grunt.registerTask('test', ['mochaTest']);
   grunt.registerTask('build', ['sass', 'browserify', 'uglify']);
