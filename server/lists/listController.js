@@ -13,18 +13,45 @@ module.exports = {
       user
         .populate('list')
         .exec(function(err, user) {
-          res.send(user.list);
+          res.json(user.list);
         });
     });
   };
 
-  newItem: function(req, res, next) {
+  addItem: function(req, res, next, username) {
+    var name = req.body.name;
+    var frequency = req.body.frequency;
+    var newItem = {
+      name: name,
+      data: {
+        frequency: frequency,
+        coupons: ['none'],
+        food_category: 'none',
+        expiration: new Date(15,9,16)
+      }
+    };
     var createItem = Q.nbind(Item.create, Item);
-  }
-};
+    var findItem = Q.nbind(Item.find, Item);
+    var findUser = Q.nbind(User.findOne, User);
 
-newItem = function(req, res, next) {
-  // create a new Item
-  // add it to user's list
-  // send it to the database
-}
+    findItem({name : name})
+    .then(function(match) {
+      if (match) {
+        findUser({username: username})
+        .then(function(user) {
+          user.list.push(match)
+        });
+        res.send(match);
+      } else {
+        return createItem(newItem)
+      }
+    })
+    .then(function(createdItem) {
+      findUser({username: username})
+      .then(function(user) {
+        user.list.push(createdItem._id);
+      });
+      res.send(createdItem);
+    });
+  };
+};
