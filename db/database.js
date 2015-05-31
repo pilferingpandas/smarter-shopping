@@ -1,29 +1,25 @@
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
+module.exports = {
+  item : new Schema({
+    name: String,
+    timestamp: { type: Date, default: Date.now },
+    data: {
+      frequency: Number,
+      coupons: [String],
+      food_category: String,
+      expiration: Date
+    }
+  }),
 
-var Item = new Schema({
-  name: String,
-  timestamp: { type: Date, default: Date.now },
-  data: {
-    frequency: Number,
-    coupons: [String],
-    food_category: String,
-    expiration: Date
-  }
-}); 
+  cache : new Schema({
+    items: [{ type: Schema.Types.ObjectId, ref: 'Item'}]
+  }),
 
-var Cache = new Schema({
-  items: [{ type: Schema.Types.ObjectId, ref: 'Item'}]
-})
-
-var User = new Schema({
-  username: String,
-  list: [{ type: Schema.Types.ObjectId, ref: 'Item'}],
-  past_items: [{ type: Schema.Types.ObjectId, ref: 'Item'}]
-});
-
-mongoose.model('Item', Item);
-mongoose.model('Cache', Cache);
-mongoose.model('User', User);
-mongoose.connect('mongodb://localhost/smart-shopping');
+  user : new Schema({
+    username: String,
+    list: [{ type: Schema.Types.ObjectId, ref: 'Item'}],
+    past_items: [{ type: Schema.Types.ObjectId, ref: 'Item'}]
+  })
+};
