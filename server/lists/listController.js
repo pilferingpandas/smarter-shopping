@@ -1,12 +1,20 @@
 var Q = require('q');
 var mongoose = require('mongoose');
-var Item = mongoose.model('Item');
-var User = mongoose.model('User');
+var models = require('../../db/database.js');
+var Item = mongoose.model('Item', models.item);
+var User = mongoose.model('User', models.user);
 
 
 module.exports = {
+
+  createUser: function() {
+    User.create({username:'emily', list:[], past_items:[]}, function(err, newUser) {
+      console.log("User created! Welcome: ", newUser.username);
+    });
+  },
   
-  getList: function(req, res, next, username) {
+  getList: function(req, res) {
+    var username = 'emily';
     var findUser = Q.nbind(User.findOne, User);
     findUser({username: username})
     .then(function(user) {
@@ -16,9 +24,9 @@ module.exports = {
           res.json(user.list);
         });
     });
-  };
+  },
 
-  addItem: function(req, res, next, username) {
+  addItem: function(req, res) {
     var name = req.body.name;
     var frequency = req.body.frequency;
     var newItem = {
@@ -53,7 +61,7 @@ module.exports = {
       });
       res.send(createdItem);
     });
-  };
+  }
 
   // TODO: Update, Delete
 };
