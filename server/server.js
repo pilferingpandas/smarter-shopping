@@ -25,8 +25,8 @@ app.use(function (req, res, next) {
 
 app.use(express.static(__dirname + '/public'));
 
-app.get('/', listController.getList);
-app.post('/', listController.addItem); 
+app.get('/api/list', listController.getList);
+app.post('/api/item/add', listController.addItem); 
 
 //server is listening on port 3000
 var server = app.listen(3000, function () {
