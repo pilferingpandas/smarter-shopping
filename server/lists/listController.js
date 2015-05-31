@@ -68,6 +68,7 @@ module.exports = {
         })
         .catch(function(err) {
           console.error(err);
+          res.status(500).send({ error: 'Server Error' });
         })
       } else {
         createItem(item)
@@ -79,23 +80,23 @@ module.exports = {
               {$push: {'list': createdItem._id}},
               {safe:true, upsert:true},
               function(err, model) {
-                if(err) console.log(err);
+                if(err) console.error(err);
               }
             );
             res.send(createdItem);
           })
           .catch(function(err) {
             console.error(err);
+            res.status(500).send({ error: 'Server Error' });
+
           });
         })
         .catch(function(err) {
           console.error(err);
+          res.status(500).send({ error: 'Server Error' });
         });
       }
     })
-    .catch(function(err) {
-      console.error(err);
-    });
   }
 
   // TODO: Update, Delete
