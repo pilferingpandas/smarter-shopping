@@ -7,12 +7,14 @@ var express = require('express');
 var firebaseRequestHandler = require('./middleware/authFirebase');
 var listController = require('./lists/listController.js');
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 var app = express();
 
 mongoose.connect('mongodb://localhost/smart-shopping');
 
 listController.createUser();
 
+app.use(bodyParser.json());
 //static files will be served from the public directory
 app.use(function (req, res, next) {
   var ts = new Date();
