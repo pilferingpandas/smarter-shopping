@@ -12,9 +12,7 @@ module.exports = {
 
     User.find({username: 'emily'}, function(err, users) {
       if (err) console.error(err);
-      console.log(users);
       if (users.length > 0) {
-        console.log('This user already exists!')
       } else {
         User.create(user, function(err, newUser) {
           console.log('User created! Welcome: ', newUser.username);
@@ -25,18 +23,13 @@ module.exports = {
   
   getList: function(req, res) {
     var username = 'emily';
-    var findUser = Q.nbind(User.findOne, User);
-    findUser({username: username})
-    .then(function(user) {
-      console.log('Found user! ', user);
+    User
+    .findOne({username: username})
+    .populate('list')
+    .exec(function(err, user) {
+      if (err) console.error(err);
       res.send(user.list);
-        // .populate('list')
-        // .exec(function(err, user) {
-        //   if (err) console.error(err);
-        //   console.log('Inside exec')
-        //   res.json(user.list);
-        // });
-    });
+    })
   },
 
   addItem: function(req, res) {
@@ -49,7 +42,7 @@ module.exports = {
         frequency: frequency,
         coupons: ['none'],
         food_category: 'none',
-        expiration: new Date(15,9,16)
+        expiration: new Date(2015,8,16)
       }
     });
     var createItem = Q.nbind(Item.create, Item);
@@ -63,11 +56,10 @@ module.exports = {
         .then(function(user) {
           User.findByIdAndUpdate(
             user._id,
-            {$push: {'list': createdItem._id}},
+            {$push: {'list': match._id}},
             {safe:true, upsert:true},
             function(err, model) {
               if(err) console.log(err);
-              console.log("Updated model!", model);
             }
           );
         });
@@ -85,7 +77,6 @@ module.exports = {
           {safe:true, upsert:true},
           function(err, model) {
             if(err) console.log(err);
-            console.log("Updated model!", model);
           }
         );
       });
