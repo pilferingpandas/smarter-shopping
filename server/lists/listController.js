@@ -16,6 +16,7 @@ module.exports = {
       if (users.length > 0) {
       } else {
         User.create(user, function(err, newUser) {
+          if(err) console.error(err);
           console.log('User created! Welcome: ', newUser.username);
         });
       }
@@ -63,25 +64,37 @@ module.exports = {
               if(err) console.log(err);
             }
           );
-        });
-        res.send(match);
+          res.send(match);
+        })
+        .catch(function(err) {
+          console.error(err);
+        })
       } else {
-        return createItem(item)
+        createItem(item)
+        .then(function(createdItem) {
+          findUser({username: username})
+          .then(function(user) {
+            User.findByIdAndUpdate(
+              user._id,
+              {$push: {'list': createdItem._id}},
+              {safe:true, upsert:true},
+              function(err, model) {
+                if(err) console.log(err);
+              }
+            );
+            res.send(createdItem);
+          })
+          .catch(function(err) {
+            console.error(err);
+          });
+        })
+        .catch(function(err) {
+          console.error(err);
+        });
       }
     })
-    .then(function(createdItem) {
-      findUser({username: username})
-      .then(function(user) {
-        User.findByIdAndUpdate(
-          user._id,
-          {$push: {'list': createdItem._id}},
-          {safe:true, upsert:true},
-          function(err, model) {
-            if(err) console.log(err);
-          }
-        );
-      });
-      res.send(createdItem);
+    .catch(function(err) {
+      console.error(err);
     });
   }
 
