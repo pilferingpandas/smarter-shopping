@@ -3,14 +3,15 @@ var mongoose = require('mongoose');
 var models = require('../../db/database.js');
 var Item = mongoose.model('Item', models.item);
 var User = mongoose.model('User', models.user);
+var interimUsername = 'emily'
 
 
 module.exports = {
 
   createUser: function() {
-    var user = new User({username:'emily', list:[], past_items:[]})
+    var user = new User({username:interimUsername, list:[], past_items:[]})
 
-    User.find({username: 'emily'}, function(err, users) {
+    User.find({username: interimUsername}, function(err, users) {
       if (err) console.error(err);
       if (users.length > 0) {
       } else {
@@ -22,7 +23,7 @@ module.exports = {
   },
   
   getList: function(req, res) {
-    var username = 'emily';
+    var username = interimUsername;
     User
     .findOne({username: username})
     .populate('list')
@@ -33,7 +34,7 @@ module.exports = {
   },
 
   addItem: function(req, res) {
-    var username = 'emily';
+    var username = interimUsername;
     var name = req.body.name;
     var frequency = req.body.frequency;
     var item = new Item({
