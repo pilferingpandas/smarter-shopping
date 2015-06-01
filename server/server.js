@@ -5,8 +5,16 @@
 
 var express = require('express');
 var firebaseRequestHandler = require('./middleware/authFirebase');
+var listController = require('./lists/listController.js');
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 var app = express();
 
+mongoose.connect('mongodb://localhost/smart-shopping');
+
+listController.createUser();
+
+app.use(bodyParser.json());
 //static files will be served from the public directory
 app.use(function (req, res, next) {
   var ts = new Date();
@@ -15,7 +23,10 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
+
+app.get('/api/list', listController.getList);
+app.post('/api/item/add', listController.addItem); 
 
 //server is listening on port 3000
 var server = app.listen(3000, function () {
