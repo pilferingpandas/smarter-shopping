@@ -62,7 +62,49 @@ module.exports = {
         res.status(500).send({ error: 'Server Error' });
       }
     });
-  }
+  },
 
-  // TODO: Update, Delete
+  deleteItemFromList: function(req, res) {
+    var username = iterimUsername;
+    var name = req.body.name
+    var frequency = req.body.frequency;
+    var item = new Item({
+      name: name
+      data: {
+        frequency: frequency,
+        coupons: ['none'],
+        food_category: 'none',
+        expiration: new Date(2015,6,16)
+      }
+    });
+
+    var findUser = Q.nbind(User.findOne, User);
+    var findItem = Q.nbind(Item.findOne, Item);
+
+    findItem({name: name})
+    .then(function(match) {
+      findUser({username: username})
+      .then(function(user) {
+        User.findByIdAndUpdate(
+          user._id,
+          ($pull: {'list': match._id}),
+          {safe: true, upsert: true},
+          function(err, model) {
+            if(err) console.error(err);
+          }
+        );
+        res.send(user.list);   
+      })
+      .catch(function(err) {
+        console.error(err);
+        res.status(500).send({ error: 'Server Error' });
+      })
+      .done(function(err) {
+        if (err) {
+          console.error(err);
+          res.status(500).send({ error: 'Server Error'});
+        }
+      });
+    });
+  }
 };
