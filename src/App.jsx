@@ -9,17 +9,20 @@ var testData = {
   ]
 };
 
+var url = 'http://localhost:3000';
+
 var App = React.createClass({
   loadItemsFromServer: function() {
+    var getUrl = url + '/api/list';
     $.get({
-      url: this.props.url,
+      url: getUrl,
       dataType: 'json',
       cache: false,
       success: function(data) {
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err);
+        console.error(getUrl, status, err);
       }.bind(this)
     })
   },
@@ -27,15 +30,16 @@ var App = React.createClass({
   addItemToDatabase: function(item) {
     var items = this.state.data;
     var updatedItems = items.concat([item]);
+    var postUrl = url + '/api/item/add';
     $.post({
-      url: this.props.url,
+      url: postUrl,
       dataType: 'json',
       data: item,
       success: function(data) {
         this.setState({data: data})
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err);
+        console.error(postUrl, status, err);
       }.bind(this)
     })
   },

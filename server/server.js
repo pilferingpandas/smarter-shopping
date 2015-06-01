@@ -23,7 +23,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/../public'));
 
 app.get('/api/list', listController.getList);
 app.post('/api/item/add', listController.addItem); 
