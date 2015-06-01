@@ -98,8 +98,8 @@ module.exports = {
       }
     })
     .done(function(err) {
-      if {
-        (err) console.error(err);
+      if (err) {
+        console.error(err);
         res.status(500).send({ error: 'Server Error' });
       }
     });
