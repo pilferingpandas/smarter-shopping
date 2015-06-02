@@ -16,20 +16,6 @@ var mode = function(array) {
   return max;
 };
 
-var parse = function(err, res, body) {
-  if (err) {
-    console.error(err);
-  }
-  var categories = [];
-  var data = JSON.parse(res.list.item);
-  for (var i = 0; i < data.length; i++) {
-    categories.push(data[i].group);
-  }
-
-  newItem.food_category = mode(categories);
-};
-
-
 module.exports = {
 
   prepareData: function(req, res, next) {
@@ -39,11 +25,25 @@ module.exports = {
       newItem.frequency = req.body.frequency
     }
 
-    var uri = 'http://api.nal.usda.gov/usda/ndb/search/';
+    var uri = 'http://api.nal.usda.gov/usda/ndb/search/'
     var api_key = config.usdaKey;
-    var query = '?format=json&q=" + newItem.name + "&sort=n&max=10&offset=0&api_key=' + api_key;
+    var query = '?format=json&q=' + newItem.name + '&sort=n&max=25&offset=0&api_key=' + api_key;
 
-    request.get(uri + query, parse);
+    request.get(uri + query, function(err, res, body) {
+      if (err) {
+        console.error(err);
+      }
+      var categories = [];
+      var data = JSON.parse(body).list.item;
+      for (var i = 0; i < data.length; i++) {
+        categories.push(data[i].group);
+      }
+      newItem['food_category'] = mode(categories);
+      req.smartShoppingData = newItem;
+
+      next();
+    });
+
   }
 }
 
