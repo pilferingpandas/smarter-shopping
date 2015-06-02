@@ -8,6 +8,7 @@ var firebaseRequestHandler = require('./middleware/authFirebase');
 var listController = require('./lists/listController.js');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var apiUtils = require('./middleware/apiUtils.js');
 var app = express();
 
 mongoose.connect('mongodb://localhost/smart-shopping');
@@ -26,6 +27,8 @@ app.use(function (req, res, next) {
 app.use(express.static(__dirname + '/../public'));
 
 app.get('/api/list', listController.getList);
+
+app.use('/api/item/add', apiUtils.prepareData);
 app.post('/api/item/add', listController.addItem); 
 
 //server is listening on port 3000
