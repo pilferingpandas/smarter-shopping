@@ -34,16 +34,15 @@ module.exports = {
     })
   },
 
-  addItem: function(req, res) {
+  addItem: function(req, res, string) {
     var username = interimUsername;
-    var name = req.body.name;
-    var frequency = req.body.frequency;
+    var name = req.smartShoppingData.name;
     var item = new Item({
       name: name,
       data: {
-        frequency: frequency,
+        frequency: req.smartShoppingData.frequency,
         coupons: ['none'],
-        food_category: 'none',
+        food_category: req.smartShoppingData.food_category,
         expiration: new Date(2015,8,16)
       }
     });
