@@ -27,7 +27,7 @@ module.exports = {
 
     var uri = 'http://api.nal.usda.gov/usda/ndb/search/'
     var api_key = config.usdaKey;
-    var query = '?format=json&q=' + newItem.name + '&sort=n&max=25&offset=0&api_key=' + api_key;
+    var query = '?format=json&q=' + newItem.name + '&sort=r&max=25&offset=0&api_key=' + api_key;
 
     request.get(uri + query, function(err, res, body) {
       if (err) {
