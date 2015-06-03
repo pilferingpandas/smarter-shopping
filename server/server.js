@@ -28,7 +28,7 @@ app.use(express.static(__dirname + '/../public'));
 
 app.get('/api/list', listController.getList);
 
-app.use('/api/item/add', apiUtils.prepareData);
+app.use('/api/item/add', apiUtils.createNewItem);
 app.post('/api/item/add', listController.addItem); 
 
 //server is listening on port 3000
