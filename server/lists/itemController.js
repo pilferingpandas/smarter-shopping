@@ -23,7 +23,7 @@ var mode = function(array) {
 module.exports = {
 
   createNewItem: function(req, res, next) {
-    var name = req.body.name;
+    var name = req.body.name.toLowerCase();
     var newItem = new Item({
       name: name,
       data: {
