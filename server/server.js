@@ -6,6 +6,7 @@
 var express = require('express');
 var firebaseRequestHandler = require('./middleware/authFirebase');
 var listController = require('./lists/listController.js');
+var itemController = require('./lists/itemController.js');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var app = express();
@@ -26,7 +27,9 @@ app.use(function (req, res, next) {
 app.use(express.static(__dirname + '/../public'));
 
 app.get('/api/list', listController.getList);
-app.post('/api/item/add', listController.addItem); 
+
+app.use('/api/item/add', itemController.createNewItem);
+app.post('/api/item/add', listController.addItemToList); 
 
 //server is listening on port 3000
 var server = app.listen(3000, function () {
