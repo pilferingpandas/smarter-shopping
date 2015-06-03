@@ -44,6 +44,46 @@ var App = React.createClass({
     })
   },
 
+  deleteItemFromList: function(item) {
+    var items = this.state.data;
+    var itemIndex = items.indexOf(item.id);
+    var updatedItems = items.splice(itemIndex, 1);
+    var deleteUrl = url + '/api/item/delete';
+
+    $.ajax({
+      url: deleteUrl,
+      type: 'DELETE',
+      dataType: 'json',
+      data: item,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(deleteUrl, status, err);
+      }.bind(this)
+    })
+  },
+
+  archiveItem: function(item) {
+    var items = this.state.data;
+    var itemIndex = items.indexOf(item.id);
+    var updatedItems = items.splice(itemIndex, 1);
+    var archiveUrl = url + '/api/item/archive';
+
+    $.ajax({
+      url: deleteUrl,
+      type: 'POST',
+      dataType: 'json',
+      data: item,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(deleteUrl, status, err);
+      }.bind(this)
+    })
+  },
+
   getInitialState: function() {
     return {data: []};
   },
