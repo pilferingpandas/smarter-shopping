@@ -10,11 +10,12 @@ var itemController = require('./lists/itemController.js');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var app = express();
-
+var port = process.env.PORT || 3000;
 mongoose.connect('mongodb://localhost/smart-shopping');
 
 listController.createUser();
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //static files will be served from the public directory
 app.use(function (req, res, next) {
@@ -26,10 +27,16 @@ app.use(function (req, res, next) {
 
 app.use(express.static(__dirname + '/../public'));
 
+
 app.get('/api/list', listController.getList);
 
 app.use('/api/item/add', itemController.createNewItem);
 app.post('/api/item/add', listController.addItemToList); 
+
+app.get('/api/list', listController.git getList);
+app.del('/api/item/delete', listController.deleteItemFromList);
+app.post('/api/item/archive', listController.addItemToArchive);
+
 
 //server is listening on port 3000
 var server = app.listen(3000, function () {
