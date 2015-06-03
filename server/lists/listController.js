@@ -37,64 +37,24 @@ module.exports = {
   addItem: function(req, res, string) {
     var username = interimUsername;
     var name = req.smartShoppingData.name;
-    var item = new Item({
-      name: name,
-      data: {
-        frequency: req.smartShoppingData.frequency,
-        coupons: ['none'],
-        food_category: req.smartShoppingData.food_category,
-        expiration: new Date(2015,8,16)
-      }
-    });
-    var createItem = Q.nbind(Item.create, Item);
-    var findItem = Q.nbind(Item.findOne, Item);
+ 
     var findUser = Q.nbind(User.findOne, User);
 
-    findItem({name : name})
-    .then(function(match) {
-      if (match) {
-        findUser({username: username})
-        .then(function(user) {
-          User.findByIdAndUpdate(
-            user._id,
-            {$push: {'list': match._id}},
-            {safe:true, upsert:true},
-            function(err, model) {
-              if(err) console.log(err);
-            }
-          );
-          res.send(match);
-        })
-        .catch(function(err) {
-          console.error(err);
-          res.status(500).send({ error: 'Server Error' });
-        })
-      } else {
-        createItem(item)
-        .then(function(createdItem) {
-          findUser({username: username})
-          .then(function(user) {
-            User.findByIdAndUpdate(
-              user._id,
-              {$push: {'list': createdItem._id}},
-              {safe:true, upsert:true},
-              function(err, model) {
-                if(err) console.error(err);
-              }
-            );
-            res.send(createdItem);
-          })
-          .catch(function(err) {
-            console.error(err);
-            res.status(500).send({ error: 'Server Error' });
-
-          });
-        })
-        .catch(function(err) {
-          console.error(err);
-          res.status(500).send({ error: 'Server Error' });
-        });
-      }
+    findUser({username: username})
+    .then(function(user) {
+      User.findByIdAndUpdate(
+        user._id,
+        {$push: {'list': req.smartShoppingData._id}},
+        {safe: true, upsert:true},
+        function(err, model) {
+          if (err) console.error(err);
+        }
+      );
+      res.send(user.list);
+    })
+    .catch(function(err) {
+      console.error(err);
+      res.status(500).send({error: 'Server Error'});
     })
     .done(function(err) {
       if (err) {
