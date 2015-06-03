@@ -51,11 +51,15 @@ module.exports = {
             console.error(err);
           }
           var categories = [];
-          var data = JSON.parse(body).list.item;
-          for (var i = 0; i < data.length; i++) {
-            categories.push(data[i].group);
+          if (JSON.parse(body).list) {
+            var data = JSON.parse(body).list.item;
+            for (var i = 0; i < data.length; i++) {
+              categories.push(data[i].group);
+            }
+            newItem.data.food_category = mode(categories);            
+          } else {
+            newItem.data.food_category = 'unknown';
           }
-          newItem.data.food_category = mode(categories);
 
           createItem(newItem)
           .then(function(createdItem) {
