@@ -34,7 +34,7 @@ module.exports = {
     })
   },
 
-  addItemToList: function(req, res, string) {
+  addItemToList: function(req, res) {
     var username = interimUsername;
     var name = req.smartShoppingData.name;
  
