@@ -107,15 +107,13 @@ module.exports = {
 
   deleteItemFromList: function(req, res) {
     var username = iterimUsername;
-    var name = req.body.name
-    var frequency = req.body.frequency;
     var item = new Item({
-      name: name
+      name: name.body.name.toLowerCase()
       data: {
-        frequency: frequency,
+        frequency: frequency.body.frequency,
         coupons: ['none'],
         food_category: 'none',
-        expiration: new Date(2015,6,16)
+        expiration: new Date(2015,8,16)
       }
     });
 
@@ -144,6 +142,40 @@ module.exports = {
         if (err) {
           console.error(err);
           res.status(500).send({ error: 'Server Error'});
+        }
+      });
+    });
+  },
+
+  addItemToArchive: function(req, res) {
+  var username = interimUsername,
+  var itemId = req.body.id;
+
+  var findItem = Q.nbind(Item.findOne, Item);
+  var findUser = Q.nbind(User.findOne, User);
+
+  findItem({_id: itemId})
+  .then(function(match) {
+    findUser({username: username})
+    .then(function(user) {
+      User.findByIdAndUpdate(
+        user._id,
+        {$pull: {'list': match._id}, $push: {'past_items': match._id}},
+        {safe: true, upsert:true },
+        function(err, model) {
+          if (err) console.error(err);
+        }
+      )
+        res.send(user.list)
+      })
+      .catch(function(err) {
+        console.error(err);
+        res.status(500).send({ error: 'Server error' })
+      })      
+      .done(function(err) {
+        if (err) {
+          console.error(err);
+          res.status(500).send({ error: 'Server error'});
         }
       });
     });
