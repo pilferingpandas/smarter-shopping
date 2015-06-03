@@ -2,7 +2,7 @@ node_modules
 public/bower_components/
 public/js
 public/css
-server/middlewar/config.js
+server/middleware/config.js
 
 # Editor-specific files
 .idea

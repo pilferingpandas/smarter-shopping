@@ -26,7 +26,7 @@ app.use(function (req, res, next) {
 
 app.use(express.static(__dirname + '/../public'));
 
-app.get('/api/list', listController.git getList);
+app.get('/api/list', listController.getList);
 app.post('/api/item/add/:id', listController.addItem); 
 app.del('/api/item/delete/:id', listController.deleteItemFromList);
 app.post('/api/item/archive/:id', listController.addItemToArchive);
