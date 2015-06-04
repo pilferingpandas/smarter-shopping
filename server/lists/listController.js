@@ -3,13 +3,13 @@ var mongoose = require('mongoose');
 var models = require('../../db/database.js');
 var Item = mongoose.model('Item', models.item);
 var User = mongoose.model('User', models.user);
-var interimUsername = 'emily'
+var interimUsername = 'emily';
 
 
 module.exports = {
 
   createUser: function() {
-    var user = new User({username:interimUsername, list:[], past_items:[]})
+    var user = new User({username:interimUsername, list:[], past_items:[]});
 
     User.find({username: interimUsername}, function(err, users) {
       if (err) console.error(err);
@@ -87,8 +87,9 @@ module.exports = {
       })
       .catch(function(err) {
         console.error(err);
-        res.status(500).send({ error: 'Server error' })
-      })      
+        res.status(500).send({ error: 'Server error' });
+      }) 
+    })     
     .done(function(err) {
       if (err) {
         console.error(err);
@@ -111,7 +112,7 @@ module.exports = {
       .then(function(user) {
         User.findByIdAndUpdate(
           user._id,
-          ($pull: {'list': match._id}),
+          {$pull: {'list': match._id}},
           {safe: true, upsert: true},
           function(err, model) {
             if(err) console.error(err);
@@ -123,6 +124,7 @@ module.exports = {
         console.error(err);
         res.status(500).send({ error: 'Server Error' });
       })
+    })
     .done(function(err) {
       if (err) {
         console.error(err);

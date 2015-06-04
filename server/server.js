@@ -33,7 +33,7 @@ app.get('/api/list', listController.getList);
 app.use('/api/item/add', itemController.createNewItem);
 app.post('/api/item/add', listController.addItemToList); 
 
-app.del('/api/item/delete', listController.deleteItemFromList);
+app.delete('/api/item/delete', listController.deleteItemFromList);
 app.post('/api/item/archive', listController.addItemToArchive);
 
 
