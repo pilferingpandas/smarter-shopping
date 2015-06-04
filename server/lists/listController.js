@@ -110,7 +110,7 @@ module.exports = {
     findItem({name: req.body.})
     .then(function(match) {
       findUser({username: username})
-      .then
+      .then(function(user) {
         User.findByIdAndUpdate(
           user._id,
           ($pull: {'list': match._id}),
