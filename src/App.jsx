@@ -1,17 +1,16 @@
 var React = require('react');
+var Eventful = require('eventful-react');
 var RouteHandler = require('react-router').RouteHandler;
 
-var testData = {
-  items: [
-    { name: 'milk' },
-    { name: 'bread' },
-    { name: 'cheese' }
-  ]
-};
+var testData = [
+  { name: 'milk' },
+  { name: 'bread' },
+  { name: 'cheese' }
+];
 
 var url = 'http://localhost:3000';
 
-var App = React.createClass({
+var App = Eventful.createClass({
   loadItemsFromServer: function() {
     var getUrl = url + '/api/list';
     $.get({
@@ -85,18 +84,28 @@ var App = React.createClass({
   },
 
   getInitialState: function() {
-    return {data: []};
+    return {data: testData};
   },
 
   //sends GET request on page load
   componentWillMount: function() {
     this.loadItemsFromServer();
   },
-  
+
+  componentDidMount: function() {
+    this.on('updated-item', function(key, name) {
+      this.setState(function(state) {
+        state.data[key].name = name;
+        return state;
+      });
+    }.bind(this));
+  },
+
   render: function() {
+    console.log(this.state.data);
     return (
       <div id="app">
-        <RouteHandler data={testData} />
+        <RouteHandler data={this.state.data} />
       </div>
     );
   }
