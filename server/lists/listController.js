@@ -42,8 +42,6 @@ module.exports = {
 
     findUser({username: username})
     .then(function(user) {
-      User.findOne({username: username}) {
-      .then()
       User.findByIdAndUpdate(
         user._id,
         {$push: {'list': req.smartShoppingData._id}},
@@ -67,13 +65,13 @@ module.exports = {
   },
 
   addItemToArchive: function(req, res) {
-  var username = interimUsername,
-  var itemId = req.body.name.toLowerCase();
+    var username = interimUsername;
+    var itemName = req.body.name.toLowerCase();
 
-  var findItem = Q.nbind(Item.findOne, Item);
-  var findUser = Q.nbind(User.findOne, User);
+    var findItem = Q.nbind(Item.findOne, Item);
+    var findUser = Q.nbind(User.findOne, User);
 
-    findItem({_id: itemId})
+    findItem({name: itemName})
     .then(function(match) {
       findUser({username: username})
       .then(function(user) {
@@ -101,13 +99,13 @@ module.exports = {
 
   deleteItemFromList: function(req, res) {
     var username = interimUsername;
-    var name = req.body.name.toLowerCase();
+    var itemName = req.body.name.toLowerCase();
 
     
     var findUser = Q.nbind(User.findOne, User);
     var findItem = Q.nbind(Item.findOne, Item);
 
-    findItem({name: req.body.})
+    findItem({name: itemName})
     .then(function(match) {
       findUser({username: username})
       .then(function(user) {
