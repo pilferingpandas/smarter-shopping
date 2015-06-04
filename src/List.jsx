@@ -1,10 +1,11 @@
 var React = require('react');
+var Eventful = require('eventful-react');
 var ListItem = require('./ListItem');
 
-var List = React.createClass({
+var List = Eventful.createClass({
   createListItem: function(itemData, id) {
     return (
-      <ListItem key={id} name={itemData.name} />
+      <ListItem key={id} index={id} name={itemData.name} />
     );
   },
   render: function() {
