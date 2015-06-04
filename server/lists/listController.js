@@ -62,7 +62,72 @@ module.exports = {
         res.status(500).send({ error: 'Server Error' });
       }
     });
-  }
+  },
 
-  // TODO: Update, Delete
+  addItemToArchive: function(req, res) {
+    var username = interimUsername;
+    var itemName = req.body.name.toLowerCase();
+
+    var findItem = Q.nbind(Item.findOne, Item);
+    var findUser = Q.nbind(User.findOne, User);
+
+    findItem({name: itemName})
+    .then(function(match) {
+      findUser({username: username})
+      .then(function(user) {
+        User.findByIdAndUpdate(
+          user._id,
+          {$pull: {'list': match._id}, $push: {'past_items': match._id}},
+          {safe: true, upsert:true },
+          function(err, model) {
+            if (err) console.error(err);
+          }
+        );
+      res.send(user.list)
+      })
+      .catch(function(err) {
+        console.error(err);
+        res.status(500).send({ error: 'Server error' })
+      })      
+    .done(function(err) {
+      if (err) {
+        console.error(err);
+        res.status(500).send({ error: 'Server error'});
+      }
+    });
+  },
+
+  deleteItemFromList: function(req, res) {
+    var username = interimUsername;
+    var itemName = req.body.name.toLowerCase();
+
+    
+    var findUser = Q.nbind(User.findOne, User);
+    var findItem = Q.nbind(Item.findOne, Item);
+
+    findItem({name: itemName})
+    .then(function(match) {
+      findUser({username: username})
+      .then(function(user) {
+        User.findByIdAndUpdate(
+          user._id,
+          ($pull: {'list': match._id}),
+          {safe: true, upsert: true},
+          function(err, model) {
+            if(err) console.error(err);
+          }
+        );
+      res.send(user.list);   
+      })
+      .catch(function(err) {
+        console.error(err);
+        res.status(500).send({ error: 'Server Error' });
+      })
+    .done(function(err) {
+      if (err) {
+        console.error(err);
+        res.status(500).send({ error: 'Server Error'});
+      }
+    });
+  }
 };

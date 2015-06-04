@@ -5,6 +5,7 @@ public/css
 server/middleware/config.js
 server/lists/config.js
 
+
 # Editor-specific files
 .idea
 
