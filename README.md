@@ -2,14 +2,6 @@
  
 ## Never forget an item again. ##
 
-## Getting Started ##
-1. Clone the repo `git clone https://github.com/savage-tadpole/smart-shopping.git`
-2. From the repo's directory, checkout the development branch `git checkout development`
-3. Run `npm install` & `bower install`
-4. In terminal, run mongodb `mongod`
-5. In terminal, run `grunt dev` and `grunt serve`
-6. Go to [http://localhost:3000](http://localhost:3000)
-
 ## Summary ##
   > Savage Tadpole is a smarter shopping list--a list that you learns your patterns, reminds you when you're running low, and organizes your shopping categories.
 
