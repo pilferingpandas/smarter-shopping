@@ -42,6 +42,8 @@ module.exports = {
 
     findUser({username: username})
     .then(function(user) {
+      User.findOne({username: username}) {
+      .then()
       User.findByIdAndUpdate(
         user._id,
         {$push: {'list': req.smartShoppingData._id}},
@@ -64,38 +66,6 @@ module.exports = {
     });
   },
 
-  deleteItemFromList: function(req, res) {
-    var username = interimUsername;
-    var name = req.body.name.toLowerCase();
-    var frequency = req.body.frequency;
-
-    var findUser = Q.nbind(User.findOne, User);
-    var findItem = Q.nbind(Item.findOne, Item);
-
-    findItem({name: name})
-    .then(function(match) {
-      User.findByIdAndUpdate(
-        user._id,
-        ($pull: {'list': match._id}),
-        {safe: true, upsert: true},
-        function(err, model) {
-          if(err) console.error(err);
-        }
-      );
-      res.send(user.list);   
-    })
-    .catch(function(err) {
-      console.error(err);
-      res.status(500).send({ error: 'Server Error' });
-    })
-    .done(function(err) {
-      if (err) {
-        console.error(err);
-        res.status(500).send({ error: 'Server Error'});
-      }
-    });
-  },
-
   addItemToArchive: function(req, res) {
   var username = interimUsername,
   var itemId = req.body.name.toLowerCase();
@@ -105,20 +75,22 @@ module.exports = {
 
     findItem({_id: itemId})
     .then(function(match) {
-      User.findByIdAndUpdate(
-        user._id,
-        {$pull: {'list': match._id}, $push: {'past_items': match._id}},
-        {safe: true, upsert:true },
-        function(err, model) {
-          if (err) console.error(err);
-        }
-      );
+      findUser({username: username})
+      .then(function(user) {
+        User.findByIdAndUpdate(
+          user._id,
+          {$pull: {'list': match._id}, $push: {'past_items': match._id}},
+          {safe: true, upsert:true },
+          function(err, model) {
+            if (err) console.error(err);
+          }
+        );
       res.send(user.list)
-    })
-    .catch(function(err) {
-      console.error(err);
-      res.status(500).send({ error: 'Server error' })
-    })      
+      })
+      .catch(function(err) {
+        console.error(err);
+        res.status(500).send({ error: 'Server error' })
+      })      
     .done(function(err) {
       if (err) {
         console.error(err);
@@ -137,20 +109,22 @@ module.exports = {
 
     findItem({name: req.body.})
     .then(function(match) {
-      User.findByIdAndUpdate(
-        user._id,
-        ($pull: {'list': match._id}),
-        {safe: true, upsert: true},
-        function(err, model) {
-          if(err) console.error(err);
-        }
-      );
+      findUser({username: username})
+      .then
+        User.findByIdAndUpdate(
+          user._id,
+          ($pull: {'list': match._id}),
+          {safe: true, upsert: true},
+          function(err, model) {
+            if(err) console.error(err);
+          }
+        );
       res.send(user.list);   
-    })
-    .catch(function(err) {
-      console.error(err);
-      res.status(500).send({ error: 'Server Error' });
-    })
+      })
+      .catch(function(err) {
+        console.error(err);
+        res.status(500).send({ error: 'Server Error' });
+      })
     .done(function(err) {
       if (err) {
         console.error(err);
