@@ -28,7 +28,7 @@ var Register = React.createClass({
     return (
       <div id="register">
         <h2> Register </h2>
-        <form onSubmit={this.handleSubmit}>
+        <form class="register" onSubmit={this.handleSubmit}>
           <label><input ref="email" placeholder="email" /></label>
           <label><input ref="pass" placeholder="password"/></label>
           <button type="submit">login</button>

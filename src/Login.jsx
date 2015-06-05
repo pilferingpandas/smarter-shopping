@@ -30,7 +30,7 @@ var Login = React.createClass({
     return (
       <div id="login">
         <h2> Login </h2>
-        <form onSubmit={this.handleSubmit}>
+        <form class="login" onSubmit={this.handleSubmit}>
           <label><input ref="email" placeholder="email" ></label>
           <label><input ref="pass" placeholder="password"/></label>
           <button type="submit">login</button>
