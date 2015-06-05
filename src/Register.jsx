@@ -1,6 +1,24 @@
 var React = require('react');
 
 var Register = React.createClass({
+  handleSubmit: function(event) {
+    event.preventDefault();
+    var email = this.refs.email.getDOMNode().value;
+    var signupUrl = url + '/api/signup';
+    $.post('/api/signup', function() {
+      url: signupUrl,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({ data: data})
+        console.log(data)
+      }.bind(this),
+      error: function(xhr, status, err) {
+        this.setState({ error: true })
+        console.error(signupUrl, status, err);
+      }.bind(this)
+    })
+  }
   render: function() {
     return (
       <div id="register">
