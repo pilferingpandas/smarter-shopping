@@ -1,6 +1,10 @@
 var React = require('react');
 
 var Login = React.createClass({
+  getInitialState: function() {
+    this.setState({ error: false});
+    this.handeSubmit = this.handeSubmit.bind(this);
+  },
 
   handleSubmit: function(event) {
     event.preventDefault();
@@ -8,10 +12,11 @@ var Login = React.createClass({
     var password = this.refs.email.getDOMNode().value;
     var loginUrl = url + '/api/login';
     $.post('/api/login', function() {
-      url: ,
+      url: loginUrl,
       dataType: 'json',
       cache: false,
       success: function(data) {
+        // redirect to homepage
         console.log(data);
       }.bind(this),
       error: function(xhr, status, err) {

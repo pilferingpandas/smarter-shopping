@@ -1,6 +1,11 @@
 var React = require('react');
 
 var Register = React.createClass({
+  getInitialState: function() {
+    this.setState({ error: false});
+    this.handeSubmit = this.handeSubmit.bind(this);
+  },
+  
   handleSubmit: function(event) {
     event.preventDefault();
     var email = this.refs.email.getDOMNode().value;
