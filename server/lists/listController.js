@@ -90,14 +90,6 @@ module.exports = {
     .then(function(match) {
       findUser({username: username})
       .then(function(user) {
-        // check if user already has past item in their list
-        // if they do
-          // just add the timestamp to past item's timestamp list and remove the 
-          // item from their current list
-        // if they don't
-          // create a new past item,
-          // add it to their past item list
-          // remove the item from their current items
         User.findByIdAndUpdate(
           user._id,
           {$pull: {'list': match._id}, $push: {'past_items': match._id}},
