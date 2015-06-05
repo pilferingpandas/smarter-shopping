@@ -6,6 +6,20 @@ var User = mongoose.model('User', models.user);
 var interimUsername = 'emily';
 
 
+var orderList = function(list) {
+  list.sort(function(a, b) {
+    if (a.data.food_category > b.data.food_category) {
+      return 1;
+    }
+    if (a.data.food_category < b.data.food_category) {
+      return -1
+    }
+
+    return 0
+  });
+};
+
+
 module.exports = {
 
   createUser: function() {
@@ -29,6 +43,7 @@ module.exports = {
     .findOne({username: username})
     .populate('list')
     .exec(function(err, user) {
+      orderList(user.list);
       if (err) console.error(err);
       res.send(user.list);
     })
@@ -75,6 +90,14 @@ module.exports = {
     .then(function(match) {
       findUser({username: username})
       .then(function(user) {
+        // check if user already has past item in their list
+        // if they do
+          // just add the timestamp to past item's timestamp list and remove the 
+          // item from their current list
+        // if they don't
+          // create a new past item,
+          // add it to their past item list
+          // remove the item from their current items
         User.findByIdAndUpdate(
           user._id,
           {$pull: {'list': match._id}, $push: {'past_items': match._id}},
