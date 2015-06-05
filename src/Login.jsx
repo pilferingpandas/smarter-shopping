@@ -24,8 +24,9 @@ var Login = React.createClass({
   render: function() {
     return (
       <div id="login">
+        <h2> Login </h2>
         <form onSubmit={this.handleSubmit}>
-          <label><input ref="email" placeholder="email" defaultValue="joe@example.com"/></label>
+          <label><input ref="email" placeholder="email" ></label>
           <label><input ref="pass" placeholder="password"/></label>
           <button type="submit">login</button>
           {this.state.error && (
