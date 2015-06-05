@@ -6,6 +6,20 @@ var User = mongoose.model('User', models.user);
 var interimUsername = 'emily';
 
 
+var orderList = function(list) {
+  list.sort(function(a, b) {
+    if (a.data.food_category > b.data.food_category) {
+      return 1;
+    }
+    if (a.data.food_category < b.data.food_category) {
+      return -1
+    }
+
+    return 0
+  });
+};
+
+
 module.exports = {
 
   createUser: function() {
@@ -29,6 +43,7 @@ module.exports = {
     .findOne({username: username})
     .populate('list')
     .exec(function(err, user) {
+      orderList(user.list);
       if (err) console.error(err);
       res.send(user.list);
     })
