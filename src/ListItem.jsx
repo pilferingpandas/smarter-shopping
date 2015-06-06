@@ -8,7 +8,9 @@ var ListItem = Eventful.createClass({
     };
   },
   switchToEditable: function() {
-    this.setState({editable: true});
+    this.setState({editable: true}, function() {
+      React.findDOMNode(this.refs.editInput).focus();
+    });
   },
   updateItem: function(e) {
     e.preventDefault();
@@ -36,7 +38,7 @@ var ListItem = Eventful.createClass({
         </div>
         <div className={cssClasses.editableItem}>
           <form name={"item-form-" + this.props.index} onSubmit={this.updateItem}>
-            <input type="text" name="itemName" defaultValue={this.props.name} />
+            <input type="text" ref="editInput" name="itemName" defaultValue={this.props.name} />
           </form>
           </div>
       </li>
