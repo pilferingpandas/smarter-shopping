@@ -27,20 +27,23 @@ var App = Eventful.createClass({
   },
 
   addItemToDatabase: function(item) {
-    var items = this.state.data;
-    var updatedItems = items.concat([item]);
     var postUrl = url + '/api/item/add';
     $.post({
       url: postUrl,
       dataType: 'json',
       data: item,
       success: function(data) {
-        this.setState({data: data})
+        //this.setState({data: data})
+        console.log(data);
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(postUrl, status, err);
       }.bind(this)
     })
+  },
+
+  updateItemInList: function(item) {
+    //TODO: implement
   },
 
   deleteItemFromList: function(item) {
@@ -93,16 +96,22 @@ var App = Eventful.createClass({
   },
 
   componentDidMount: function() {
-    this.on('updated-item', function(key, name) {
+    this.on('updated-item', function(data) {
       this.setState(function(state) {
-        state.data[key].name = name;
+        state.data[data.key].name = data.name;
         return state;
       });
+    }.bind(this));
+    this.on('add-item', function(data) {
+      this.setState(function(state) {
+        state.data.push({ name: data.name });
+        return state;
+      });
+      console.log('added item:',data);
     }.bind(this));
   },
 
   render: function() {
-    console.log(this.state.data);
     return (
       <div id="app">
         <RouteHandler data={this.state.data} />
