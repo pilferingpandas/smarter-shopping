@@ -15,7 +15,10 @@ var ListItem = Eventful.createClass({
   updateItem: function(e) {
     e.preventDefault();
     var name = e.target.itemName.value;
-    this.emit('updated-item',this.props.index,name);
+    this.emit('updated-item',{
+      key: this.props.index,
+      name: name
+    });
     this.setState({editable: false});
   },
   render: function() {
@@ -40,7 +43,7 @@ var ListItem = Eventful.createClass({
           <form name={"item-form-" + this.props.index} onSubmit={this.updateItem}>
             <input type="text" ref="editInput" name="itemName" defaultValue={this.props.name} />
           </form>
-          </div>
+        </div>
       </li>
     );
   }
