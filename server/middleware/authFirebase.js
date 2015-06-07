@@ -1,30 +1,32 @@
 var Firebase = require("firebase");
 var FirebaseTokenGenerator = require("firebase-token-generator");
-var firebaseSecret = require("./firebaseSecret");
+var Q = require('q');
 
 var FirebaseMakerFunction =  function() {
   this.refString = 'https://savagetadpole.firebaseio.com';
   this.ref = new Firebase(this.refString);
 };
 
-FirebaseMakerFunction.prototype.createUser = function(user, pass, request, response, next){
+FirebaseMakerFunction.prototype.createUser = function(request, response) {
+  var username = request.body.username;
+  var password = request.body.password;
 
-  console.log('creating user');
   this.ref.createUser({
     email    : user,
     password : pass
   }, function(error, authData) {
     if(error) { 
-      console.log("User Creation Failed!", error);
+      console.log("Error creating user", error)
       response.send("User creation Failed!");
     }  else {
-      console.log("Created user successfully with payload:", authData.uid);
-      this.signIn(user, pass, request, response, next);
+      this.signIn(request, response);
     }
   }.bind(this));
 };
 
-FirebaseMakerFunction.prototype.signIn = function(user, pass, request, response, next){
+FirebaseMakerFunction.prototype.signIn = function(request, response) {
+  var username = request.body.username;
+  var password = request.body.passwords;
 
   this.ref.authWithPassword({
     email    : user,
@@ -32,12 +34,10 @@ FirebaseMakerFunction.prototype.signIn = function(user, pass, request, response,
   }, function(error, authData) {
     if (error) {
       console.log("Login Failed!", error);
-      response.redirect('/testSignIn.html');
+      response.redirect('/');
     } else {
-      console.log("Authenticated successfully with payload:", authData);
-      console.log(Object.keys(request.session));
       request.session.token = authData.token;
-      response.redirect('/testIndex.html');
+      response.redirect('/'); 
     }
   });
 };
@@ -49,7 +49,6 @@ FirebaseMakerFunction.prototype.validateUserToken = function(request, response, 
         console.log("Login Failed!", error);
         response.redirect('/testSignIn.html');
       } else {
-        console.log("Authenticated Token successfully with payload:", authData);
         next();
       }
     });

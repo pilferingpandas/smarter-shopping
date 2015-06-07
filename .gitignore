@@ -2,8 +2,8 @@ node_modules
 public/bower_components/
 public/js
 public/css
-server/middleware/config.js
 server/lists/config.js
+server/middleware/utils.js
 
 
 # Editor-specific files

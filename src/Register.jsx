@@ -1,36 +1,21 @@
 var React = require('react');
+var Eventful = require('eventful-react');
 
 var Register = React.createClass({
-  getInitialState: function() {
-    this.setState({ error: false});
-    this.handeSubmit = this.handeSubmit.bind(this);
-  },
-  
-  handleSubmit: function(event) {
+  registerUser: function(event) {
     event.preventDefault();
     var email = this.refs.email.getDOMNode().value;
-    var signupUrl = url + '/api/signup';
-    $.post('/api/signup', function() {
-      url: signupUrl,
-      dataType: 'json',
-      cache: false,
-      success: function(data) {
-        this.setState({ data: data})
-        console.log(data)
-      }.bind(this),
-      error: function(xhr, status, err) {
-        this.setState({ error: true })
-        console.error(signupUrl, status, err);
-      }.bind(this)
-    })
-  }
+    var password = this.refs.password.getDOMNode().value;
+    this.emit('register', email, password);
+  },
+
   render: function() {
     return (
       <div id="register">
-        <h2> Register </h2>
-        <form class="register" onSubmit={this.handleSubmit}>
+        <h2> Register </h2>       
+        <form class="register" onSubmit={this.registerUser}>
           <label><input ref="email" placeholder="email" /></label>
-          <label><input ref="pass" placeholder="password"/></label>
+          <label><input ref="password" placeholder="password"/></label>
           <button type="submit">login</button>
           {this.state.error && (
             <p>Bad login information</p>

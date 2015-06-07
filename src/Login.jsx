@@ -1,38 +1,27 @@
 var React = require('react');
+var Eventful = require('eventful-react');
 
-var Login = React.createClass({
-  getInitialState: function() {
-    this.setState({ error: false});
-    this.handeSubmit = this.handeSubmit.bind(this);
+var Login = Eventful.createClass({
+  // implemented the following static state per the auth-flow example
+  statics: {
+    attemptedTransition: null
   },
 
-  handleSubmit: function(event) {
+  loginUser: function(event) {
     event.preventDefault();
+    var nextPath = router.getCurrentQuery().nextPath;
     var email = this.refs.email.getDOMNode().value;
-    var password = this.refs.email.getDOMNode().value;
-    var loginUrl = url + '/api/login';
-    $.post('/api/login', function() {
-      url: loginUrl,
-      dataType: 'json',
-      cache: false,
-      success: function(data) {
-        // redirect to homepage
-        console.log(data);
-      }.bind(this),
-      error: function(xhr, status, err) {
-        this.setState({ error: true })
-        console.error(loginUrl, status, err);
-      }.bind(this)
-    })
+    var password = this.refs.password.getDOMNode().value;
+    this.emit('login', email, password);
   },
 
   render: function() {
     return (
       <div id="login">
         <h2> Login </h2>
-        <form class="login" onSubmit={this.handleSubmit}>
+        <form class="login" onSubmit={this.loginUser}>
           <label><input ref="email" placeholder="email" ></label>
-          <label><input ref="pass" placeholder="password"/></label>
+          <label><input ref="password" placeholder="password"/></label>
           <button type="submit">login</button>
           {this.state.error && (
             <p>Bad login information</p>

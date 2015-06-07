@@ -4,11 +4,22 @@ var itemController = require('./lists/itemController.js');
 var firebaseAuth = require('./middleware/authFirebase.js');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var app = express();
 var port = process.env.PORT || 3000;
+
+
 mongoose.connect('mongodb://localhost/smart-shopping');
 
+app.use(session({
+  secret: 'savage tadpole',
+  resave: false,
+  saveUninitialized: true
+}))
+
 listController.createUser();
+
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -29,6 +40,11 @@ app.post('/api/item/add', listController.addItemToList);
 
 app.delete('/api/item/delete', listController.deleteItemFromList);
 app.post('/api/item/archive', listController.addItemToArchive);
+
+app.use('/api/register', firebaseAuth.createUser);
+app.post('/api/register', firebaseAuth.signIn);
+
+app.post('/api/login', firebaseAuth.signIn);
 
 var server = app.listen(3000, function () {
 	var port = server.address().port;
