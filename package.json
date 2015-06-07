@@ -27,7 +27,8 @@
     "q": "^1.4.1",
     "react": "^0.13.3",
     "react-router": "^0.13.3",
-    "request": "^2.57.0"
+    "request": "^2.57.0",
+    "supertest": "^1.0.1"
   },
   "devDependencies": {
     "chai": "^2.3.0",
