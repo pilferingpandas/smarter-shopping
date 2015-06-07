@@ -3,7 +3,7 @@ var Eventful = require('eventful-react');
 
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
-var Link = Router.Link; 
+var Link = Router.Link;
 
 var auth = require('./auth');
 
@@ -30,16 +30,14 @@ var App = Eventful.createClass({
   },
 
   componentDidMount: function() {
-    // functions from the auth-flow implementation
-    auth.onChange = this.setStateOnAuth;
     auth.login();
-    this.on('register', function(email, password) {
+    this.on('register', function(data) {
      //unsure of how to implement saving user to state
-      this.registerUser(email, password);
+      this.registerUser(data.username, data.password);
     }.bind(this));
-    this.on('login', function(email, password) {
+    this.on('login', function(data) {
       // same as above in regards to the state
-      this.loginUser(email, password);
+      this.loginUser(data.username, data.password);
     }.bind(this));
     this.loadItemsFromServer();
   },
@@ -170,7 +168,6 @@ var App = Eventful.createClass({
   },
 
   render: function() {
-    console.log(this.state.data);
     //var loginOrOut = this.state.loggedIn ?
     //  <Link to="register"> Register Account</Link> :
     //  <Link to="login"> Sign In</Link>;
