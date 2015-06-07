@@ -38,6 +38,7 @@ module.exports = {
   },
   
   getList: function(req, res) {
+    console.log('hit listController.getList');
     var username = interimUsername;
     User
     .findOne({username: username})
@@ -46,7 +47,7 @@ module.exports = {
       orderList(user.list);
       if (err) console.error(err);
       res.send(user.list);
-    })
+    });
   },
 
   addItemToList: function(req, res) {
