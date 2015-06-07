@@ -17,6 +17,8 @@ var orderList = function(list) {
 
     return 0
   });
+
+  return list;
 };
 
 
@@ -44,7 +46,10 @@ module.exports = {
     .findOne({username: username})
     .populate('list')
     .exec(function(err, user) {
-      orderList(user.list);
+      var orderedList = orderList(user.list);
+      User.update({username: username}, {'list': orderedList}, {upsert: true}, function(err) {
+        console.error(err);
+      })
       if (err) console.error(err);
       res.send(user.list);
     });
@@ -132,7 +137,7 @@ module.exports = {
 
   deleteItemFromList: function(req, res) {
     var username = interimUsername;
-    var index = Number(req.body.index);
+    var index = req.body.index;
     
     var setModifier = { $set: {} };
     setModifier.$set['list.' + index] = null;
