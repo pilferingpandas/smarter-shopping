@@ -12,7 +12,7 @@ var Register = require('./Register');
 var NotFound = require('./NotFound');
 
 var routes = (
-  <Route name="app" path="/" handler={App}>
+  <Route name="app" path="/" handler={App} />
     <DefaultRoute handler={Home} />
     <Route name="login" handler={Login} />
     <Route name="register" handler={Register} />

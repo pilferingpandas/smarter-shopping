@@ -1,6 +1,7 @@
 var React = require('react');
 var Eventful = require('eventful-react');
 var RouteHandler = require('react-router').RouteHandler;
+var Link = Router.Link; 
 
 var testData = [
   { name: 'milk' },
@@ -11,6 +12,34 @@ var testData = [
 var url = 'http://localhost:3000';
 
 var App = Eventful.createClass({
+  getInitialState: function() {
+    return {
+      loggedIn: auth.loggedIn(), 
+      data: testData
+    }
+  },
+
+  setStateOnAuth: function(loggedIn) {
+    this.setState({
+      loggedIn: loggedIn
+    })
+  },
+
+  componentWillMount: function() {
+    // functions from the auth-flow implementation
+    auth.onChange = this.setStateOnAuth;
+    auth.login();
+    this.on('register', function(email, password) {
+     //unsure of how to implement saving user to state
+      this.registerUser(email, password);
+    }).bind(this);
+    this.on('login', function(email, password) {
+      // same as above in regards to the state
+      this.loginUser(email, password);
+    }).bind(this);
+    this.loadItemsFromServer();
+  },
+
   loadItemsFromServer: function() {
     var getUrl = url + '/api/list';
     $.get({
@@ -18,7 +47,7 @@ var App = Eventful.createClass({
       dataType: 'json',
       cache: false,
       success: function(data) {
-        this.setState({data: data});
+        this.setState({ data: data });
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(getUrl, status, err);
@@ -33,8 +62,7 @@ var App = Eventful.createClass({
       dataType: 'json',
       data: item,
       success: function(data) {
-        //this.setState({data: data})
-        console.log(data);
+        this.setState({ data: data })
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(postUrl, status, err);
@@ -58,7 +86,7 @@ var App = Eventful.createClass({
       dataType: 'json',
       data: item,
       success: function(data) {
-        this.setState({data: data});
+        this.setState({ data: data });
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(deleteUrl, status, err);
@@ -78,7 +106,7 @@ var App = Eventful.createClass({
       dataType: 'json',
       data: item,
       success: function(data) {
-        this.setState({data: data});
+        this.setState({ data: data });
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(deleteUrl, status, err);
@@ -86,14 +114,24 @@ var App = Eventful.createClass({
     })
   },
 
-  getInitialState: function() {
-    return {data: testData};
+  registerUser: function(user) {
+    var registerUrl = url + '/api/signup';
+    $.post('/api/register', function() {
+      url: signupUrl,
+      dataType: 'json',
+      cache: false,
+      data: user,
+      success: function(data) {
+        this.setState({ user: user })
+        console.log(data)
+      }.bind(this),
+      error: function(xhr, status, err) {
+        this.setState({ error: true })
+        console.error(signupUrl, status, err);
+      }.bind(this)
+    })
   },
 
-  //sends GET request on page load
-  componentWillMount: function() {
-    this.loadItemsFromServer();
-  },
 
   componentDidMount: function() {
     this.on('updated-item', function(data) {
@@ -111,9 +149,34 @@ var App = Eventful.createClass({
     }.bind(this));
   },
 
+  loginUser: function(user) {
+    $.post('/api/login', function() {
+      url: loginUrl,
+      dataType: 'json',
+      cache: false,
+      data: user,
+      success: function(data) {
+        console.log(data);
+      }.bind(this),
+      error: function(xhr, status, err) {
+        this.setState({ user: user });
+        console.error(loginUrl, status, err);
+      }.bind(this)
+    })
+  },
+
   render: function() {
+    console.log(this.state.data);
+    var loginOrOut = this.state.loggedIn ? 
+      <Link to="register"> Register Account</Link> :
+      <Link to="login"> Sign In</Link>;
     return (
       <div id="app">
+        <ul>
+          <li>{loginOrOut}</li>
+          <li><Link to="about">About</Link></li>
+          <li><Link to="home">Home</Link></li>
+        </ul>
         <RouteHandler data={this.state.data} />
       </div>
     );
