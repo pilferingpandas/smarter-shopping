@@ -4,7 +4,7 @@ var NotFound = React.createClass({
   render: function() {
     return (
       <div id="not-found">
-        Not Found
+        Route Not Found
       </div>
     );
   }

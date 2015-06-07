@@ -1,6 +1,5 @@
 module.exports = {
-  // login function is not fully implemented
-  login: function(email, password, cb) {
+  login: function(username, password, cb) {
     cb = arguments[arguments.length - 1];
     if (localStorage.token) {
       if (cb) cb(true);
@@ -13,6 +12,7 @@ module.exports = {
   },
 
   loggedIn: function() {
+    console.log('localStorage:',localStorage);
     return !!localStorage.token;
   }
-}
+};
