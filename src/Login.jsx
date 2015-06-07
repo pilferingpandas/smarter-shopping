@@ -19,13 +19,10 @@ var Login = Eventful.createClass({
     return (
       <div id="login">
         <h2> Login </h2>
-        <form class="login" onSubmit={this.loginUser}>
-          <label><input ref="email" placeholder="email" ></label>
-          <label><input ref="password" placeholder="password"/></label>
+        <form className="login" onSubmit={this.loginUser}>
+          <label><input ref="email" placeholder="email" /></label>
+          <label><input ref="password" placeholder="password" /></label>
           <button type="submit">login</button>
-          {this.state.error && (
-            <p>Bad login information</p>
-          )}
         </form>
       </div>
     );

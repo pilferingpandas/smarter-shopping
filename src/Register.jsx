@@ -12,14 +12,11 @@ var Register = React.createClass({
   render: function() {
     return (
       <div id="register">
-        <h2> Register </h2>       
-        <form class="register" onSubmit={this.registerUser}>
+        <h2> Register </h2>
+        <form className="register" onSubmit={this.registerUser}>
           <label><input ref="email" placeholder="email" /></label>
           <label><input ref="password" placeholder="password"/></label>
           <button type="submit">login</button>
-          {this.state.error && (
-            <p>Bad login information</p>
-          )}
         </form>
       </div>
     );

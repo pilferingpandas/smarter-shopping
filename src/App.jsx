@@ -1,7 +1,11 @@
 var React = require('react');
 var Eventful = require('eventful-react');
-var RouteHandler = require('react-router').RouteHandler;
+
+var Router = require('react-router');
+var RouteHandler = Router.RouteHandler;
 var Link = Router.Link; 
+
+var auth = require('./auth');
 
 var testData = [
   { name: 'milk' },
@@ -25,18 +29,18 @@ var App = Eventful.createClass({
     })
   },
 
-  componentWillMount: function() {
+  componentDidMount: function() {
     // functions from the auth-flow implementation
     auth.onChange = this.setStateOnAuth;
     auth.login();
     this.on('register', function(email, password) {
      //unsure of how to implement saving user to state
       this.registerUser(email, password);
-    }).bind(this);
+    }.bind(this));
     this.on('login', function(email, password) {
       // same as above in regards to the state
       this.loginUser(email, password);
-    }).bind(this);
+    }.bind(this));
     this.loadItemsFromServer();
   },
 
@@ -116,7 +120,7 @@ var App = Eventful.createClass({
 
   registerUser: function(user) {
     var registerUrl = url + '/api/signup';
-    $.post('/api/register', function() {
+    $.post({
       url: signupUrl,
       dataType: 'json',
       cache: false,
@@ -129,7 +133,7 @@ var App = Eventful.createClass({
         this.setState({ error: true })
         console.error(signupUrl, status, err);
       }.bind(this)
-    })
+    });
   },
 
 
@@ -150,7 +154,7 @@ var App = Eventful.createClass({
   },
 
   loginUser: function(user) {
-    $.post('/api/login', function() {
+    $.post({
       url: loginUrl,
       dataType: 'json',
       cache: false,
@@ -162,21 +166,16 @@ var App = Eventful.createClass({
         this.setState({ user: user });
         console.error(loginUrl, status, err);
       }.bind(this)
-    })
+    });
   },
 
   render: function() {
     console.log(this.state.data);
-    var loginOrOut = this.state.loggedIn ? 
-      <Link to="register"> Register Account</Link> :
-      <Link to="login"> Sign In</Link>;
+    //var loginOrOut = this.state.loggedIn ?
+    //  <Link to="register"> Register Account</Link> :
+    //  <Link to="login"> Sign In</Link>;
     return (
       <div id="app">
-        <ul>
-          <li>{loginOrOut}</li>
-          <li><Link to="about">About</Link></li>
-          <li><Link to="home">Home</Link></li>
-        </ul>
         <RouteHandler data={this.state.data} />
       </div>
     );
