@@ -32,31 +32,30 @@ var signIn = function(request, response) {
   }, function(error, authData) {
     if (error) {
       console.log("Login Failed!", error);
-      response.redirect('/');
+      response.status(401).send({error: "Login Failed"});
     } else {
       request.session.token = authData.token;
-      response.redirect('/');
+      response.send(authData.token);
     }
   });
 };
 
-var validateUserToken = function(request, response, next){
-  if(request.session.token){
-    ref.authWithCustomToken(request.session.token, function(error, authData) {
-      if (error) {
-        console.log("Login Failed!", error);
-        response.redirect('/testSignIn.html');
-      } else {
-        next();
-      }
-    });
-  } else {
-    response.redirect('/testSignIn.html');
-  }
-};
+//var validateUserToken = function(request, response, next){
+//  if(request.session.token){
+//    ref.authWithCustomToken(request.session.token, function(error, authData) {
+//      if (error) {
+//        console.log("Login Failed!", error);
+//        response.redirect('/testSignIn.html');
+//      } else {
+//        next();
+//      }
+//    });
+//  } else {
+//    response.redirect('/testSignIn.html');
+//  }
+//};
 
 module.exports = {
   createUser: createUser,
-  signIn: signIn,
-  validateUserToken: validateUserToken
+  signIn: signIn
 };

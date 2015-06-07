@@ -6,6 +6,7 @@ var auth = require('./auth');
 var Home = Eventful.createClass({
   statics: {
     willTransitionTo: function (transition) {
+      console.log(auth.loggedIn());
       if (!auth.loggedIn()) {
         transition.redirect('/login');
       }

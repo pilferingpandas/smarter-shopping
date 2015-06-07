@@ -7,12 +7,6 @@ var Link = Router.Link;
 
 var auth = require('./auth');
 
-var testData = [
-  { name: 'milk' },
-  { name: 'bread' },
-  { name: 'cheese' }
-];
-
 var url = {
   list: '/api/list',
   addItem: '/api/item/add',
@@ -27,9 +21,8 @@ var url = {
 var App = Eventful.createClass({
   getInitialState: function() {
     return {
-      loggedIn: auth.loggedIn(),
-      data: testData
-    }
+      data: []
+    };
   },
 
   setStateOnAuth: function(loggedIn) {
@@ -38,7 +31,7 @@ var App = Eventful.createClass({
     })
   },
 
-  loadItemsFromServer: function() {
+  getList: function() {
     $.get(url.list)
     .done(function(data) {
       console.log('loaditemsfromserver success:',data);
@@ -49,21 +42,27 @@ var App = Eventful.createClass({
     });
   },
 
-  addItemToDatabase: function(item) {
+  addItem: function(item) {
     $.post(url.addItem, item)
     .done(function(data) {
-      this.setState({ data: data })
+      this.getList();
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error adding new item to list:', status, err);
     });
   },
 
-  updateItemInList: function(item) {
-    //TODO: implement
+  updateItem: function(item) {
+    $.post(url.updateItem, item)
+    .done(function(data) {
+      this.getList();
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error updating item in list:', status, err);
+    });
   },
 
-  deleteItemFromList: function(item) {
+  deleteItem: function(item) {
     //var items = this.state.data;
     //var itemIndex = items.indexOf(item.id);
     //var updatedItems = items.splice(itemIndex, 1);
@@ -74,7 +73,7 @@ var App = Eventful.createClass({
       data: item
     })
     .done(function(data) {
-      this.setState({ data: data });
+      this.getList();
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error deleting item from list:', status, err);
@@ -88,7 +87,7 @@ var App = Eventful.createClass({
 
     $.post(url.archiveItem, item)
     .done(function(data) {
-      this.setState({ data: data });
+      this.getList();
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error archiving item in list:', status, err);
@@ -123,21 +122,14 @@ var App = Eventful.createClass({
     this.on('login', function(data) {
       this.loginUser(data);
     }.bind(this));
-    this.on('updated-item', function(data) {
-      this.setState(function(state) {
-        state.data[data.key].name = data.name;
-        return state;
-      });
+    this.on('update-item', function(data) {
+      this.updateItem(data)
     }.bind(this));
     this.on('add-item', function(data) {
-      this.setState(function(state) {
-        state.data.push({ name: data.name });
-        return state;
-      });
-      console.log('added item:',data);
+      this.addItem(data);
     }.bind(this));
 
-    this.loadItemsFromServer();
+    this.getList();
   },
 
   render: function() {

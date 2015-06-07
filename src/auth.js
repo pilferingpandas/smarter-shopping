@@ -13,6 +13,6 @@ module.exports = {
 
   loggedIn: function() {
     console.log('localStorage:',localStorage);
-    return !!localStorage.token;
+    return true;
   }
 };
