@@ -38,6 +38,9 @@ app.get('/api/list', listController.getList);
 app.use('/api/item/add', itemController.createNewItem);
 app.post('/api/item/add', listController.addItemToList); 
 
+app.use('/api/item/update', itemController.createNewItem);
+app.post('/api/item/update', listController.updateItem);
+
 app.delete('/api/item/delete', listController.deleteItemFromList);
 app.post('/api/item/archive', listController.addItemToArchive);
 

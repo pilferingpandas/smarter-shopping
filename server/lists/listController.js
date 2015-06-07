@@ -113,38 +113,41 @@ module.exports = {
     });
   },
 
+  updateItem: function(req, res) {
+    var username = interimUsername;
+    var newName = req.body.name.toLowerCase();
+    var index = req.body.index;
+
+    var setModifier = { $set: {} };
+    setModifier.$set['list.' + index] = req.smartShoppingData._id;
+    User.findOneAndUpdate({username: username}, setModifier, {upsert: true}, function(err, user) {
+      if (err) {
+        console.log(err);
+        res.status(500).send({error: 'Server Error'});
+      } 
+      res.send(user.list);
+    }); 
+  },
+
   deleteItemFromList: function(req, res) {
     var username = interimUsername;
-    var itemName = req.body.name.toLowerCase();
-
+    var index = Number(req.body.index);
     
-    var findUser = Q.nbind(User.findOne, User);
-    var findItem = Q.nbind(Item.findOne, Item);
-
-    findItem({name: itemName})
-    .then(function(match) {
-      findUser({username: username})
-      .then(function(user) {
-        User.findByIdAndUpdate(
-          user._id,
-          {$pull: {'list': match._id}},
-          {safe: true, upsert: true},
-          function(err, model) {
-            if(err) console.error(err);
-          }
-        );
-      res.send(user.list);   
-      })
-      .catch(function(err) {
-        console.error(err);
-        res.status(500).send({ error: 'Server Error' });
-      })
-    })
-    .done(function(err) {
+    var setModifier = { $set: {} };
+    setModifier.$set['list.' + index] = null;
+    User.update({username: username}, setModifier, {upsert: true}, function(err) {
       if (err) {
-        console.error(err);
-        res.status(500).send({ error: 'Server Error'});
+        console.log(err);
+        res.status(500).send({error: 'Server Error'});
+      } 
+    });
+
+    User.findOneAndUpdate({username: username}, {$pull: {'list': null}}, {upsert: true}, function(err, user) {
+      if (err) {
+        console.log(err);
+        res.status(500).send({error: 'Server Error'});        
       }
+      res.send(user.list);
     });
   }
 };
