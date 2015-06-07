@@ -15,7 +15,7 @@ app.use(session({
   secret: 'savage tadpole',
   resave: false,
   saveUninitialized: true
-}))
+}));
 
 listController.createUser();
 
@@ -23,7 +23,6 @@ listController.createUser();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-//static files will be served from the public directory
 app.use(function (req, res, next) {
   var ts = new Date();
   console.log(req.url + ' - ' + req.method);
@@ -31,12 +30,14 @@ app.use(function (req, res, next) {
   next();
 });
 
+// STATIC FILE SERVING
 app.use(express.static(__dirname + '/../public'));
 
+// DATABASE ACCESS ROUTES
 app.get('/api/list', listController.getList);
 
 app.use('/api/item/add', itemController.createNewItem);
-app.post('/api/item/add', listController.addItemToList); 
+app.post('/api/item/add', listController.addItemToList);
 
 app.use('/api/item/update', itemController.createNewItem);
 app.post('/api/item/update', listController.updateItem);
@@ -44,6 +45,7 @@ app.post('/api/item/update', listController.updateItem);
 app.delete('/api/item/delete', listController.deleteItemFromList);
 app.post('/api/item/archive', listController.addItemToArchive);
 
+// AUTHENTICATION ROUTES
 app.use('/api/register', firebaseAuth.createUser);
 app.post('/api/register', firebaseAuth.signIn);
 

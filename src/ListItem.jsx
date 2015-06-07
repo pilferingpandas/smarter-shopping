@@ -15,8 +15,8 @@ var ListItem = Eventful.createClass({
   updateItem: function(e) {
     e.preventDefault();
     var name = e.target.itemName.value;
-    this.emit('updated-item',{
-      key: this.props.index,
+    this.emit('update-item',{
+      index: this.props.index,
       name: name
     });
     this.setState({editable: false});

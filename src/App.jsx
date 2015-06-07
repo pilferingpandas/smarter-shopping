@@ -1,22 +1,28 @@
 var React = require('react');
 var Eventful = require('eventful-react');
-var RouteHandler = require('react-router').RouteHandler;
-var Link = Router.Link; 
 
-var testData = [
-  { name: 'milk' },
-  { name: 'bread' },
-  { name: 'cheese' }
-];
+var Router = require('react-router');
+var RouteHandler = Router.RouteHandler;
+var Link = Router.Link;
 
-var url = 'http://localhost:3000';
+var auth = require('./auth');
+
+var url = {
+  list: '/api/list',
+  addItem: '/api/item/add',
+  updateItem: '/api/item/update',
+  deleteItem: '/api/item/delete',
+  archiveItem: '/api/item/archive',
+  register: '/api/register',
+  login: '/api/login',
+  logout: '/api/logout'
+};
 
 var App = Eventful.createClass({
   getInitialState: function() {
     return {
-      loggedIn: auth.loggedIn(), 
-      data: testData
-    }
+      data: []
+    };
   },
 
   setStateOnAuth: function(loggedIn) {
@@ -25,158 +31,113 @@ var App = Eventful.createClass({
     })
   },
 
-  componentWillMount: function() {
-    // functions from the auth-flow implementation
-    auth.onChange = this.setStateOnAuth;
-    auth.login();
-    this.on('register', function(email, password) {
-     //unsure of how to implement saving user to state
-      this.registerUser(email, password);
-    }).bind(this);
-    this.on('login', function(email, password) {
-      // same as above in regards to the state
-      this.loginUser(email, password);
-    }).bind(this);
-    this.loadItemsFromServer();
+  getList: function() {
+    $.get(url.list)
+    .done(function(data) {
+      console.log('loaditemsfromserver success:',data);
+      this.setState({ data: data });
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error getting item list:', status, err);
+    });
   },
 
-  loadItemsFromServer: function() {
-    var getUrl = url + '/api/list';
-    $.get({
-      url: getUrl,
-      dataType: 'json',
-      cache: false,
-      success: function(data) {
-        this.setState({ data: data });
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(getUrl, status, err);
-      }.bind(this)
-    })
+  addItem: function(item) {
+    $.post(url.addItem, item)
+    .done(function(data) {
+      this.getList();
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error adding new item to list:', status, err);
+    });
   },
 
-  addItemToDatabase: function(item) {
-    var postUrl = url + '/api/item/add';
-    $.post({
-      url: postUrl,
-      dataType: 'json',
-      data: item,
-      success: function(data) {
-        this.setState({ data: data })
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(postUrl, status, err);
-      }.bind(this)
-    })
+  updateItem: function(item) {
+    $.post(url.updateItem, item)
+    .done(function(data) {
+      this.getList();
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error updating item in list:', status, err);
+    });
   },
 
-  updateItemInList: function(item) {
-    //TODO: implement
-  },
-
-  deleteItemFromList: function(item) {
-    var items = this.state.data;
-    var itemIndex = items.indexOf(item.id);
-    var updatedItems = items.splice(itemIndex, 1);
-    var deleteUrl = url + '/api/item/delete';
+  deleteItem: function(item) {
+    //var items = this.state.data;
+    //var itemIndex = items.indexOf(item.id);
+    //var updatedItems = items.splice(itemIndex, 1);
 
     $.ajax({
-      url: deleteUrl,
+      url: url.deleteItem,
       type: 'DELETE',
-      dataType: 'json',
-      data: item,
-      success: function(data) {
-        this.setState({ data: data });
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(deleteUrl, status, err);
-      }.bind(this)
+      data: item
     })
+    .done(function(data) {
+      this.getList();
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error deleting item from list:', status, err);
+    });
   },
 
   archiveItem: function(item) {
-    var items = this.state.data;
-    var itemIndex = items.indexOf(item.id);
-    var updatedItems = items.splice(itemIndex, 1);
-    var archiveUrl = url + '/api/item/archive';
+    //var items = this.state.data;
+    //var itemIndex = items.indexOf(item.id);
+    //var updatedItems = items.splice(itemIndex, 1);
 
-    $.ajax({
-      url: deleteUrl,
-      type: 'POST',
-      dataType: 'json',
-      data: item,
-      success: function(data) {
-        this.setState({ data: data });
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(deleteUrl, status, err);
-      }.bind(this)
-    })
+    $.post(url.archiveItem, item)
+    .done(function(data) {
+      this.getList();
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error archiving item in list:', status, err);
+    });
   },
 
-  registerUser: function(user) {
-    var registerUrl = url + '/api/signup';
-    $.post('/api/register', function() {
-      url: signupUrl,
-      dataType: 'json',
-      cache: false,
-      data: user,
-      success: function(data) {
-        this.setState({ user: user })
-        console.log(data)
-      }.bind(this),
-      error: function(xhr, status, err) {
-        this.setState({ error: true })
-        console.error(signupUrl, status, err);
-      }.bind(this)
-    })
+  registerUser: function(userData) {
+    $.post(url.register, userData)
+    .done(function(data) {
+      this.setState({ user: user })
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error registering user:', status, err);
+    });
   },
 
+  loginUser: function(userData) {
+    $.post(url.login, userData)
+    .done(function(data) {
+      console.log('Successfully logged in user:',data);
+    })
+    .fail(function(xhr, status, err) {
+      console.error('Error logging in user:', status, err);
+    });
+  },
 
   componentDidMount: function() {
-    this.on('updated-item', function(data) {
-      this.setState(function(state) {
-        state.data[data.key].name = data.name;
-        return state;
-      });
+    // eventful event listeners
+    this.on('register', function(data) {
+      this.registerUser(data);
+    }.bind(this));
+    this.on('login', function(data) {
+      this.loginUser(data);
+    }.bind(this));
+    this.on('update-item', function(data) {
+      this.updateItem(data)
     }.bind(this));
     this.on('add-item', function(data) {
-      this.setState(function(state) {
-        state.data.push({ name: data.name });
-        return state;
-      });
-      console.log('added item:',data);
+      this.addItem(data);
     }.bind(this));
-  },
 
-  loginUser: function(user) {
-    $.post('/api/login', function() {
-      url: loginUrl,
-      dataType: 'json',
-      cache: false,
-      data: user,
-      success: function(data) {
-        console.log(data);
-      }.bind(this),
-      error: function(xhr, status, err) {
-        this.setState({ user: user });
-        console.error(loginUrl, status, err);
-      }.bind(this)
-    })
+    this.getList();
   },
 
   render: function() {
-    console.log(this.state.data);
-    var loginOrOut = this.state.loggedIn ? 
-      <Link to="register"> Register Account</Link> :
-      <Link to="login"> Sign In</Link>;
+    //var loginOrOut = this.state.loggedIn ?
+    //  <Link to="register"> Register Account</Link> :
+    //  <Link to="login"> Sign In</Link>;
     return (
       <div id="app">
-        <ul>
-          <li>{loginOrOut}</li>
-          <li><Link to="about">About</Link></li>
-          <li><Link to="home">Home</Link></li>
-        </ul>
         <RouteHandler data={this.state.data} />
       </div>
     );
