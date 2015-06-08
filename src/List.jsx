@@ -36,7 +36,7 @@ var List = Eventful.createClass({
       <div className="row">
         <div className="col-md-4"></div>
         <div className="col-md-4">
-          <div className="ibox float-e-margins">
+          <div className="ibox float-e-margins" id="list-border">
             <div className="ibox-title">
               <h5>Shopping List</h5>
             </div>
@@ -49,10 +49,10 @@ var List = Eventful.createClass({
                     </form>
                     <button className='btn btn-sm btn-primary add-item-button' onClick={this.switchToAddingNewItem}>Add Item
                     </button>
-                </div>
-                <ul>
-                  {this.props.items.map(this.renderListItem)}
-                </ul>
+                  </div>
+                  <ul>
+                    {this.props.items.map(this.renderListItem)}
+                  </ul>
                 </div>
               </div>
             </div>

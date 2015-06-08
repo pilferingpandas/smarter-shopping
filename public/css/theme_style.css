@@ -2889,7 +2889,7 @@ a.forum-item-title:hover {
 }
 body {
   font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-/*  background-color: #2f4050;*/
+  /*  background-color: #2f4050;*/
   font-size: 13px;
   color: #676a6c;
   overflow-x: hidden;
@@ -6449,4 +6449,10 @@ ul {
   margin-left: 17%;
   padding-top: 3%;
   margin-bottom: 0 !important;
+}
+
+#list-border {
+  border-color: #e7eaec;
+  border-style: solid solid;
+  border-width: 0px 4px 4px 4px;
 }
