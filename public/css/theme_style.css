@@ -6436,7 +6436,6 @@ h5 {
 }
 
 ul {
-  margin-left: 25%;
   padding-top: 3%;
 }
 
@@ -6460,4 +6459,8 @@ ul {
   border-color: #e7eaec;
   border-style: solid solid;
   border-width: 0px 4px 4px 4px;
+}
+
+.show {
+  display: inline !important;
 }
