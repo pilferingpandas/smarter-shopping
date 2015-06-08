@@ -20,13 +20,12 @@ var ModeToggle = Eventful.createClass({
   render: function() {
     var mode = this.state.mode === ModeToggle.SHOPPING ? 'SHOPPING' : 'EDITING';
     return (
-      <div className="ibox-content">
       <div className="row">
         <div className="col-md-4"></div>
         <div className="col-md-4">
           <div id="mode-toggle">
             <div className="ibox float-e-margins">
-            <div data-toggle="buttons" className="btn-group">
+            <div data-toggle="buttons" className="btn-group" id="mode-toggle-buttons">
               <form>
                 <label className="btn btn-sm btn-white"> <input type="radio" name="shopping" value="SHOPPING" />&nbsp;&nbsp;&nbsp;Shopping Mode</label>
                 <label className="btn btn-sm btn-white active"> <input type="radio" name="editing" value="EDITING" />&nbsp;&nbsp;&nbsp;Editing Mode</label>
@@ -36,7 +35,6 @@ var ModeToggle = Eventful.createClass({
             </div>
         </div>
         <div className="col-md-4"></div>
-      </div>
       </div>
     );
   }
