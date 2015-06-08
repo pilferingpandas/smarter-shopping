@@ -3384,7 +3384,7 @@ table.table-mail tr td {
 }
 .ibox-title h5 {
   display: inline-block;
-  font-size: 14px;
+  font-size: 30px;
   margin: 0 0 7px;
   padding: 0;
   text-overflow: ellipsis;
@@ -6426,10 +6426,11 @@ li {
 
 .item-label {
   display: inline-block;
+  font-size: 20px;
 }
 
 h5 {
-  margin-left: 40% !important;
+  margin-left: 30% !important;
 }
 
 .new-item-input {
@@ -6439,6 +6440,11 @@ h5 {
 ul {
   margin-left: 25%;
   padding-top: 3%;
+}
+
+.remove-button {
+  cursor: pointer;
+  cursor: hand;
 }
 
 .add-item-button {
