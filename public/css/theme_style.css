@@ -561,9 +561,6 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .btn {
   border-radius: 3px;
 }
-.float-e-margins .btn {
-  margin-top: 5px;
-}
 .btn-w-m {
   min-width: 120px;
 }
@@ -3384,7 +3381,7 @@ table.table-mail tr td {
 }
 .ibox-title h5 {
   display: inline-block;
-  font-size: 14px;
+  font-size: 30px;
   margin: 0 0 7px;
   padding: 0;
   text-overflow: ellipsis;
@@ -6426,14 +6423,16 @@ li {
 
 .item-label {
   display: inline-block;
+  font-size: 20px;
 }
 
 h5 {
-  margin-left: 40% !important;
+  margin-left: 25% !important;
 }
 
 .new-item-input {
   text-align: center;
+  margin-top: 5px;
 }
 
 ul {
@@ -6441,8 +6440,14 @@ ul {
   padding-top: 3%;
 }
 
+.remove-button {
+  cursor: pointer;
+  cursor: hand;
+  margin-right: 10px;
+}
+
 .add-item-button {
-  padding-top: 1%;
+  margin-left: 5px;
 }
 
 #mode-toggle-buttons {
