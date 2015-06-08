@@ -21,6 +21,9 @@ var ListItem = Eventful.createClass({
     });
     this.setState({editable: false});
   },
+  removeItem: function() {
+    this.emit('remove-item', { index: this.props.index });
+  },
   render: function() {
     var cssClasses = {
       staticItem: 'static-item ',
@@ -36,8 +39,8 @@ var ListItem = Eventful.createClass({
 
     return (
       <li className="list-item">
-        <div className={cssClasses.staticItem} onClick={this.switchToEditable}>
-          {this.props.name}
+        <div className={cssClasses.staticItem}>
+          <div className="item-label" onClick={this.switchToEditable}>{this.props.name}</div> <button className="remove-item-button" onClick={this.removeItem}>&#10005;</button>
         </div>
         <div className={cssClasses.editableItem}>
           <form name={"item-form-" + this.props.index} onSubmit={this.updateItem}>

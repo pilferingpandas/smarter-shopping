@@ -14,7 +14,7 @@ var ModeToggle = Eventful.createClass({
   },
   changeHandler: function(e) {
     var newMode = ModeToggle[e.target.value];
-    this.setState({ mode: mode });
+    this.setState({ mode: newMode });
     this.emit('change-mode', { mode: newMode })
   },
   render: function() {

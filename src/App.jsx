@@ -23,7 +23,7 @@ var App = Eventful.createClass({
   getInitialState: function() {
     return {
       items: [],
-      mode: ModeToggle.SHOPPING
+      mode: ModeToggle.EDITING
     };
   },
 
@@ -36,7 +36,6 @@ var App = Eventful.createClass({
   getList: function() {
     $.get(url.list)
     .done(function(data) {
-      console.log('loaditemsfromserver success:',data);
       this.setState({ items: data });
     }.bind(this))
     .fail(function(xhr, status, err) {
@@ -65,10 +64,6 @@ var App = Eventful.createClass({
   },
 
   deleteItem: function(item) {
-    //var items = this.state.data;
-    //var itemIndex = items.indexOf(item.id);
-    //var updatedItems = items.splice(itemIndex, 1);
-
     $.ajax({
       url: url.deleteItem,
       type: 'DELETE',
@@ -83,10 +78,6 @@ var App = Eventful.createClass({
   },
 
   archiveItem: function(item) {
-    //var items = this.state.data;
-    //var itemIndex = items.indexOf(item.id);
-    //var updatedItems = items.splice(itemIndex, 1);
-
     $.post(url.archiveItem, item)
     .done(function(data) {
       this.getList();
