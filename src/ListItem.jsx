@@ -4,13 +4,20 @@ var Eventful = require('eventful-react');
 var ListItem = Eventful.createClass({
   getInitialState: function() {
     return {
+      value: this.props.name,
       editable: false
     };
+  },
+  componentWillReceiveProps: function(newProps) {
+    this.setState({ value: newProps.name });
   },
   switchToEditable: function() {
     this.setState({editable: true}, function() {
       React.findDOMNode(this.refs.editInput).focus();
     });
+  },
+  updateValue: function(e) {
+    this.setState({ value: e.target.value });
   },
   updateItem: function(e) {
     e.preventDefault();
@@ -44,7 +51,7 @@ var ListItem = Eventful.createClass({
         </div>
         <div className={cssClasses.editableItem}>
           <form name={"item-form-" + this.props.index} onSubmit={this.updateItem}>
-            <input type="text" ref="editInput" name="itemName" defaultValue={this.props.name} />
+            <input type="text" ref="editInput" name="itemName" value={this.state.value} onChange={this.updateValue} />
           </form>
         </div>
       </li>
