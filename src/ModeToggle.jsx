@@ -21,10 +21,10 @@ var ModeToggle = Eventful.createClass({
     var mode = this.state.mode === ModeToggle.SHOPPING ? 'SHOPPING' : 'EDITING';
     return (
       <div id="mode-toggle">
-        <select value={mode} onChange={this.changeHandler}>
-          <option value="SHOPPING">Shopping Mode</option>
-          <option value="EDITING">Editing Mode</option>
-        </select>
+        <form>
+          <input type="radio" name="shopping" value="SHOPPING" />Shopping Mode
+          <input type="radio" name="editing" value="EDITING" />Editing Mode
+        </form>
       </div>
     );
   }

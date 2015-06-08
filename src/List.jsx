@@ -34,27 +34,31 @@ var List = Eventful.createClass({
 
     return (
       <div className="row">
-      <div className="col-md-4"></div>
-      <div className="col-md-4">
-      <div className="ibox float-e-margins">
-      <div className="ibox-title">
-        <h5>Shopping List</h5>
-      </div>
-      <div className="list">
-        <div className='new-item-input'>
-                  <form name="new-item-form" onSubmit={this.addItem}>
-                    <input type="text" ref="newItemInput" name="newItemInput" placeholder="Enter an item"/>
-                  </form>
-                    <button className='btn btn-sm btn-primary add-item-button' onClick={this.switchToAddingNewItem}>Add Item
-                    </button>
+        <div className="col-md-4"></div>
+        <div className="col-md-4">
+          <div className="ibox float-e-margins">
+            <div className="ibox-title">
+              <h5>Shopping List</h5>
+            </div>
+            <div className="ibox-content">
+              <div className="row">
+                  <div className="list">
+                      <div className='new-item-input'>
+                        <form name="new-item-form" onSubmit={this.addItem}>
+                          <input type="text" ref="newItemInput" name="newItemInput" placeholder="Enter an item"/>
+                        </form>
+                        <button className='btn btn-sm btn-primary add-item-button' onClick={this.switchToAddingNewItem}>Add Item
+                        </button>
+                    </div>
+                    <ul>
+                      {this.props.items.map(this.renderListItem)}
+                    </ul>
+                  </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <ul>
-          {this.props.items.map(this.renderListItem)}
-        </ul>
-      </div>
-      </div>
-      </div>
-      <div className="col-md-4"></div>
+        <div className="col-md-4"></div>
       </div>
     );
   }
