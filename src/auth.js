@@ -1,18 +1,22 @@
+var url = require('./url');
+
 module.exports = {
-  login: function(username, password, cb) {
-    cb = arguments[arguments.length - 1];
-    if (localStorage.token) {
-      if (cb) cb(true);
-    }
-  },
+  //logout: function(cb) {
+  //  localStorage.removeItem('token');
+  //},
 
-  logout: function(cb) {
-    delete localStorage.token
-    if (cb) cb();
-  },
+  //login: function(token) {
+  //  localStorage.setItem('token',token);
+  //},
 
-  loggedIn: function() {
-    console.log('localStorage:',localStorage);
-    return true;
+  loggedIn: function(cb) {
+    $.get(url.token)
+    .done(function(data) {
+      cb(data);
+    })
+    .fail(function(xhr, status, err) {
+      console.error('Not authorized:', status, err);
+      cb(false);
+    });
   }
 };

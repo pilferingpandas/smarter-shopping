@@ -3,8 +3,6 @@ var mongoose = require('mongoose');
 var models = require('../../db/database.js');
 var Item = mongoose.model('Item', models.item);
 var User = mongoose.model('User', models.user);
-var interimUsername = 'emily';
-
 
 var orderList = function(list) {
   list.sort(function(a, b) {
@@ -35,36 +33,41 @@ var storeOrderedList = function(username, list) {
 
 
 module.exports = {
+  createUser: function(uid) {
+    var user = new User({username:uid, list:[], past_items:[]});
+    var findUser = Q.nbind(User.find,User);
+    var createUser = Q.nbind(User.create,User);
 
-  createUser: function() {
-    var user = new User({username:interimUsername, list:[], past_items:[]});
-
-    User.find({username: interimUsername}, function(err, users) {
-      if (err) console.error(err);
-      if (users.length > 0) {
+    return findUser({username: uid})
+    .then(function(users) {
+      if (users.length === 0) {
+        return createUser(user);
       } else {
-        User.create(user, function(err, newUser) {
-          if(err) console.error(err);
-          console.log('User created! Welcome: ', newUser.username);
-        });
+        throw new Error('Tried to create user which already exists');
       }
+    })
+    .then(function(newUser) {
+      console.log('User created! Welcome: ', newUser.username);
+    })
+    .catch(function(err) {
+      console.error('Error creating user:',err);
     });
   },
-  
+
   getList: function(req, res) {
-    console.log('hit listController.getList');
-    var username = interimUsername;
+    var username = req.uid;
     User
     .findOne({username: username})
     .populate('list')
     .exec(function(err, user) {
       if (err) console.error(err);
+      console.log('in get list, user:',user);
       res.send(user.list);
     });
   },
 
   addItemToList: function(req, res) {
-    var username = interimUsername;
+    var username = req.uid;
     var name = req.smartShoppingData.name;
  
     User.findOneAndUpdate(
@@ -82,7 +85,7 @@ module.exports = {
   },
 
   addItemToArchive: function(req, res) {
-    var username = interimUsername;
+    var username = req.uid;
     var index = Number(req.body.index);
     var tempId;
 
@@ -112,7 +115,7 @@ module.exports = {
   },
 
   updateItem: function(req, res) {
-    var username = interimUsername;
+    var username = req.uid;
     var newName = req.body.name.toLowerCase();
     var index = req.body.index;
 
@@ -129,7 +132,7 @@ module.exports = {
   },
 
   deleteItemFromList: function(req, res) {
-    var username = interimUsername;
+    var username = req.uid;
     var index = req.body.index;
     
     var setModifier = {$set: {}};

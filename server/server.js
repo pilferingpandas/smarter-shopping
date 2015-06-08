@@ -16,10 +16,6 @@ app.use(session({
   saveUninitialized: true
 }));
 
-listController.createUser();
-
-
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(function (req, res, next) {
@@ -33,6 +29,8 @@ app.use(function (req, res, next) {
 app.use(express.static(__dirname + '/../public'));
 
 // DATABASE ACCESS ROUTES
+app.use('/api/*', firebaseAuth.validateUserToken);
+
 app.get('/api/list', listController.getList);
 
 app.use('/api/item/add', itemController.createNewItem);
@@ -45,10 +43,14 @@ app.delete('/api/item/delete', listController.deleteItemFromList);
 app.post('/api/item/archive', listController.addItemToArchive);
 
 // AUTHENTICATION ROUTES
-app.use('/api/register', firebaseAuth.createUser);
-app.post('/api/register', firebaseAuth.signIn);
+app.use('/auth/register', firebaseAuth.createUser);
+app.post('/auth/register', firebaseAuth.signIn);
 
-app.post('/api/login', firebaseAuth.signIn);
+app.post('/auth/login', firebaseAuth.signIn);
+
+app.get('/auth/token', firebaseAuth.validateUserToken, function(req, res) {
+  res.send(true);
+});
 
 var server = app.listen(3000, function () {
 	var port = server.address().port;

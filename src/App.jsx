@@ -7,30 +7,18 @@ var Link = Router.Link;
 
 var ModeToggle = require('./ModeToggle');
 var auth = require('./auth');
-
-var url = {
-  list: '/api/list',
-  addItem: '/api/item/add',
-  updateItem: '/api/item/update',
-  deleteItem: '/api/item/delete',
-  archiveItem: '/api/item/archive',
-  register: '/api/register',
-  login: '/api/login',
-  logout: '/api/logout'
-};
+var url = require('./url');
 
 var App = Eventful.createClass({
+  contextTypes: {
+    router: React.PropTypes.func
+  },
+
   getInitialState: function() {
     return {
       items: [],
       mode: ModeToggle.EDITING
     };
-  },
-
-  setStateOnAuth: function(loggedIn) {
-    this.setState({
-      loggedIn: loggedIn
-    })
   },
 
   getList: function() {
@@ -90,7 +78,8 @@ var App = Eventful.createClass({
   registerUser: function(userData) {
     $.post(url.register, userData)
     .done(function(data) {
-      this.setState({ user: user })
+      console.log('registered:',data);
+      this.context.router.transitionTo('/');
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error registering user:', status, err);
@@ -100,8 +89,9 @@ var App = Eventful.createClass({
   loginUser: function(userData) {
     $.post(url.login, userData)
     .done(function(data) {
-      console.log('Successfully logged in user:',data);
-    })
+      this.context.router.transitionTo('/');
+      this.getList();
+    }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error logging in user:', status, err);
     });
