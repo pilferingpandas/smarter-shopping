@@ -14,14 +14,26 @@ var Login = Eventful.createClass({
 
   render: function() {
     return (
-      <div id="login">
-        <h2>Login</h2>
-        <form className="login-form" onSubmit={this.loginUser}>
-          <input ref="username" placeholder="Username" />
-          <input ref="password" placeholder="Password" />
-          <button type="submit">Login</button>
-        </form>
-      </div>
+      <div id="login" className="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+          <div>
+            <h1 className="logo-name">SSL</h1>
+          </div>
+          <h3>Welcome to Smart Shopping List</h3>
+          <p>Login</p>
+          <form className="login-form" name="loginform" onSubmit={this.loginUser} role="form" novalidate>
+            <div className="form-group">
+              <input ref="username" placeholder="Username" />
+            </div>
+            <div className="form-group">
+              <input ref="password" placeholder="Password" />
+            </div>
+                <button type="submit" className="btn btn-primary btn-block">Login</button>
+                <p className="text-muted text-center"><small>If you don't already have an account...</small></p>
+                <a className="btn btn-sm btn-white btn-block" href="#/register">Register</a>
+              </form>
+            </div>
+          </div>
     );
   }
 });
