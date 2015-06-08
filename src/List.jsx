@@ -3,23 +3,12 @@ var Eventful = require('eventful-react');
 var ListItem = require('./ListItem');
 
 var List = Eventful.createClass({
-  getInitialState: function() {
-    return {
-      addingNewItem: false
-    };
-  },
-  switchToAddingNewItem: function() {
-    this.setState({addingNewItem: true}, function() {
-      React.findDOMNode(this.refs.newItemInput).focus();
-    });
-  },
   addItem: function(e) {
     e.preventDefault();
     var newItemName = e.target.newItemInput.value;
     e.target.newItemInput.value = '';
 
     this.emit('add-item', { name: newItemName });
-    this.setState({ addingNewItem: false });
   },
   renderListItem: function(itemData, id) {
     return (
@@ -27,11 +16,6 @@ var List = Eventful.createClass({
     );
   },
   render: function() {
-    var inputClasses = 'new-item-input ';
-    inputClasses += this.state.addingNewItem ? 'show' : 'hide';
-    var buttonClasses = 'btn btn-sm btn-primary add-item-button ';
-    buttonClasses += !this.state.addingNewItem ? 'show' : 'hide';
-
     return (
       <div className="row">
         <div className="col-md-4"></div>

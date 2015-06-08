@@ -9,7 +9,7 @@ var ModeToggle = Eventful.createClass({
   },
   getInitialState: function() {
     return {
-      mode: ModeToggle.editingMode
+      mode: ModeToggle.EDITING
     };
   },
   changeHandler: function(e) {
@@ -18,7 +18,16 @@ var ModeToggle = Eventful.createClass({
     this.emit('change-mode', { mode: newMode })
   },
   render: function() {
-    var mode = this.state.mode === ModeToggle.SHOPPING ? 'SHOPPING' : 'EDITING';
+    var buttonClasses = {
+      shopping: 'btn btn-sm btn-white',
+      editing: 'btn btn-sm btn-white'
+    };
+    if (this.state.mode === ModeToggle.SHOPPING) {
+      buttonClasses.shopping += ' active';
+    } else {
+      buttonClasses.editing += ' active';
+    }
+
     return (
       <div className="row">
         <div className="col-md-4"></div>
@@ -26,9 +35,13 @@ var ModeToggle = Eventful.createClass({
           <div id="mode-toggle">
             <div className="ibox float-e-margins">
             <div data-toggle="buttons" className="btn-group" id="mode-toggle-buttons">
-              <form>
-                <label className="btn btn-sm btn-white"> <input type="radio" name="shopping" value="SHOPPING" />&nbsp;&nbsp;&nbsp;Shopping Mode</label>
-                <label className="btn btn-sm btn-white active"> <input type="radio" name="editing" value="EDITING" />&nbsp;&nbsp;&nbsp;Editing Mode</label>
+              <form onChange={this.changeHandler}>
+                <label className={buttonClasses.shopping}>
+                  <input type="radio" name="shopping" value="SHOPPING" checked={this.state.mode === ModeToggle.SHOPPING} onChange={this.changeHandler} />&nbsp;&nbsp;&nbsp;Shopping Mode
+                </label>
+                <label className={buttonClasses.editing}>
+                  <input type="radio" name="editing" value="EDITING" checked={this.state.mode === ModeToggle.EDITING} onChange={this.changeHandler} />&nbsp;&nbsp;&nbsp;Editing Mode
+                </label>
               </form>
             </div>
           </div>
