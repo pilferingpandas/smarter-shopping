@@ -97,6 +97,6 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['sass', 'browserify', 'uglify']);
   grunt.registerTask('dev', ['build', 'watch:dev']);
   grunt.registerTask('serve', ['nodemon']);
-  grunt.registerTask('deploy', ['shell:herokuDeploy'])
+  grunt.registerTask('deploy', ['shell:herokuDeploy']);
 
 };
