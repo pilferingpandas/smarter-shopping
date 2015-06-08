@@ -51,7 +51,6 @@ var List = Eventful.createClass({
         <ul>
           {this.props.items.map(this.renderListItem)}
         </ul>
-
       </div>
       </div>
       </div>
