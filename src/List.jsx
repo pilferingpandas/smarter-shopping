@@ -34,7 +34,8 @@ var List = Eventful.createClass({
 
     return (
       <div className="row">
-      <div className="col-lg-12">
+      <div className="col-md-4"></div>
+      <div className="col-md-4">
       <div className="ibox float-e-margins">
       <div className="ibox-title">
         <h5>Shopping List</h5>
@@ -42,8 +43,7 @@ var List = Eventful.createClass({
       <div className="list">
         <div className='new-item-input'>
                   <form name="new-item-form" onSubmit={this.addItem}>
-                    <input type="text" ref="newItemInput" name="newItemInput" placeholder="Enter an item"
-                            />
+                    <input type="text" ref="newItemInput" name="newItemInput" placeholder="Enter an item"/>
                   </form>
                     <button className='btn btn-sm btn-primary add-item-button' onClick={this.switchToAddingNewItem}>Add Item
                     </button>
@@ -54,6 +54,7 @@ var List = Eventful.createClass({
       </div>
       </div>
       </div>
+      <div className="col-md-4"></div>
       </div>
     );
   }
