@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 var db = require('../../db/database.js');
 var User = mongoose.model('User');
 var Item = mongoose.model('Item');
-var Cache = mongoose.model('Cache');
 
 var breadInfo = {
   name: 'Bread',

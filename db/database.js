@@ -13,10 +13,6 @@ module.exports = {
     }
   }),
 
-  cache : new Schema({
-    items: [{ type: Schema.Types.ObjectId, ref: 'Item'}]
-  }),
-
   user : new Schema({
     username: String,
     list: [{ type: Schema.Types.ObjectId, ref: 'Item'}],
