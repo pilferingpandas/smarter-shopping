@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "Smart Shopping List",
   "scripts": {
-    "start": "node server/server.js"
+    "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
