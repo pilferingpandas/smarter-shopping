@@ -67,49 +67,47 @@ module.exports = {
     var username = interimUsername;
     var name = req.smartShoppingData.name;
  
-    User.findOneAndUpdate({username: username}, 
-                          {$push: {'list': req.smartShoppingData._id}}, 
-                          {upsert: true}, function(err, user) {
-                            if (err) {
-                              console.error(err);
-                              res.status(500).send({ error: 'Server Error'});
-                            } 
-                            storeOrderedList(username, user.list);
-                            res.send(user.list);
-                          }); 
+    User.findOneAndUpdate(
+      {username: username}, 
+      {$push: {'list': req.smartShoppingData._id}}, 
+      {upsert: true}, 
+      function(err, user) {
+        if (err) {
+          console.error(err);
+          res.status(500).send({ error: 'Server Error'});
+        } 
+        storeOrderedList(username, user.list);
+        res.send(user.list);
+      }); 
   },
 
   addItemToArchive: function(req, res) {
     var username = interimUsername;
-    var itemName = req.body.name.toLowerCase();
+    var index = Number(req.body.index);
+    var tempId;
 
-    var findItem = Q.nbind(Item.findOne, Item);
-    var findUser = Q.nbind(User.findOne, User);
-
-    findItem({name: itemName})
-    .then(function(match) {
-      findUser({username: username})
-      .then(function(user) {
-        User.findByIdAndUpdate(
-          user._id,
-          {$pull: {'list': match._id}, $push: {'past_items': match._id}},
-          {safe: true, upsert:true },
-          function(err, model) {
-            if (err) console.error(err);
-          }
-        );
-      res.send(user.list)
-      })
-      .catch(function(err) {
-        console.error(err);
-        res.status(500).send({ error: 'Server error' });
-      }) 
-    })     
-    .done(function(err) {
+    User.findOne({username: username}, function(err, user) {
+      var pushModifier = {$push: {}};
+      pushModifier.$push['past_items'] = user.list[index];
+      User.update({username: username}, pushModifier, {upsert: true}, function(err) {if (err) console.error(err)});
+    });
+    
+    var setModifier = { $set: {} };
+    setModifier.$set['list.' + index] = null;
+    User.update({username: username}, setModifier, {upsert: true}, function(err) {
       if (err) {
         console.error(err);
-        res.status(500).send({ error: 'Server error'});
+        res.status(500).send({error: 'Server Error'});
+      } 
+    });
+
+    User.findOneAndUpdate({username: username}, {$pull: {'list': null}}, {upsert: true}, function(err, user) {
+      if (err) {
+        console.error(err);
+        res.status(500).send({error: 'Server Error'});        
       }
+      storeOrderedList(username, user.list);
+      res.send(user.list);
     });
   },
 
@@ -134,7 +132,7 @@ module.exports = {
     var username = interimUsername;
     var index = req.body.index;
     
-    var setModifier = { $set: {} };
+    var setModifier = {$set: {}};
     setModifier.$set['list.' + index] = null;
     User.update({username: username}, setModifier, {upsert: true}, function(err) {
       if (err) {
