@@ -29,20 +29,32 @@ var List = Eventful.createClass({
   render: function() {
     var inputClasses = 'new-item-input ';
     inputClasses += this.state.addingNewItem ? 'show' : 'hide';
-    var buttonClasses = 'add-item-button ';
+    var buttonClasses = 'btn btn-sm btn-primary add-item-button ';
     buttonClasses += !this.state.addingNewItem ? 'show' : 'hide';
 
     return (
+      <div className="row">
+      <div className="col-lg-12">
+      <div className="ibox float-e-margins">
+      <div className="ibox-title">
+        <h5>Shopping List</h5>
+      </div>
       <div className="list">
-        <div className={inputClasses}>
-          <form name="new-item-form" onSubmit={this.addItem}>
-            <input type="text" ref="newItemInput" name="newItemInput" placeholder="Enter an item" />
-          </form>
+        <div className='new-item-input'>
+                  <form name="new-item-form" onSubmit={this.addItem}>
+                    <input type="text" ref="newItemInput" name="newItemInput" placeholder="Enter an item"
+                            />
+                  </form>
+                    <button className='btn btn-sm btn-primary add-item-button' onClick={this.switchToAddingNewItem}>Add Item
+                    </button>
         </div>
-        <button className={buttonClasses} onClick={this.switchToAddingNewItem}>Add Item</button>
         <ul>
           {this.props.items.map(this.renderListItem)}
         </ul>
+
+      </div>
+      </div>
+      </div>
       </div>
     );
   }
