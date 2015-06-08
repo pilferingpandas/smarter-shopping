@@ -21,17 +21,21 @@ var orderList = function(list) {
   return list;
 };
 
-var storeOrderedList = function(username, list) {
+var storeOrderedList = function(username, list, cb) {
   User.findOne({username: username})
       .populate('list')
       .exec(function(err, user) {
         if (err) console.error(err);
         var orderedList = orderList(user.list);
         User.update({username: username}, {'list': orderedList}, {upsert: true}, function(err) {
-          if (err) console.error(err);
+          if (err) { 
+            console.error(err);
+            cb(false);
+          }
+          cb(true);
         });
       });
-}
+};
 
 
 module.exports = {
@@ -76,8 +80,13 @@ module.exports = {
           console.error(err);
           res.status(500).send({ error: 'Server Error'});
         } 
-        storeOrderedList(username, user.list);
-        res.send(user.list);
+        storeOrderedList(username, user.list, function(complete) {
+          if (complete) {
+            res.send(user.list);
+          } else {
+            res.status(500).send({error: 'Could not order list!'});
+          }
+        });
       }); 
   },
 
@@ -106,8 +115,13 @@ module.exports = {
         console.error(err);
         res.status(500).send({error: 'Server Error'});        
       }
-      storeOrderedList(username, user.list);
-      res.send(user.list);
+      storeOrderedList(username, user.list, function(complete) {
+        if (complete) {
+          res.send(user.list);
+        } else {
+          res.status(500).send({error: 'Could not store list'});
+        }
+      });
     });
   },
 
@@ -123,8 +137,13 @@ module.exports = {
         console.error(err);
         res.status(500).send({error: 'Server Error'});
       } 
-      storeOrderedList(username, user.list);
-      res.send(user.list);
+      storeOrderedList(username, user.list, function(complete) {
+        if (complete) {
+          res.send(user.list);
+        } else {
+          res.status(500).send({error: 'Couldn\'t sort list!'});
+        }
+      });
     }); 
   },
 
@@ -146,8 +165,13 @@ module.exports = {
         console.error(err);
         res.status(500).send({error: 'Server Error'});        
       }
-      storeOrderedList(username, user.list);
-      res.send(user.list);
+      storeOrderedList(username, user.list, function(complete) {
+        if (complete) {
+          res.send(user.list);
+        } else {
+          res.status(500).send({error: 'Could not order list!'});
+        }
+      });
     });
   }
 };
