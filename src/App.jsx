@@ -5,6 +5,7 @@ var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
 var Link = Router.Link;
 
+var ModeToggle = require('./ModeToggle');
 var auth = require('./auth');
 
 var url = {
@@ -21,7 +22,8 @@ var url = {
 var App = Eventful.createClass({
   getInitialState: function() {
     return {
-      data: []
+      items: [],
+      mode: ModeToggle.EDITING
     };
   },
 
@@ -34,8 +36,7 @@ var App = Eventful.createClass({
   getList: function() {
     $.get(url.list)
     .done(function(data) {
-      console.log('loaditemsfromserver success:',data);
-      this.setState({ data: data });
+      this.setState({ items: data });
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error getting item list:', status, err);
@@ -63,10 +64,6 @@ var App = Eventful.createClass({
   },
 
   deleteItem: function(item) {
-    //var items = this.state.data;
-    //var itemIndex = items.indexOf(item.id);
-    //var updatedItems = items.splice(itemIndex, 1);
-
     $.ajax({
       url: url.deleteItem,
       type: 'DELETE',
@@ -81,10 +78,6 @@ var App = Eventful.createClass({
   },
 
   archiveItem: function(item) {
-    //var items = this.state.data;
-    //var itemIndex = items.indexOf(item.id);
-    //var updatedItems = items.splice(itemIndex, 1);
-
     $.post(url.archiveItem, item)
     .done(function(data) {
       this.getList();
@@ -114,6 +107,10 @@ var App = Eventful.createClass({
     });
   },
 
+  changeMode: function(data) {
+    this.setState({ mode: data.mode });
+  },
+
   componentDidMount: function() {
     // eventful event listeners
     this.on('register', function(data) {
@@ -128,6 +125,16 @@ var App = Eventful.createClass({
     this.on('add-item', function(data) {
       this.addItem(data);
     }.bind(this));
+    this.on('remove-item', function(data) {
+      if (this.state.mode === ModeToggle.SHOPPING) {
+        this.archiveItem(data);
+      } else {
+        this.deleteItem(data);
+      }
+    }.bind(this));
+    this.on('change-mode', function(data) {
+      this.changeMode(data);
+    }.bind(this));
 
     this.getList();
   },
@@ -138,7 +145,7 @@ var App = Eventful.createClass({
     //  <Link to="login"> Sign In</Link>;
     return (
       <div id="app">
-        <RouteHandler data={this.state.data} />
+        <RouteHandler data={this.state} />
       </div>
     );
   }
