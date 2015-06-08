@@ -12,7 +12,7 @@ var List = Eventful.createClass({
   },
   renderListItem: function(itemData, id) {
     return (
-      <ListItem key={id} index={id} name={itemData.name} foodCategory={itemData.data.food_category}/>
+      <ListItem key={id} index={id} name={itemData.name} mode={this.props.mode} foodCategory={itemData.data.food_category}/>
     );
   },
   render: function() {

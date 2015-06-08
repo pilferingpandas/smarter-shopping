@@ -1,5 +1,6 @@
 var React = require('react');
 var Eventful = require('eventful-react');
+var ModeToggle = require('./ModeToggle');
 
 var ListItem = Eventful.createClass({
   getInitialState: function() {
@@ -34,8 +35,11 @@ var ListItem = Eventful.createClass({
   render: function() {
     var cssClasses = {
       staticItem: 'static-item ',
-      editableItem: 'editable-item '
+      editableItem: 'editable-item ',
+      editingIcon: 'fa fa-trash fa-lg remove-button editing-icon ',
+      shoppingIcon: 'fa fa-check fa-lg remove-button shopping-icon '
     };
+
     if (this.state.editable) {
       cssClasses.staticItem += 'hide';
       cssClasses.editableItem += 'show';
@@ -44,10 +48,19 @@ var ListItem = Eventful.createClass({
       cssClasses.editableItem += 'hide';
     }
 
+    if (this.props.mode === ModeToggle.SHOPPING) {
+      cssClasses.editingIcon += 'hide';
+      cssClasses.shoppingIcon += 'show';
+    } else {
+      cssClasses.editingIcon += 'show';
+      cssClasses.shoppingIcon += 'hide';
+    }
+
     return (
       <li className="list-item">
         <div className={cssClasses.staticItem}>
-          <i className="fa fa-check fa-lg remove-button" onClick={this.removeItem}></i> 
+          <i className={cssClasses.shoppingIcon} onClick={this.removeItem}></i>
+          <i className ={cssClasses.editingIcon} onClick={this.removeItem}></i> 
           <div className="item-label" onClick={this.switchToEditable}>{this.props.name}</div> 
           <div className="food-cat">{this.props.foodCategory}</div>
         </div>
