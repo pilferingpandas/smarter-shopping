@@ -42,18 +42,18 @@ var List = Eventful.createClass({
             </div>
             <div className="ibox-content">
               <div className="row">
-                  <div className="list">
-                      <div className='new-item-input'>
-                        <form name="new-item-form" onSubmit={this.addItem}>
-                          <input type="text" ref="newItemInput" name="newItemInput" placeholder="Enter an item"/>
-                        </form>
-                        <button className='btn btn-sm btn-primary add-item-button' onClick={this.switchToAddingNewItem}>Add Item
-                        </button>
-                    </div>
-                    <ul>
-                      {this.props.items.map(this.renderListItem)}
-                    </ul>
-                  </div>
+                <div className="list">
+                  <div className='new-item-input'>
+                    <form name="new-item-form" onSubmit={this.addItem}>
+                      <input type="text" ref="newItemInput" name="newItemInput" placeholder="Enter an item"/>
+                    </form>
+                    <button className='btn btn-sm btn-primary add-item-button' onClick={this.switchToAddingNewItem}>Add Item
+                    </button>
+                </div>
+                <ul>
+                  {this.props.items.map(this.renderListItem)}
+                </ul>
+                </div>
               </div>
             </div>
           </div>
