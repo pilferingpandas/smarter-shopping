@@ -1,5 +1,5 @@
 var Firebase = require("firebase");
-var refString = 'https://savagetadpole.firebaseio.com';
+var refString = 'https://savagetadpoleapp.firebaseio.com';
 var ref = new Firebase(refString);
 
 var listController = require('../lists/listController');
