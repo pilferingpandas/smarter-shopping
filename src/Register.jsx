@@ -23,7 +23,7 @@ var Register = Eventful.createClass({
         <p>Register</p>
         <form className="register-form" name="registerform" onSubmit={this.registerUser}>
           <div className="form-group">
-            <i className="fa fa-user-plus fa-lg"></i>&nbsp;&nbsp;&nbsp;<input ref="username" placeholder="Username" />
+            <i className="fa fa-user-plus fa-lg"></i>&nbsp;&nbsp;&nbsp;<input ref="username" placeholder="Email address" />
           </div>
           <div className="form-group">
             <i className="fa fa-key fa-lg"></i>&nbsp;&nbsp;&nbsp;<input ref="password" placeholder="Password" type="password" />

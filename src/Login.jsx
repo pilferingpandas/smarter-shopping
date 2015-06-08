@@ -23,7 +23,7 @@ var Login = Eventful.createClass({
           <p>Login</p>
           <form className="login-form" name="loginform" onSubmit={this.loginUser} role="form">
             <div className="form-group">
-              <i className="fa fa-user fa-lg"></i>&nbsp;&nbsp;&nbsp;<input ref="username" placeholder="Username" />
+              <i className="fa fa-user fa-lg"></i>&nbsp;&nbsp;&nbsp;<input ref="username" placeholder="Email Address" />
             </div>
             <div className="form-group">
               <i className="fa fa-key fa-lg"></i>&nbsp;&nbsp;&nbsp;<input ref="password" placeholder="Password" type="password" />
