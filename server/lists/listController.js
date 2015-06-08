@@ -21,6 +21,18 @@ var orderList = function(list) {
   return list;
 };
 
+var storeOrderedList = function(username, list) {
+  User.findOne({username: username})
+      .populate('list')
+      .exec(function(err, user) {
+        if (err) console.error(err);
+        var orderedList = orderList(user.list);
+        User.update({username: username}, {'list': orderedList}, {upsert: true}, function(err) {
+          if (err) console.error(err);
+        });
+      });
+}
+
 
 module.exports = {
 
@@ -46,10 +58,6 @@ module.exports = {
     .findOne({username: username})
     .populate('list')
     .exec(function(err, user) {
-      var orderedList = orderList(user.list);
-      User.update({username: username}, {'list': orderedList}, {upsert: true}, function(err) {
-        console.error(err);
-      })
       if (err) console.error(err);
       res.send(user.list);
     });
@@ -59,30 +67,16 @@ module.exports = {
     var username = interimUsername;
     var name = req.smartShoppingData.name;
  
-    var findUser = Q.nbind(User.findOne, User);
-
-    findUser({username: username})
-    .then(function(user) {
-      User.findByIdAndUpdate(
-        user._id,
-        {$push: {'list': req.smartShoppingData._id}},
-        {safe: true, upsert:true},
-        function(err, model) {
-          if (err) console.error(err);
-        }
-      );
-      res.send(user.list);
-    })
-    .catch(function(err) {
-      console.error(err);
-      res.status(500).send({error: 'Server Error'});
-    })
-    .done(function(err) {
-      if (err) {
-        console.error(err);
-        res.status(500).send({ error: 'Server Error' });
-      }
-    });
+    User.findOneAndUpdate({username: username}, 
+                          {$push: {'list': req.smartShoppingData._id}}, 
+                          {upsert: true}, function(err, user) {
+                            if (err) {
+                              console.error(err);
+                              res.status(500).send({ error: 'Server Error'});
+                            } 
+                            storeOrderedList(username, user.list);
+                            res.send(user.list);
+                          }); 
   },
 
   addItemToArchive: function(req, res) {
@@ -128,9 +122,10 @@ module.exports = {
     setModifier.$set['list.' + index] = req.smartShoppingData._id;
     User.findOneAndUpdate({username: username}, setModifier, {upsert: true}, function(err, user) {
       if (err) {
-        console.log(err);
+        console.error(err);
         res.status(500).send({error: 'Server Error'});
       } 
+      storeOrderedList(username, user.list);
       res.send(user.list);
     }); 
   },
@@ -143,16 +138,17 @@ module.exports = {
     setModifier.$set['list.' + index] = null;
     User.update({username: username}, setModifier, {upsert: true}, function(err) {
       if (err) {
-        console.log(err);
+        console.error(err);
         res.status(500).send({error: 'Server Error'});
       } 
     });
 
     User.findOneAndUpdate({username: username}, {$pull: {'list': null}}, {upsert: true}, function(err, user) {
       if (err) {
-        console.log(err);
+        console.error(err);
         res.status(500).send({error: 'Server Error'});        
       }
+      storeOrderedList(username, user.list);
       res.send(user.list);
     });
   }
