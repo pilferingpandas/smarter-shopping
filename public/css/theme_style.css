@@ -562,7 +562,7 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   border-radius: 3px;
 }
 .float-e-margins .btn {
-  margin-bottom: 5px;
+  margin-top: 5px;
 }
 .btn-w-m {
   min-width: 120px;
@@ -6421,8 +6421,26 @@ body.skin-3 {
 
 li {
   list-style-type: none;
+  padding-top: 1%;
 }
 
 .item-label {
   display: inline-block;
+}
+
+h5 {
+  margin-left: 40% !important;
+}
+
+.new-item-input {
+  text-align: center;
+}
+
+ul {
+  margin-left: 25%;
+  padding-top: 3%;
+}
+
+.add-item-button {
+  padding-top: 1%;
 }
