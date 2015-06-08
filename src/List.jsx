@@ -36,7 +36,7 @@ var List = Eventful.createClass({
       <div className="row">
         <div className="col-md-4"></div>
         <div className="col-md-4">
-          <div className="ibox float-e-margins">
+          <div className="ibox float-e-margins" id="list-border">
             <div className="ibox-title">
               <h5>Shopping List</h5>
             </div>
