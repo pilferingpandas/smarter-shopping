@@ -5,12 +5,18 @@ var List = require('./List');
 var auth = require('./auth');
 
 var Home = Eventful.createClass({
+  contextTypes: {
+    router: React.PropTypes.func
+  },
+
   statics: {
-    willTransitionTo: function (transition) {
-      console.log(auth.loggedIn());
-      if (!auth.loggedIn()) {
-        transition.redirect('/login');
-      }
+    willTransitionTo: function (transition, _, _, cb) {
+      auth.loggedIn(function(authed) {
+        if (!authed) {
+          transition.redirect('/login');
+        }
+        cb();
+      });
     }
   },
 
