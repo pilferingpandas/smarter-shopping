@@ -65,7 +65,6 @@ module.exports = {
     .populate('list')
     .exec(function(err, user) {
       if (err) console.error(err);
-      console.log('in get list, user:',user);
       res.send(user.list);
     });
   },
@@ -98,10 +97,16 @@ module.exports = {
     var index = Number(req.body.index);
     var tempId;
 
+    // {ObjId: [date, date, date], ObjId: [date]}
+
     User.findOne({username: username}, function(err, user) {
+      var objectId = user.list[index];
+      console.log("OBJECTID", objectId);
+      console.log("USER LIST", user.list);
+      var item = {"item_id": objectId, 'purchase_dates': [new Date()]};
       var pushModifier = {$push: {}};
-      pushModifier.$push['past_items'] = user.list[index];
-      User.update({username: username}, pushModifier, {upsert: true}, function(err) {if (err) console.error(err)});
+      pushModifier.$push['past_items'] = item;
+      User.update({username: username}, pushModifier, function(err) {if (err) console.error(err)});
     });
     
     var setModifier = { $set: {} };
@@ -113,7 +118,7 @@ module.exports = {
       } 
     });
 
-    User.findOneAndUpdate({username: username}, {$pull: {'list': null}}, {upsert: true}, function(err, user) {
+    User.findOneAndUpdate({username: username}, {$pull: {'list': null}}, function(err, user) {
       if (err) {
         console.error(err);
         res.status(500).send({error: 'Server Error'});        
