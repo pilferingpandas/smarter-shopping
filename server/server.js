@@ -48,6 +48,8 @@ app.post('/auth/register', firebaseAuth.signIn);
 
 app.post('/auth/login', firebaseAuth.signIn);
 
+app.get('/auth/signOut', firebaseAuth.signOut);
+
 app.get('/auth/token', firebaseAuth.validateUserToken, function(req, res) {
   res.send(true);
 });

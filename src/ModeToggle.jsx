@@ -44,8 +44,9 @@ var ModeToggle = Eventful.createClass({
                 </label>
               </form>
             </div>
-          </div>
             </div>
+            <a href="/auth/signOut">Sign Out</a>
+          </div>
         </div>
         <div className="col-md-4"></div>
       </div>

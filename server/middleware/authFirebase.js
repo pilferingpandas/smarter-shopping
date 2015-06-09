@@ -12,7 +12,7 @@ var createUser = function(request, response) {
     email: username,
     password: password
   }, function(error, authData) {
-    if(error) { 
+    if(error) {
       console.log("Error creating user", error)
       response.status(400).send("User creation Failed!");
     } else {
@@ -42,6 +42,11 @@ var signIn = function(request, response) {
   });
 };
 
+var signOut = function(request, response) {
+  request.session.token = null;
+  response.redirect('/#/login');
+};
+
 var validateUserToken = function(request, response, next){
   if(request.session.token){
     ref.authWithCustomToken(request.session.token, function(error, authData) {
@@ -49,7 +54,7 @@ var validateUserToken = function(request, response, next){
         console.log("Login Failed!", error);
         response.status(401).send({error: "Login Failed"});
       } else {
-        console.log('authorized with token for uid:',authData.uid);
+        console.log('authorized with token for uid:', authData.uid);
         request.uid = authData.uid;
         next();
       }
@@ -62,5 +67,6 @@ var validateUserToken = function(request, response, next){
 module.exports = {
   createUser: createUser,
   signIn: signIn,
-  validateUserToken: validateUserToken
+  validateUserToken: validateUserToken,
+  signOut: signOut
 };
