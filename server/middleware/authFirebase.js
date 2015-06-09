@@ -9,13 +9,8 @@ var createUser = function(request, response) {
   var password = request.body.password;
 
   ref.createUser({
-<<<<<<< HEAD
     email: username,
     password: password
-=======
-    email    : user,
-    password : pass
->>>>>>> refactor(server/client): integrating changes done across client and servers
   }, function(error, authData) {
     if(error) { 
       console.log("Error creating user", error)
@@ -34,13 +29,8 @@ var signIn = function(request, response) {
   var password = request.body.password;
 
   ref.authWithPassword({
-<<<<<<< HEAD
     email: username,
     password: password
-=======
-    email    : user,
-    password : pass
->>>>>>> refactor(server/client): integrating changes done across client and servers
   }, function(error, authData) {
     if (error) {
       console.log("Login Failed!", error);
@@ -52,23 +42,6 @@ var signIn = function(request, response) {
   });
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-//var validateUserToken = function(request, response, next){
-//  if(request.session.token){
-//    ref.authWithCustomToken(request.session.token, function(error, authData) {
-//      if (error) {
-//        console.log("Login Failed!", error);
-//        response.redirect('/testSignIn.html');
-//      } else {
-//        next();
-//      }
-//    });
-//  } else {
-//    response.redirect('/testSignIn.html');
-//  }
-//};
-=======
 var validateUserToken = function(request, response, next){
   if(request.session.token){
     ref.authWithCustomToken(request.session.token, function(error, authData) {
@@ -85,31 +58,9 @@ var validateUserToken = function(request, response, next){
     response.status(401).send({error: "Login Failed"});
   }
 };
->>>>>>> 7936219c0cd56b889f8077f0aebc91ee27b3ed22
 
 module.exports = {
   createUser: createUser,
   signIn: signIn,
   validateUserToken: validateUserToken
 };
-=======
-var validateUserToken = function(request, response, next){
-  if(request.session.token){
-    this.ref.authWithCustomToken(request.session.token, function(error, authData) {
-      if (error) {
-        console.log("Login Failed!", error);
-        response.redirect('/testSignIn.html');
-      } else {
-        next();
-      }
-    });
-  } else {
-    response.redirect('/testSignIn.html');
-  }
-};
-
-module.exports = {
-  createUser: createUser,
-  signIn: signIn
-};
->>>>>>> refactor(server/client): integrating changes done across client and servers
