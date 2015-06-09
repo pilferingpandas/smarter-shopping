@@ -1,5 +1,6 @@
 var React = require('react');
 var Eventful = require('eventful-react');
+var Suggestion = require('./Suggestion');
 var ListItem = require('./ListItem');
 
 var List = Eventful.createClass({
@@ -9,6 +10,11 @@ var List = Eventful.createClass({
     e.target.newItemInput.value = '';
 
     this.emit('add-item', { name: newItemName });
+  },
+  renderSuggestion: function(suggestionData, id) {
+    return (
+      <Suggestion key={id} name={suggestionData.name} />
+    );
   },
   renderListItem: function(itemData, id) {
     return (
@@ -26,6 +32,9 @@ var List = Eventful.createClass({
             </div>
             <div className="ibox-content">
               <div className="row">
+                <ul>
+                  {this.props.suggestions.map(this.renderSuggestion)}
+                </ul>
                 <div className="list">
                   <div className='new-item-input'>
                     <form name="new-item-form" onSubmit={this.addItem}>
