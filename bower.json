@@ -1,15 +1,19 @@
 {
   "name": "smart-shopping",
   "version": "1.0.1",
-  "homepage": "https://github.com/savage-tadpole/smart-shopping",
+  "homepage": "https://github.com/pilferingpandas/smarter-shopping",
   "authors": [
     "Emily Shenfield",
     "Alex Mendez",
     "Real Provencher",
     "Joseph Nayigiziki",
-    "Joe Prempeh"
+    "Joe Prempeh",
+    "David Goldberg",
+    "Nick McCormick",
+    "Dominika Bienkowska",
+    "John Murphy"
   ],
-  "description": "\"Smart shopping list\"",
+  "description": "\"Smarter shopping list\"",
   "license": "MIT",
   "ignore": [
     "**/.*",

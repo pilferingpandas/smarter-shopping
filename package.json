@@ -1,21 +1,21 @@
 {
   "name": "smart-shopping",
   "version": "2.0.0",
-  "description": "Smart Shopping List",
+  "description": "Smarter Shopping List",
   "scripts": {
     "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/savage-tadpole/smart-shopping.git"
+    "url": "https://github.com/pilferingpandas/smarter-shopping"
   },
-  "author": "Emily Shenfield, Alex Mendez, Real Provencher, Joseph Nayigiziki, Joe Prempeh",
+  "author": "Emily Shenfield, Alex Mendez, Real Provencher, Joseph Nayigiziki, Joe Prempeh, David Goldberg, Nick McCormick, Dominika Bienkowska, John Murphy",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/savage-tadpole/smart-shopping/issues"
+    "url": "https://github.com/pilferingpandas/smarter-shopping"
   },
-  "homepage": "https://github.com/savage-tadpole/smart-shopping",
+  "homepage": "https://github.com/pilferingpandas/smarter-shopping",
   "dependencies": {
     "body-parser": "^1.12.4",
     "eventful-react": "^1.1.0",
