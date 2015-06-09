@@ -105,11 +105,21 @@ var App = Eventful.createClass({
     this.setState({ mode: data.mode });
   },
 
+  getSuggestions: function() {
+    $.get(url.getSuggestions)
+    .done(function(data) {
+      this.setState({ suggestions: data });
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error getting suggestions:', status, err);
+    });
+  },
+
   removeSuggestion: function(data) {
     $.post(url.removeSuggestion, data)
-    .done(function(data) {
-      this.setState({ suggestions: data })
-    })
+    .done(function() {
+      this.getSuggestions();
+    }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error removing suggestion:', status, err);
     });
@@ -147,6 +157,7 @@ var App = Eventful.createClass({
     }.bind(this));
 
     this.getList();
+    this.getSuggestions();
   },
 
   render: function() {
