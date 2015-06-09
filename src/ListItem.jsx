@@ -57,11 +57,11 @@ var ListItem = Eventful.createClass({
     }
 
     return (
-      <li className="list-item">
+      <li className="list-item animated fadeInDown">
         <div className={cssClasses.staticItem}>
           <i className={cssClasses.shoppingIcon} onClick={this.removeItem}></i>
-          <i className ={cssClasses.editingIcon} onClick={this.removeItem}></i> 
-          <div className="item-label" onClick={this.switchToEditable}>{this.props.name}</div> 
+          <i className ={cssClasses.editingIcon} onClick={this.removeItem}></i>
+          <div className="item-label" onClick={this.switchToEditable}>{this.props.name}</div>
           <div className="food-cat">{this.props.foodCategory}</div>
         </div>
         <div className={cssClasses.editableItem}>
