@@ -1,6 +1,7 @@
 var express = require('express');
 var listController = require('./lists/listController.js');
 var itemController = require('./lists/itemController.js');
+var suggestionController = require('./lists/suggestionController.js');
 var firebaseAuth = require('./middleware/authFirebase.js');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
@@ -42,6 +43,8 @@ app.post('/api/item/update', listController.updateItem);
 
 app.delete('/api/item/delete', listController.deleteItemFromList);
 app.post('/api/item/archive', listController.addItemToArchive);
+
+app.get('/api/suggestions', suggestionController.getSuggestions);
 
 app.post('/api/suggestion/remove', suggestionController.removeSuggestion);
 
