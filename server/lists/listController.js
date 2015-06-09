@@ -10,7 +10,7 @@ var orderList = function(list) {
       return 1;
     }
     if (a.data.food_category < b.data.food_category) {
-      return -1
+      return -1;
     }
 
     return 0

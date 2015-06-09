@@ -3,6 +3,7 @@ public/bower_components/
 public/js
 public/css/style.css
 server/lists/config.js
+server/lists/utils.js
 
 
 # Editor-specific files
