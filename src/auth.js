@@ -10,13 +10,14 @@ module.exports = {
   //},
 
   loggedIn: function(cb) {
-    $.get(url.token)
-    .done(function(data) {
-      cb(data);
-    })
-    .fail(function(xhr, status, err) {
-      console.error('Not authorized:', status, err);
-      cb(false);
-    });
+    cb(true);
+    //$.get(url.token)
+    //.done(function(data) {
+    //  cb(data);
+    //})
+    //.fail(function(xhr, status, err) {
+    //  console.error('Not authorized:', status, err);
+    //  cb(false);
+    //});
   }
 };
