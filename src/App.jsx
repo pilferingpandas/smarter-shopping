@@ -5,37 +5,26 @@ var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
 var Link = Router.Link;
 
+var ModeToggle = require('./ModeToggle');
 var auth = require('./auth');
-
-var url = {
-  list: '/api/list',
-  addItem: '/api/item/add',
-  updateItem: '/api/item/update',
-  deleteItem: '/api/item/delete',
-  archiveItem: '/api/item/archive',
-  register: '/api/register',
-  login: '/api/login',
-  logout: '/api/logout'
-};
+var url = require('./url');
 
 var App = Eventful.createClass({
-  getInitialState: function() {
-    return {
-      data: []
-    };
+  contextTypes: {
+    router: React.PropTypes.func
   },
 
-  setStateOnAuth: function(loggedIn) {
-    this.setState({
-      loggedIn: loggedIn
-    })
+  getInitialState: function() {
+    return {
+      items: [],
+      mode: ModeToggle.EDITING
+    };
   },
 
   getList: function() {
     $.get(url.list)
     .done(function(data) {
-      console.log('loaditemsfromserver success:',data);
-      this.setState({ data: data });
+      this.setState({ items: data });
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error getting item list:', status, err);
@@ -63,10 +52,6 @@ var App = Eventful.createClass({
   },
 
   deleteItem: function(item) {
-    //var items = this.state.data;
-    //var itemIndex = items.indexOf(item.id);
-    //var updatedItems = items.splice(itemIndex, 1);
-
     $.ajax({
       url: url.deleteItem,
       type: 'DELETE',
@@ -81,10 +66,6 @@ var App = Eventful.createClass({
   },
 
   archiveItem: function(item) {
-    //var items = this.state.data;
-    //var itemIndex = items.indexOf(item.id);
-    //var updatedItems = items.splice(itemIndex, 1);
-
     $.post(url.archiveItem, item)
     .done(function(data) {
       this.getList();
@@ -97,7 +78,8 @@ var App = Eventful.createClass({
   registerUser: function(userData) {
     $.post(url.register, userData)
     .done(function(data) {
-      this.setState({ user: user })
+      console.log('registered:',data);
+      this.context.router.transitionTo('/');
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error registering user:', status, err);
@@ -107,11 +89,16 @@ var App = Eventful.createClass({
   loginUser: function(userData) {
     $.post(url.login, userData)
     .done(function(data) {
-      console.log('Successfully logged in user:',data);
-    })
+      this.context.router.transitionTo('/');
+      this.getList();
+    }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error logging in user:', status, err);
     });
+  },
+
+  changeMode: function(data) {
+    this.setState({ mode: data.mode });
   },
 
   componentDidMount: function() {
@@ -128,6 +115,16 @@ var App = Eventful.createClass({
     this.on('add-item', function(data) {
       this.addItem(data);
     }.bind(this));
+    this.on('remove-item', function(data) {
+      if (this.state.mode === ModeToggle.SHOPPING) {
+        this.archiveItem(data);
+      } else {
+        this.deleteItem(data);
+      }
+    }.bind(this));
+    this.on('change-mode', function(data) {
+      this.changeMode(data);
+    }.bind(this));
 
     this.getList();
   },
@@ -138,7 +135,7 @@ var App = Eventful.createClass({
     //  <Link to="login"> Sign In</Link>;
     return (
       <div id="app">
-        <RouteHandler data={this.state.data} />
+        <RouteHandler data={this.state} />
       </div>
     );
   }

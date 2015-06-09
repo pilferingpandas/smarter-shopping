@@ -1,7 +1,7 @@
 node_modules
 public/bower_components/
 public/js
-public/css
+public/css/style.css
 server/lists/config.js
 server/lists/utils.js
 
