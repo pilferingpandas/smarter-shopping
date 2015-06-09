@@ -9,6 +9,7 @@ var app = express();
 var port = process.env.PORT || 3000;
 
 mongoose.connect('mongodb://savage:iamsavage@ds043972.mongolab.com:43972/savagetadpole');
+//mongoose.connect('mongodb://localhost/smart-shopping');
 
 app.use(session({
   secret: 'savage tadpole',

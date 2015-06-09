@@ -16,6 +16,6 @@ module.exports = {
   user : new Schema({
     username: String,
     list: [{ type: Schema.Types.ObjectId, ref: 'Item'}],
-    past_items: [{ type: Schema.Types.ObjectId, ref: 'Item'}]
+    past_items: [{item_id: String, purchase_dates: []}]
   })
 };
