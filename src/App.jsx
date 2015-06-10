@@ -80,7 +80,7 @@ var App = Eventful.createClass({
       // access all the items in the list
       console.log('Inside of archiveAll, received data from the emitter, trying to post', data);
       // the post request should 
-      $.post(url.archiveAllItems,  {index: 1})
+      $.post(url.archiveAllItems,  data)
     .done(function(data) {
       this.getList();
     }.bind(this))

@@ -11,17 +11,21 @@ var List = Eventful.createClass({
     this.emit('add-item', { name: newItemName });
   },
   renderListItem: function(itemData, id) {
-    console.log('inside of renderListItem', itemData)
+    
     return (
       <ListItem key={id} index={id} name={itemData.name} mode={this.props.mode} foodCategory={itemData.data.food_category}/>
     );
   },
-   archiveAll: function (e) {
-    //console.log('value',e )
-    console.log('inside of archiving all');
+  archiveAll: function (e) {
     e.preventDefault();
+   // console.log('inside of archiving all', this.props.items);
+   var index=0;
+    for ( var item in this.props.items ){
+  console.log('emitting index', index)
+   this.emit('archive-items', { index: index});
+    index++;
+    }
     // emit a signal to app.jsx that user wants to archive all the items on the list
-     this.emit('archive-items', {name : 'bread'});
   },
   render: function() {
 
@@ -42,7 +46,7 @@ var List = Eventful.createClass({
                       <input className='btn btn-sm btn-primary add-item-button' type="submit" value="Add Item"/>
                     </form>
                 </div>
-                  <div className='archive-all-input'  onSubmit={this.archiveAll(this.props.items)}>
+                  <div className='archive-all-input'  onSubmit={this.archiveAll}>
                     <form name="archive-all-form" >
                       <input className='btn btn-sm btn-primary archive-all-button' type="submit" value="Archive all items on the list"/>
                     </form>

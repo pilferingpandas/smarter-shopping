@@ -97,8 +97,40 @@ module.exports = {
   },
 
   addAllItemsToArchive:  function(req, res) {
-        console.log('we are here', req.body);
-        res.send('it works');
+    console.log('inside of addAllItemsToArchive in listController')
+        var username = req.uid;
+    var index = Number(req.body.index);
+    var tempId;
+
+    User.findOne({username: username}, function(err, user) {
+      var pushModifier = {$push: {}};
+      pushModifier.$push['past_items'] = user.list[index];
+      User.update({username: username}, pushModifier, {upsert: true}, function(err) {if (err) console.error(err)});
+    });
+    
+    var setModifier = { $set: {} };
+    setModifier.$set['list.' + index] = null;
+    User.update({username: username}, setModifier, {upsert: true}, function(err) {
+      if (err) {
+        console.error(err);
+        res.status(500).send({error: 'Server Error'});
+      } 
+    });
+
+    User.findOneAndUpdate({username: username}, {$pull: {'list': null}}, {upsert: true}, function(err, user) {
+      if (err) {
+        console.error(err);
+        res.status(500).send({error: 'Server Error'});        
+      }
+      storeOrderedList(username, user.list, function(complete) {
+       // console.log('inside of addItemToArchive', user.list);
+        if (complete) {
+          res.send(user.list);
+        } else {
+          res.status(500).send({error: 'Could not store list'});
+        }
+      });
+    });
       },
 
 
