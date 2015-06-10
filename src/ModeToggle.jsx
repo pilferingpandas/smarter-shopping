@@ -5,7 +5,8 @@ var ModeToggle = Eventful.createClass({
   statics: {
     // modes enum
     SHOPPING: {},
-    EDITING: {}
+    EDITING: {},
+    FEED: {}
   },
   getInitialState: function() {
     return {
@@ -20,10 +21,13 @@ var ModeToggle = Eventful.createClass({
   render: function() {
     var buttonClasses = {
       shopping: 'btn btn-sm btn-white',
-      editing: 'btn btn-sm btn-white'
+      editing: 'btn btn-sm btn-white',
+      feed: 'btn btn-sm btn-white'
     };
     if (this.state.mode === ModeToggle.SHOPPING) {
       buttonClasses.shopping += ' active';
+    } else if (this.state.mode === ModeToggle.FEED) {
+      buttonClasses.feed += ' active';
     } else {
       buttonClasses.editing += ' active';
     }
@@ -41,6 +45,9 @@ var ModeToggle = Eventful.createClass({
                 </label>
                 <label className={buttonClasses.editing}>
                   <input type="radio" name="editing" value="EDITING" checked={this.state.mode === ModeToggle.EDITING} onChange={this.changeHandler} />&nbsp;&nbsp;&nbsp;Editing Mode
+                </label>
+                <label className={buttonClasses.feed}>
+                  <input type="radio" name="feed" value="FEED" checked={this.state.mode === ModeToggle.FEED} onChange={this.changeHandler} />&nbsp;&nbsp;&nbsp;Feed Mode
                 </label>
               </form>
             </div>

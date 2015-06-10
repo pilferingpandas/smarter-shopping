@@ -6,7 +6,7 @@ var listController = require('../lists/listController');
 
 var createUser = function(request, response) {
   var username = request.body.username;
-  var password = request.body.password;
+  var password = request.body.password; 
 
   // firebase function
   // ref is what points to our unique instance of firebase
@@ -44,6 +44,8 @@ var signIn = function(request, response) {
       response.status(401).send({error: "Login Failed"});
     } else {
       request.session.token = authData.token;
+      // Save the username to the session
+      request.session.username = username;
       response.send(true);
     }
   });
@@ -51,6 +53,8 @@ var signIn = function(request, response) {
 
 var signOut = function(request, response) {
   request.session.token = null;
+  // Set username to null in session info upon user signing out
+  request.session.username = null;
   response.redirect('/#/login');
 };
 
