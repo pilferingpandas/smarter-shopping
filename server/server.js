@@ -9,7 +9,7 @@ var app = express();
 var port = process.env.PORT || 3000;
 
 mongoose.connect('mongodb://savage:iamsavage@ds043972.mongolab.com:43972/savagetadpole');
-
+// mongoose.connect('mongodb://localhost/smarter-shopping')
 app.use(session({
   secret: 'savage tadpole',
   resave: false,
@@ -56,5 +56,27 @@ app.get('/auth/token', firebaseAuth.validateUserToken, function(req, res) {
 
 var server = app.listen(3000, function () {
 	var port = server.address().port;
-	console.log('Smart Shopping listening at http://localhost:%s', port);
+	console.log('Smarter Shopping listening at http://localhost:%s', port);
 });
+
+///////////////////
+/// Web Sockets ///
+///////////////////
+
+// var io = require('socket.io')(server);
+
+// io.on('connection', function (socket) {
+//   socket.emit('news', { hello: 'world' });
+//   socket.on('my other event', function (data) {
+//     console.log(data);
+//   });
+// });
+
+// Client Side 
+  // confirm io.connect();
+  // have event listeners for certain updating states
+  // pass data along with them if you want, first arg is name of the event, second arg is optional data
+
+// Server Side
+
+
