@@ -2,6 +2,7 @@ var React = require('react');
 var Eventful = require('eventful-react');
 var ModeToggle = require('./ModeToggle');
 var List = require('./List');
+var Feed = require('./Feed');
 var auth = require('./auth');
 
 var Home = Eventful.createClass({
@@ -41,7 +42,7 @@ var Home = Eventful.createClass({
       return (
         <div id="home">
           <ModeToggle mode={this.props.data.mode} />
-          <h2>Its the feed, fool.  No need for a list</h2>
+          <Feed mode={this.props.data.mode} />
         </div>
       );
 
@@ -51,36 +52,3 @@ var Home = Eventful.createClass({
 });
 
 module.exports = Home;
-
-// render: function() {
-
-//    var dataMode = this.props.data.mode;
-
-//    if (dataMode !== 'FEED') {
-
-//      return (
-//        <div id="home">
-//          <ModeToggle mode={this.props.data.mode} />
-//          <List items={this.props.data.items} mode={this.props.data.mode} />
-//        </div>
-//      );
-
-//    } else {
-
-//      return (
-//        <div id="home">
-//          <ModeToggle mode={this.props.data.mode} />
-//          Suck it
-//        </div>
-//      );
-
-//    }
-
-//  }
-
-
-     // else {
-     //    return (
-     //      <input type="text" ref="????" name="followerInput" value={this.state.value} onChange={this.updateValue} />
-     //    );
-     // }

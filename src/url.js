@@ -7,5 +7,6 @@ module.exports = {
   register: '/auth/register',
   login: '/auth/login',
   logout: '/auth/logout',
-  token: '/auth/token'
+  token: '/auth/token',
+  followUser: '/api/feed/follow'
 };

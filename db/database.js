@@ -19,6 +19,6 @@ module.exports = {
     past_items: [{ type: Schema.Types.ObjectId, ref: 'Item'}],
     // put id of user we invite here
     // push into the element the friends array
-    followers: [{ type: Schema.Types.ObjectId, ref: 'User'}]
+    following: [{ type: String, ref: 'User'}]
   })
 };

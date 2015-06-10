@@ -1,6 +1,7 @@
 var express = require('express');
 var listController = require('./lists/listController.js');
 var itemController = require('./lists/itemController.js');
+var feedController = require('./lists/feedController.js');
 var firebaseAuth = require('./middleware/authFirebase.js');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
@@ -48,6 +49,8 @@ app.post('/auth/register', firebaseAuth.signIn);
 
 app.post('/auth/login', firebaseAuth.signIn);
 
+app.post('/api/feed/follow', feedController.addFollower);
+
 app.get('/auth/signOut', firebaseAuth.signOut);
 
 app.get('/auth/token', firebaseAuth.validateUserToken, function(req, res) {
@@ -72,11 +75,9 @@ var server = app.listen(3000, function () {
 //   });
 // });
 
-// Client Side 
+// Client Side
   // confirm io.connect();
   // have event listeners for certain updating states
   // pass data along with them if you want, first arg is name of the event, second arg is optional data
 
 // Server Side
-
-

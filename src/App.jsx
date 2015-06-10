@@ -97,6 +97,17 @@ var App = Eventful.createClass({
     });
   },
 
+  followUser: function(userData) {
+    console.log('userData from app dot jsx event handler', userData);
+    $.post(url.followUser, userData)
+    .done(function(data) {
+      // something
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error following user: ', status, err);
+    });
+  },
+
   changeMode: function(data) {
     this.setState({ mode: data.mode });
   },
@@ -124,6 +135,10 @@ var App = Eventful.createClass({
     });
     this.on('change-mode', function(data) {
       this.changeMode(data);
+    });
+
+    this.on('follow-user', function(data) {
+      this.followUser(data);
     });
 
     this.getList();
