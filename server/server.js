@@ -9,8 +9,8 @@ var session = require('express-session');
 var app = express();
 var port = process.env.PORT || 3000;
 
-mongoose.connect('mongodb://savage:iamsavage@ds043972.mongolab.com:43972/savagetadpole');
-// mongoose.connect('mongodb://localhost/smarter-shopping')
+// mongoose.connect('mongodb://savage:iamsavage@ds043972.mongolab.com:43972/savagetadpole');
+mongoose.connect('mongodb://localhost/smarter-shopping')
 app.use(session({
   secret: 'savage tadpole',
   resave: false,
