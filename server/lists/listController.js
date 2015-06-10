@@ -37,6 +37,8 @@ var storeOrderedList = function(username, list, cb) {
 
 
 module.exports = {
+  // TODO
+  // make it so createUser expects an object userData
   createUser: function(uid) {
     var user = new User({username:uid, list:[], past_items:[]});
     var findUser = Q.nbind(User.find,User);

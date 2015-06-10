@@ -56,22 +56,42 @@ var ListItem = Eventful.createClass({
       cssClasses.shoppingIcon += 'hide';
     }
 
-    return (
-      <li className="list-item animated fadeInDown">
-        <div className={cssClasses.staticItem}>
-          <i className={cssClasses.shoppingIcon} onClick={this.removeItem}></i>
-          <i className ={cssClasses.editingIcon} onClick={this.removeItem}></i>
-          <div className="item-label" onClick={this.switchToEditable}>{this.props.name}</div>
-          <div className="food-cat">{this.props.foodCategory}</div>
-        </div>
-        <div className={cssClasses.editableItem}>
-          <form name={"item-form-" + this.props.index} onSubmit={this.updateItem}>
-            <input type="text" ref="editInput" name="itemName" value={this.state.value} onChange={this.updateValue} />
-          </form>
-        </div>
-      </li>
-    );
+    if (this.props.mode === ModeToggle.EDITING || this.props.mode === ModeToggle.SHOPPING) {
+      return (
+        <li className="list-item animated fadeInDown">
+          <div className={cssClasses.staticItem}>
+            <i className={cssClasses.shoppingIcon} onClick={this.removeItem}></i>
+            <i className ={cssClasses.editingIcon} onClick={this.removeItem}></i>
+            <div className="item-label" onClick={this.switchToEditable}>{this.props.name}</div>
+            <div className="food-cat">{this.props.foodCategory}</div>
+          </div>
+          <div className={cssClasses.editableItem}>
+            <form name={"item-form-" + this.props.index} onSubmit={this.updateItem}>
+              <input type="text" ref="editInput" name="itemName" value={this.state.value} onChange={this.updateValue} />
+            </form>
+          </div>
+        </li>
+      );
+    } 
+
+    // else {
+    //   return (
+    //     <h2>Testing</h2>
+    //   );
+    // }
+
+    if (this.props.mode === ModeToggle.FEED) {
+      return (
+        <h5>Shopping List</h5>
+      );
+    }
+
   }
 });
 
 module.exports = ListItem;
+
+
+
+
+

@@ -18,11 +18,12 @@ var createUser = function(request, response) {
       console.log("Error creating user", error)
       response.status(400).send("User creation Failed!");
     } else {
-      console.log('AUTHDATA: ', authData);
+      console.log('AUTHDATA: ', authData.uid);
       // TODO get this to work with username
       // Pass in username because username is the email
       // For adding friends we want to find users by email
       // This is the easier way so we don't have to have the unnecessary step to connect to firebase
+      // Instead of passing in authData.uid pass in an object instead with different properties
       listController.createUser(authData.uid)
       .then(function() {
         signIn(request, response);
