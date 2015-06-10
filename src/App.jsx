@@ -101,7 +101,7 @@ var App = Eventful.createClass({
     console.log('userData from app dot jsx event handler', userData);
     $.post(url.followUser, userData)
     .done(function(data) {
-      // something
+      console.log('Response data: ', data);
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error following user: ', status, err);
