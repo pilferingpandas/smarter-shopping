@@ -8,8 +8,6 @@ var createUser = function(request, response) {
   var username = request.body.username;
   var password = request.body.password; 
 
-  // firebase function
-  // ref is what points to our unique instance of firebase
   ref.createUser({
     email: username,
     password: password
@@ -18,12 +16,9 @@ var createUser = function(request, response) {
       console.log("Error creating user", error)
       response.status(400).send("User creation Failed!");
     } else {
-      console.log('AUTHDATA: ', authData.uid);
-      // TODO get this to work with username
-      // Pass in username because username is the email
-      // For adding friends we want to find users by email
-      // This is the easier way so we don't have to have the unnecessary step to connect to firebase
-      // Instead of passing in authData.uid pass in an object instead with different properties
+      console.log('Authdata: ', authData.uid);
+      // TODO: get this to work with username instead of authData.uid, so we can add followers using email, not id
+      // Other option: instead of passing in authData.uid pass in an object instead with different properties
       listController.createUser(authData.uid)
       .then(function() {
         signIn(request, response);
@@ -53,18 +48,15 @@ var signIn = function(request, response) {
 };
 
 var signOut = function(request, response) {
+  // Set token and username to null in session info upon user signing out
   request.session.token = null;
-  // Set username to null in session info upon user signing out
   request.session.username = null;
   response.redirect('/#/login');
 };
 
 var validateUserToken = function(request, response, next){
+  // AuthWithCustomToken is a firebase method that checks to see if the token succeeds, if it suceeds the token is added to the session
   if(request.session.token){
-    // authWithCustomToken is a firebase method that checks to see if the token suceeds,
-    // if it suceeds the token is added to the session
-    // *note: in Firebase we must click the "Enable User and Password Auth" checkbox after we create a new table
-      // we can also control session time as well
     ref.authWithCustomToken(request.session.token, function(error, authData) {
       if (error) {
         console.log("Login Failed!", error);
