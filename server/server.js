@@ -43,6 +43,9 @@ app.post('/api/item/update', listController.updateItem);
 app.delete('/api/item/delete', listController.deleteItemFromList);
 app.post('/api/item/archive', listController.addItemToArchive);
 
+
+app.post('/api/item/archiveAll',listController.addAllItemsToArchive);
+
 // AUTHENTICATION ROUTES
 app.use('/auth/register', firebaseAuth.createUser);
 app.post('/auth/register', firebaseAuth.signIn);

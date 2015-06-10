@@ -73,6 +73,7 @@ module.exports = {
   },
 
   addItemToList: function(req, res) {
+
     var username = req.uid;
     var name = req.smartShoppingData.name;
  
@@ -95,7 +96,15 @@ module.exports = {
       }); 
   },
 
+  addAllItemsToArchive:  function(req, res) {
+        console.log('we are here', req.body);
+        res.send('it works');
+      },
+
+
+
   addItemToArchive: function(req, res) {
+       // console.log('we are here', req.body);
     var username = req.uid;
     var index = Number(req.body.index);
     var tempId;
@@ -121,6 +130,7 @@ module.exports = {
         res.status(500).send({error: 'Server Error'});        
       }
       storeOrderedList(username, user.list, function(complete) {
+       // console.log('inside of addItemToArchive', user.list);
         if (complete) {
           res.send(user.list);
         } else {
