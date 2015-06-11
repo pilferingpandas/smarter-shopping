@@ -6,8 +6,6 @@ var User = mongoose.model('User', models.user);
 
 var orderList = function(list) {
   list.sort(function(a, b) {
-    console.log('a', a);
-    console.log('b', b)
 
     if (a.data.food_category > b.data.food_category) {
       return 1;
