@@ -45,6 +45,11 @@ var List = Eventful.createClass({
                       <input className='btn btn-sm btn-primary archive-all-button' type="submit" value="Archive all items on the list"/>
                     </form>
                 </div>
+                  <div className='show-archive'  onSubmit={this.showArchive}>
+                    <form name="show-archive" >
+                      <input className='btn btn-sm btn-primary show-archive-button' type="submit" value="Show archived items"/>
+                    </form>
+                </div>
                 <ul>
                   {this.props.items.map(this.renderListItem)}
                 </ul>
