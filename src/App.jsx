@@ -24,6 +24,7 @@ var App = Eventful.createClass({
   getList: function() {
     $.get(url.list)
     .done(function(data) {
+      console.log(data)
       this.setState({ items: data });
     }.bind(this))
     .fail(function(xhr, status, err) {
@@ -77,10 +78,7 @@ var App = Eventful.createClass({
   },
 
   archiveAll : function (data){
-      // access all the items in the list
-      console.log('Inside of archiveAll, received data from the emitter, trying to post', data);
-      // the post request should 
-      $.post(url.archiveAllItems,  data)
+      $.post(url.archiveAllItems,  {howmany : data})
     .done(function(data) {
       this.getList();
     }.bind(this))
@@ -140,9 +138,13 @@ var App = Eventful.createClass({
     this.on('add-item', function(data) {
       this.addItem(data);
     });
-    this.on('archive-items', function(data) {
+    this.on('archive-items', function(data) {  
+      if (data>0){
       console.log('Inside of archiveAll in app.jsx ', data);
       this.archiveAll(data);
+    } else if (data===0){
+      console.log('nothing to archive now')
+    }
     });
     this.on('remove-item', function(data) {
       if (this.state.mode === ModeToggle.SHOPPING) {

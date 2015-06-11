@@ -591,6 +591,15 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   border-color: #1ab394;
   color: #FFFFFF;
 }
+.archive-all-button {
+  display: block;
+  background-color: #FF6500;
+  border-color: #B63239;
+  color: #FFFFFF;
+  width: 200px;
+  margin-left: 20%;
+
+}
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active,

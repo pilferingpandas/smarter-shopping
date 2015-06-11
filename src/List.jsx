@@ -18,14 +18,8 @@ var List = Eventful.createClass({
   },
   archiveAll: function (e) {
     e.preventDefault();
-   // console.log('inside of archiving all', this.props.items);
-   var index=0;
-    for ( var item in this.props.items ){
-  console.log('emitting index', index)
-   this.emit('archive-items', { index: index});
-    index++;
-    }
-    // emit a signal to app.jsx that user wants to archive all the items on the list
+    var length = this.props.items.length;
+    this.emit('archive-items', length);
   },
   render: function() {
 
