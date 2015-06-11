@@ -118,6 +118,16 @@ var App = Eventful.createClass({
     });
   },
 
+  getFollowingList: function(userData) {
+     $.get(url.getFollowingList, userData)
+    .done(function(data) {
+      console.log('Response data: ', data);
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error following user: ', status, err);
+    });
+  },
+
   changeMode: function(data) {
     this.setState({ mode: data.mode });
   },

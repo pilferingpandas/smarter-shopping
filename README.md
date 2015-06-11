@@ -3,7 +3,7 @@
 ## Never forget an item again. ##
 
 ## Getting Started ##
-1. Clone the repo `git clone https://github.com/pilferingpandas/smarter-shopping`
+1. Clone the repo `git clone https://github.com/pilferingpandas/smarter-shopping.git`
 2. From the repo's directory, checkout the development branch `git checkout development`
 3. Run `npm install` & `bower install`
 4. In terminal, run mongodb `mongod`

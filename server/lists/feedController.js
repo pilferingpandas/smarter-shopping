@@ -5,11 +5,24 @@ var Item = mongoose.model('Item', models.item);
 var User = mongoose.model('User', models.user);
 
 var checkUserExists = function(user, cb) {
+
   User.find({username: user}, function (err, docs) {
+    console.log('docs: ', docs);
     if (docs.length) {
       cb(true);
     } else {
       cb(false);
+    }
+  }); 
+};
+
+var getFollowerList = function(req, res) {
+  var currentUser = req.uid;
+  User.find({username: currentUser}, function (err, docs) {
+    console.log('docs: ', docs);
+    if (docs.length) {
+      var following = docs[0].following;
+      res.send(following);
     }
   }); 
 };
@@ -25,14 +38,14 @@ var addFollower = function(req, res) {
     if (exists) {
       User.findOneAndUpdate(
         {username: currentUser},
-        {$push: {'following': userToFollow}},
+        {$addToSet: {'following': userToFollow}},
         {upsert: true},
         function(err, user) {
           if (err) {
             console.error(err);
             res.status(500).send({ error: 'Server Error'});
           } else {
-            res.send("Success");
+            getFollowerList(req, res);
           }
         });
     } else {
@@ -44,11 +57,24 @@ var addFollower = function(req, res) {
 };
 
 var removeFollower = function() {
+  // Allows users to unfollow other users once they are following them
+};
 
+var getFollowerItems = function(req, res) {
+  // Renders follower items into the news feed when they are added to your followers lists
+};
+
+var addFollowerItem = function() {
+  // Adds an individual item from the news feed to your list when you click on the "like" icon for a particular item
 };
 
 module.exports = {
   addFollower: addFollower,
   removeFollower: removeFollower,
-  checkUserExists: checkUserExists
+  checkUserExists: checkUserExists,
+  getFollowerList: getFollowerList,
+  getFollowerItems: getFollowerItems,
+  addFollowerItem: addFollowerItem
 };
+
+  

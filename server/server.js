@@ -54,6 +54,8 @@ app.post('/auth/login', firebaseAuth.signIn);
 
 app.post('/api/feed/follow', feedController.addFollower);
 
+app.get('/api/feed/getFollowing', feedController.getFollowerList);
+
 app.get('/auth/signOut', firebaseAuth.signOut);
 
 app.get('/auth/token', firebaseAuth.validateUserToken, function(req, res) {
