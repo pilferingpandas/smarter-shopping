@@ -6,8 +6,6 @@ var User = mongoose.model('User', models.user);
 
 var checkUserExists = function(user, cb) {
 
-  // TODO: if already in following do not add again
-
   User.find({username: user}, function (err, docs) {
     console.log('docs: ', docs);
     if (docs.length) {
@@ -40,7 +38,7 @@ var addFollower = function(req, res) {
     if (exists) {
       User.findOneAndUpdate(
         {username: currentUser},
-        {$push: {'following': userToFollow}},
+        {$addToSet: {'following': userToFollow}},
         {upsert: true},
         function(err, user) {
           if (err) {
@@ -62,9 +60,8 @@ var removeFollower = function() {
   // Allows users to unfollow other users once they are following them
 };
 
-var getFollowerItems = function() {
+var getFollowerItems = function(req, res) {
   // Renders follower items into the news feed when they are added to your followers lists
-
 };
 
 var addFollowerItem = function() {
@@ -79,6 +76,5 @@ module.exports = {
   getFollowerItems: getFollowerItems,
   addFollowerItem: addFollowerItem
 };
-
 
   
