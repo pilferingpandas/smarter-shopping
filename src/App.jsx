@@ -66,7 +66,6 @@ var App = Eventful.createClass({
   },
 
   archiveItem: function(item) {
-    console.log('inside of archiveITem: ', item)
     $.post(url.archiveItem, item)
     .done(function(data) {
       this.getList();
@@ -139,7 +138,6 @@ var App = Eventful.createClass({
     });
     this.on('archive-items', function(data) {  
       if (data>0 && this.state.mode === ModeToggle.SHOPPING){
-      console.log('Inside of archiveAll in app.jsx ', data);
       this.archiveAll(data);
     } else if (data===0){
       console.log('nothing to archive now')

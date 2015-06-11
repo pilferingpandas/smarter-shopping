@@ -130,7 +130,6 @@ module.exports = {
       }
 
       storeOrderedList(username, user.list, function(complete) {
-       // console.log('inside of addItemToArchive', user.list);
        if (complete) {
         res.send(user.list);
       } else {

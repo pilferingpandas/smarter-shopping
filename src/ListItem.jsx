@@ -23,7 +23,6 @@ var ListItem = Eventful.createClass({
   updateItem: function(e) {
     e.preventDefault();
     var name = e.target.itemName.value;
-    console.log(name)
     this.emit('update-item',{
       index: this.props.index,
       name: name
