@@ -72,7 +72,9 @@ module.exports = {
       res.send(user.list);
     });
   },
-
+  showPast: function (req, res){
+    console.log('got the signal from REACT');
+  },
   addItemToList: function(req, res) {
 
     var username = req.uid;

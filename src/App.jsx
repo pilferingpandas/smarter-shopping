@@ -84,6 +84,16 @@ var App = Eventful.createClass({
       console.error('Error archiving item in list:', status, err);
     });
   },
+  showPast: function (data){
+    $.post(url.showArchive, 'showAll')
+    .done(function(data) {
+      this.getList();
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error archiving item in list:', status, err);
+    });
+  },
+
 
   registerUser: function(userData) {
     $.post(url.register, userData)
@@ -155,6 +165,9 @@ var App = Eventful.createClass({
     this.on('change-mode', function(data) {
       this.changeMode(data);
     });
+    this.on('show-archive', function(data){
+      this.showPast(data);
+    })
 
     this.on('follow-user', function(data) {
       this.followUser(data);

@@ -9,5 +9,6 @@ module.exports = {
   login: '/auth/login',
   logout: '/auth/logout',
   token: '/auth/token',
-  followUser: '/api/feed/follow'
+  followUser: '/api/feed/follow',
+  showArchive: '/api/item/showPast'
 };

@@ -21,6 +21,10 @@ var List = Eventful.createClass({
     var length = this.props.items.length;
     this.emit('archive-items', length);
   },
+  showArchive: function (e) {
+    e.preventDefault();
+     this.emit('show-archive');
+  },
   render: function() {
 
     return (
