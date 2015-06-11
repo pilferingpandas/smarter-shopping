@@ -100,7 +100,6 @@ module.exports = {
   },
 
   addAllItemsToArchive:  function(req, res) {
-    console.log(req.body)
     var username = req.uid;
     var howmany = Number(req.body.howmany);
     var tempId;
@@ -132,7 +131,6 @@ module.exports = {
         res.status(500).send({error: 'Server Error'});        
       }
 
-      console.log('user.list', user.list.data)
       storeOrderedList(username, user.list, function(complete) {
        // console.log('inside of addItemToArchive', user.list);
        if (complete) {
@@ -148,7 +146,6 @@ module.exports = {
 
 
   addItemToArchive: function(req, res) {
-   console.log('we are here', req.body, Object.keys(req.body));
    var username = req.uid;
    var index = Number(req.body.index);
    var tempId;
@@ -174,7 +171,6 @@ module.exports = {
       res.status(500).send({error: 'Server Error'});        
     }
     storeOrderedList(username, user.list, function(complete) {
-       // console.log('inside of addItemToArchive', user.list);
        if (complete) {
         res.send(user.list);
       } else {

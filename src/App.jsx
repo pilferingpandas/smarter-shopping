@@ -24,7 +24,6 @@ var App = Eventful.createClass({
   getList: function() {
     $.get(url.list)
     .done(function(data) {
-      console.log(data)
       this.setState({ items: data });
     }.bind(this))
     .fail(function(xhr, status, err) {
