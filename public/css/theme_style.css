@@ -597,8 +597,9 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   border-color: #B63239;
   color: #FFFFFF;
   width: 200px;
-  margin-left: 20%;
-
+  margin: 0 auto;
+  align: center;
+  margin-top: 5px;
 }
 .btn-primary:hover,
 .btn-primary:focus,

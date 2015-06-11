@@ -139,11 +139,13 @@ var App = Eventful.createClass({
       this.addItem(data);
     });
     this.on('archive-items', function(data) {  
-      if (data>0){
+      if (data>0 && this.state.mode === ModeToggle.SHOPPING){
       console.log('Inside of archiveAll in app.jsx ', data);
       this.archiveAll(data);
     } else if (data===0){
       console.log('nothing to archive now')
+    } else if (this.state.mode === ModeToggle.EDITING){
+      console.log('You are in the editing mode, cannot archive now')
     }
     });
     this.on('remove-item', function(data) {
