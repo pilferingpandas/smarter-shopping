@@ -11,9 +11,15 @@ var List = Eventful.createClass({
     this.emit('add-item', { name: newItemName });
   },
   renderListItem: function(itemData, id) {
+    
     return (
       <ListItem key={id} index={id} name={itemData.name} mode={this.props.mode} foodCategory={itemData.data.food_category}/>
     );
+  },
+  archiveAll: function (e) {
+    e.preventDefault();
+    var length = this.props.items.length;
+    this.emit('archive-items', length);
   },
   render: function() {
 
@@ -32,6 +38,11 @@ var List = Eventful.createClass({
                     <form name="new-item-form" onSubmit={this.addItem}>
                       <input className='new-item-input' type="text" ref="newItemInput" name="newItemInput" placeholder="Enter an item"/>
                       <input className='btn btn-sm btn-primary add-item-button' type="submit" value="Add Item"/>
+                    </form>
+                </div>
+                  <div className='archive-all-input'  onSubmit={this.archiveAll}>
+                    <form name="archive-all-form" >
+                      <input className='btn btn-sm btn-primary archive-all-button' type="submit" value="Archive all items on the list"/>
                     </form>
                 </div>
                 <ul>

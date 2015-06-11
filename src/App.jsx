@@ -75,6 +75,16 @@ var App = Eventful.createClass({
     });
   },
 
+  archiveAll : function (data){
+      $.post(url.archiveAllItems,  {howmany : data})
+    .done(function(data) {
+      this.getList();
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error archiving item in list:', status, err);
+    });
+  },
+
   registerUser: function(userData) {
     $.post(url.register, userData)
     .done(function(data) {
@@ -125,6 +135,15 @@ var App = Eventful.createClass({
     });
     this.on('add-item', function(data) {
       this.addItem(data);
+    });
+    this.on('archive-items', function(data) {  
+      if (data>0 && this.state.mode === ModeToggle.SHOPPING){
+      this.archiveAll(data);
+    } else if (data===0){
+      console.log('nothing to archive now')
+    } else if (this.state.mode === ModeToggle.EDITING){
+      console.log('You are in the editing mode, cannot archive now')
+    }
     });
     this.on('remove-item', function(data) {
       if (this.state.mode === ModeToggle.SHOPPING) {

@@ -68,6 +68,8 @@ var ListItem = Eventful.createClass({
           <form name={"item-form-" + this.props.index} onSubmit={this.updateItem}>
             <input type="text" ref="editInput" name="itemName" value={this.state.value} onChange={this.updateValue} />
           </form>
+
+          
         </div>
       </li>
     ); 
