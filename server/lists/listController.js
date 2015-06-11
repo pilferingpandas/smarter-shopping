@@ -73,7 +73,20 @@ module.exports = {
     });
   },
   showPast: function (req, res){
+    var username = req.uid;
+    console.log('req.uid', req.uid);
     console.log('got the signal from REACT');
+    console.log('/////////////////////////')
+    console.log('req.smartShoppingData', req.smartShoppingData);
+    console.log('/////////////////////////')
+     User
+    .findOne({username: username})
+    .populate('list')
+    .exec(function(err, user) {
+      if (err) console.error(err);
+      console.log('SHOWPAST in get list, user.past_items:',user.past_items);
+      res.send(user.list);
+    });
   },
   addItemToList: function(req, res) {
 
