@@ -225,7 +225,7 @@ module.exports = {
 },
 
   deleteItemFromList: function(req, res) {
-    var username = req.uid;
+    var username = req.session.username;
     var index = req.body.index;
 
     var setModifier = {$set: {}};
