@@ -224,31 +224,86 @@ module.exports = {
   }); 
 },
 
-deleteItemFromList: function(req, res) {
-  var username = req.session.username;
-  var index = req.body.index;
+  deleteItemFromList: function(req, res) {
+    var username = req.uid;
+    var index = req.body.index;
 
-  var setModifier = {$set: {}};
-  setModifier.$set['list.' + index] = null;
-  User.update({username: username}, setModifier, {upsert: true}, function(err) {
-    if (err) {
-      console.error(err);
-      res.status(500).send({error: 'Server Error'});
-    } 
-  });
+    var setModifier = {$set: {}};
+      setModifier.$set['list.' + index] = null;
+      User.update({username: username}, setModifier, {upsert: true}, function(err) {
+        if (err) {
+          console.error(err);
+          res.status(500).send({error: 'Server Error'});
+        } 
+      });
 
-  User.findOneAndUpdate({username: username}, {$pull: {'list': null}}, {upsert: true}, function(err, user) {
-    if (err) {
-      console.error(err);
-      res.status(500).send({error: 'Server Error'});        
-    }
-    storeOrderedList(username, user.list, function(complete) {
-      if (complete) {
-        res.send(user.list);
-      } else {
-        res.status(500).send({error: 'Could not order list!'});
+    User.findOneAndUpdate({username: username}, {$pull: {'list': null}}, {upsert: true}, function(err, user) {
+      if (err) {
+        console.error(err);
+        res.status(500).send({error: 'Server Error'});        
       }
+      storeOrderedList(username, user.list, function(complete) {
+        if (complete) {
+          res.send(user.list);
+        } else {
+          res.status(500).send({error: 'Could not order list!'});
+        }
+      });
     });
   });
-}
+},
+
+  recipeCreateNewItems: function(recipeItems) {
+    for(var i = 0; i < recipeItems.length; i++) {
+      var newItem = new Item({
+        name: recipeItems[i],
+        data: {
+          frequency: req.body.frequency,
+          coupons: ['none'],
+          expiration: new Date(2015,8,16)
+        }
+      });
+      var findItem = Q.nbind(Item.findOne, Item);
+      var createItem = Q.nbind(Item.create, Item);+
+      findItem({name: name})
+      .then(function(match) {
+        if (match) {
+          req.smartShoppingData = match;
+          next();
+        } else {
+          var uri = 'http://api.nal.usda.gov/usda/ndb/search/'
+          var api_key = config.usdaKey;
+          var query = '?format=json&q=' + newItem.name + '&sort=r&max=10&offset=0&api_key=' + api_key;+
+          request.get(uri + query, function(err, res, body) {
+            if (err) {
+              console.error(err);
+            }
+            var categories = [];
+            if (JSON.parse(body).list) {
+              var data = JSON.parse(body).list.item;
+              for (var i = 0; i < data.length; i++) {
+                categories.push(data[i].group);
+              }
+              newItem.data.food_category = mode(categories);
+            } else {
+              newItem.data.food_category = 'unknown';
+            }
+            createItem(newItem)
+            .then(function(createdItem) {
+              req.smartShoppingData = createdItem;
+              next();
+            })
+            .catch(function(err) {
+              console.error(err);
+              res.status(500).send({error: 'Server Error'});
+            });
+          });
+        }
+      })
+      .catch(function(err) {
+        console.error(err);
+        res.status(500).send({error: 'Server Error'});
+      });
+    }
+  }
 };

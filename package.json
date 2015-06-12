@@ -33,7 +33,8 @@
     "react-router": "^0.13.3",
     "request": "^2.57.0",
     "socket.io": "^1.3.5",
-    "supertest": "^1.0.1"
+    "supertest": "^1.0.1",
+    "xml2js": "^0.4.9"
   },
   "devDependencies": {
     "chai": "^2.3.0",
