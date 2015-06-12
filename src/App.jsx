@@ -17,6 +17,8 @@ var App = Eventful.createClass({
   getInitialState: function() {
     return {
       items: [],
+      pastItems: [],
+      recipes: [],
       mode: ModeToggle.EDITING
     };
   },
@@ -172,7 +174,7 @@ var App = Eventful.createClass({
     this.on('remove-item', function(data) {
       if (this.state.mode === ModeToggle.SHOPPING) {
         this.archiveItem(data);
-      } else {
+      } else if (this.state.mode === ModeToggle.EDITING) {
         this.deleteItem(data);
       }
     });
@@ -186,6 +188,34 @@ var App = Eventful.createClass({
 
     this.getList();
   },
+
+  addIngredients: function(ingredientArray) {
+    $.post(url.addRecipeItems, ingredientArray)
+    .fail(function(xhr, status, err){
+      console.log('failed in addingredients.app.jsx');
+    })
+  },
+
+  // addRecipeItems: function(item) {
+  //   $.post(url.addRecipeItems, item)
+  //   .done(function(data) {
+  //     this.setState({ items: data });
+  //   }.bind(this))
+  //   .fail(function(xhr, status, err) {
+  //     console.error('Error getting recipes list:', status, err);
+  //   });
+  // },
+
+  addItem: function(item) {
+    $.post(url.addItem, item)
+    .done(function(data) {
+      this.getList();
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error adding new item to list:', status, err);
+    });
+  },
+
 
   render: function() {
     //var loginOrOut = this.state.loggedIn ?
