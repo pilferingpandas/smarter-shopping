@@ -72,6 +72,25 @@ module.exports = {
       res.send(user.list);
     });
   },
+  showPast: function (req, res){
+
+    var username = req.uid;
+    console.log('req.uid', req.uid);
+    var itemNames=[];;
+     User
+     .findOne({username: username}).
+    // .findById({_id: '5578e225c651fa905b93096d'}).
+    populate('past_items')
+    .exec(function(err, data) {
+      if (err) console.error(err);
+      var howmanyItems = data.past_items.length;
+      for (var i=0; i<howmanyItems; i++){
+        itemNames.push(data.past_items[i].name)
+      }
+      //console.log('show data retrieved for the ID stuff',itemNames);
+      res.send(itemNames);
+    });  
+  },
 
   addItemToList: function(req, res) {
 

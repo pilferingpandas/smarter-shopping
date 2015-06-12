@@ -20,6 +20,15 @@ var App = Eventful.createClass({
       mode: ModeToggle.EDITING
     };
   },
+  showPast: function (data){
+    $.get(url.showArchive, 'showAll')
+    .done(function(data) {
+      console.log(data)
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error archiving item in list:', status, err);
+    });
+  },
 
   getList: function() {
     $.get(url.list)
@@ -179,6 +188,9 @@ var App = Eventful.createClass({
 
     this.on('follow-user', function(data) {
       this.followUser(data);
+    });
+        this.on('show-archive', function(data){
+      this.showPast(data);
     });
 
     this.getList();

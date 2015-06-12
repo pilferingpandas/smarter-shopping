@@ -12,5 +12,5 @@ module.exports = {
   followUser: '/api/feed/follow',
   getFollowingList: '/api/feed/getFollowing',
   getFollowerItems: '/api/feed/getFollowerItems',
-  
+  showArchive: '/api/item/showPast'
 };
