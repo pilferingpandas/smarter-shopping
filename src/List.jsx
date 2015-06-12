@@ -11,7 +11,7 @@ var List = Eventful.createClass({
     this.emit('add-item', { name: newItemName });
   },
   renderListItem: function(itemData, id) {
-    
+   $('h2').css(['display','inline']); 
     return (
       <ListItem key={id} index={id} name={itemData.name} mode={this.props.mode} foodCategory={itemData.data.food_category}/>
     );
@@ -19,7 +19,7 @@ var List = Eventful.createClass({
   renderPastItems: function(data) {
     console.log('inside of renderPastItems', data);
     return (
-      <div>{data}</div>
+      <div>{data}</div> 
     );
   },
   archiveAll: function (e) {
@@ -63,7 +63,7 @@ var List = Eventful.createClass({
                 <ul>
                   {this.props.items.map(this.renderListItem)}
                 </ul>
-                <h2>Archived Items</h2>
+                <h2 class='name'>Archived Items</h2>
                 <div>{this.props.pastItems.map(this.renderPastItems)}</div>
                 </div>
               </div>

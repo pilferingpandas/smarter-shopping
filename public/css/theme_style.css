@@ -18,7 +18,7 @@ h1 {
 }
 h2 {
   font-size: 30px;
-  display: none;
+  display: inline;
 }
 h3 {
   font-size: 16px;
