@@ -62,20 +62,24 @@ module.exports = {
   },
 
   getList: function(req, res) {
-    var username = req.uid;
+    var username = req.session.username;
     User
     .findOne({username: username})
     .populate('list')
     .exec(function(err, user) {
       if (err) console.error(err);
       console.log('in get list, user:',user);
-      res.send(user.list);
+      if (user) {
+        res.send(user.list);
+      } else {
+        res.send([]);
+      }
     });
   },
   showPast: function (req, res){
 
-    var username = req.uid;
-    console.log('req.uid', req.uid);
+    var username = req.session.username;
+
      User
      .findOne({username: username}).
     // .findById({_id: '5578e225c651fa905b93096d'}).
@@ -95,8 +99,8 @@ module.exports = {
   },
 
   addItemToList: function(req, res) {
-
-    var username = req.uid;
+    
+    var username = req.session.username;
     var name = req.smartShoppingData.name;
 
     User.findOneAndUpdate(
@@ -119,7 +123,7 @@ module.exports = {
   },
 
   addAllItemsToArchive:  function(req, res) {
-    var username = req.uid;
+    var username = req.session.username;
     var howmany = Number(req.body.howmany);
     var tempId;
 
@@ -164,7 +168,7 @@ module.exports = {
 
 
   addItemToArchive: function(req, res) {
-   var username = req.uid;
+   var username = req.session.username;
    var index = Number(req.body.index);
    var tempId;
 
@@ -199,7 +203,7 @@ module.exports = {
  },
 
  updateItem: function(req, res) {
-  var username = req.uid;
+  var username = req.session.username;
   var newName = req.body.name.toLowerCase();
   var index = req.body.index;
 
@@ -221,7 +225,7 @@ module.exports = {
 },
 
 deleteItemFromList: function(req, res) {
-  var username = req.uid;
+  var username = req.session.username;
   var index = req.body.index;
 
   var setModifier = {$set: {}};

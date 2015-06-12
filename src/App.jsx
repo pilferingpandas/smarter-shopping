@@ -17,13 +17,18 @@ var App = Eventful.createClass({
   getInitialState: function() {
     return {
       items: [],
+      pastItems: [],
       mode: ModeToggle.EDITING
     };
   },
   showPast: function (data){
     $.get(url.showArchive, 'showAll')
     .done(function(data) {
-      console.log(data)
+      console.log('fdsfds', data);
+      this.setState({ pastItems: data });
+      for (var key in data){
+        console.log( 'item:' , key,' frequency: ' , data[key])
+     }
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error archiving item in list:', status, err);
@@ -33,6 +38,7 @@ var App = Eventful.createClass({
   getList: function() {
     $.get(url.list)
     .done(function(data) {
+      console.log('getlist', data)
       this.setState({ items: data });
     }.bind(this))
     .fail(function(xhr, status, err) {
