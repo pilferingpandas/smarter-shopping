@@ -28,7 +28,7 @@ var Home = Eventful.createClass({
       return (
         <div id="home">
           <ModeToggle mode={this.props.data.mode} />
-          <List items={this.props.data.items} mode={this.props.data.mode} />
+          <List items={this.props.data.items} pastItems={this.props.data.pastItems} mode={this.props.data.mode} />
         </div>
       );
 

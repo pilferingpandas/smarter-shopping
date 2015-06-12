@@ -88,13 +88,17 @@ module.exports = {
       if (err) console.error(err);
       var howmanyItems = data.past_items.length;
       var frequency = {};
+      var itemNames=[];
       for (var i=0; i<howmanyItems; i++){
         var current = data.past_items[i].name;
+        if (!frequency[current]){
+          itemNames.push(current);
+        }
          frequency[current] = frequency[current] || 0;
          frequency[current]++;
       }
-      console.log('show data retrieved for the ID stuff',frequency);
-      res.send(frequency);
+      console.log('show data retrieved from database',itemNames);
+      res.send(itemNames);
     });  
   },
 
