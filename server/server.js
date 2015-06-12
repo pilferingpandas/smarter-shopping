@@ -43,7 +43,6 @@ app.post('/api/item/update', listController.updateItem);
 app.delete('/api/item/delete', listController.deleteItemFromList);
 app.post('/api/item/archive', listController.addItemToArchive);
 
-
 app.post('/api/item/archiveAll',listController.addAllItemsToArchive);
 
 // AUTHENTICATION ROUTES
@@ -55,6 +54,8 @@ app.post('/auth/login', firebaseAuth.signIn);
 app.post('/api/feed/follow', feedController.addFollower);
 
 app.get('/api/feed/getFollowing', feedController.getFollowerList);
+
+app.post('/api/feed/getFollowerItems', feedController.getFollowerItems);
 
 app.get('/auth/signOut', firebaseAuth.signOut);
 
