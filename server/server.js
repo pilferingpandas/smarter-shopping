@@ -45,7 +45,8 @@ app.post('/api/item/archive', listController.addItemToArchive);
 
 
 app.post('/api/item/archiveAll',listController.addAllItemsToArchive);
-app.post('/api/item/showPast', listController.showPast);
+
+app.get('/api/item/showPast', listController.showPast);
 
 // AUTHENTICATION ROUTES
 app.use('/auth/register', firebaseAuth.createUser);

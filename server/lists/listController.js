@@ -21,6 +21,8 @@ var orderList = function(list) {
 };
 
 var storeOrderedList = function(username, list, cb) {
+  
+
   User.findOne({username: username})
   .populate('list')
   .exec(function(err, user) {
@@ -68,32 +70,33 @@ module.exports = {
     .populate('list')
     .exec(function(err, user) {
       if (err) console.error(err);
-      console.log('in get list, user:',user);
+      //console.log('in get list, user:',user);
       res.send(user.list);
     });
   },
   showPast: function (req, res){
     var username = req.uid;
     console.log('req.uid', req.uid);
-    console.log('got the signal from REACT');
-    console.log('/////////////////////////')
-    console.log('req.smartShoppingData', req.smartShoppingData);
-    console.log('/////////////////////////')
+    var itemNames=[];;
+
      User
-    .findOne({username: username})
-    .populate('list')
-    .exec(function(err, user) {
+     .findOne({username: username}).
+    // .findById({_id: '5578e225c651fa905b93096d'}).
+    populate('past_items')
+    .exec(function(err, data) {
       if (err) console.error(err);
-      console.log('SHOWPAST in get list, user.past_items:',user.past_items);
-      res.send(user.list);
-    });
+      var howmanyItems = data.past_items.length;
+      for (var i=0; i<howmanyItems; i++){
+        itemNames.push(data.past_items[i].name)
+      }
+      //console.log('show data retrieved for the ID stuff',itemNames);
+      res.send(itemNames);
+    });  
   },
   addItemToList: function(req, res) {
-
     var username = req.uid;
     var name = req.smartShoppingData.name;
-
-    User.findOneAndUpdate(
+      User.findOneAndUpdate( 
       {username: username}, 
       {$push: {'list': req.smartShoppingData._id}}, 
       {upsert: true}, 
@@ -120,7 +123,6 @@ module.exports = {
     User.findOne({username: username}, function(err, user) {
       var pushModifier = {$push: {}};
       for (var i=0; i<howmany; i++){
-        // push each item on the list
         pushModifier.$push['past_items'] = user.list[i];
       }
       
@@ -164,6 +166,9 @@ module.exports = {
 
    User.findOne({username: username}, function(err, user) {
     var pushModifier = {$push: {}};
+    if (user.list[index]===null){
+      console.log('this item is puts a null,  ',user.list[null]);
+    }
     pushModifier.$push['past_items'] = user.list[index];
     User.update({username: username}, pushModifier, {upsert: true}, function(err) {if (err) console.error(err)});
   });

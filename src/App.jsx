@@ -30,6 +30,26 @@ var App = Eventful.createClass({
       console.error('Error getting item list:', status, err);
     });
   },
+  // showPast: function(){
+  //   $.get(url.showArchive)
+  //   .done(function(data){
+  //     console.log(data)
+  //   }).
+  //     fail(function( err) {
+  //     console.error(err);
+  //   })
+  // },
+    showPast: function (data){
+    $.get(url.showArchive, 'showAll')
+    .done(function(data) {
+     console.log(data)
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error archiving item in list:', status, err);
+    });
+  },
+
+
 
   addItem: function(item) {
     $.post(url.addItem, item)
@@ -84,16 +104,6 @@ var App = Eventful.createClass({
       console.error('Error archiving item in list:', status, err);
     });
   },
-  showPast: function (data){
-    $.post(url.showArchive, 'showAll')
-    .done(function(data) {
-      this.getList();
-    }.bind(this))
-    .fail(function(xhr, status, err) {
-      console.error('Error archiving item in list:', status, err);
-    });
-  },
-
 
   registerUser: function(userData) {
     $.post(url.register, userData)
