@@ -76,7 +76,6 @@ module.exports = {
 
     var username = req.uid;
     console.log('req.uid', req.uid);
-    var itemNames=[];;
      User
      .findOne({username: username}).
     // .findById({_id: '5578e225c651fa905b93096d'}).
@@ -84,11 +83,14 @@ module.exports = {
     .exec(function(err, data) {
       if (err) console.error(err);
       var howmanyItems = data.past_items.length;
+      var frequency = {};
       for (var i=0; i<howmanyItems; i++){
-        itemNames.push(data.past_items[i].name)
+        var current = data.past_items[i].name;
+         frequency[current] = frequency[current] || 0;
+         frequency[current]++;
       }
-      //console.log('show data retrieved for the ID stuff',itemNames);
-      res.send(itemNames);
+      console.log('show data retrieved for the ID stuff',frequency);
+      res.send(frequency);
     });  
   },
 
