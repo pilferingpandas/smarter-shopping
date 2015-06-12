@@ -18,27 +18,14 @@ var App = Eventful.createClass({
     return {
       items: [],
       pastItems: [],
+      recipes: [],
       mode: ModeToggle.EDITING
     };
-  },
-  showPast: function (data){
-    $.get(url.showArchive, 'showAll')
-    .done(function(data) {
-      console.log('fdsfds', data);
-      this.setState({ pastItems: data });
-      for (var key in data){
-        console.log( 'item:' , key,' frequency: ' , data[key])
-     }
-    }.bind(this))
-    .fail(function(xhr, status, err) {
-      console.error('Error archiving item in list:', status, err);
-    });
   },
 
   getList: function() {
     $.get(url.list)
     .done(function(data) {
-      console.log('getlist', data)
       this.setState({ items: data });
     }.bind(this))
     .fail(function(xhr, status, err) {
@@ -166,6 +153,9 @@ var App = Eventful.createClass({
     this.on('login', function(data) {
       this.loginUser(data);
     });
+    this.on('search-recipe', function(data) {
+      this.searchRecipe(data);
+    });
     this.on('update-item', function(data) {
       this.updateItem(data)
     });
@@ -184,7 +174,7 @@ var App = Eventful.createClass({
     this.on('remove-item', function(data) {
       if (this.state.mode === ModeToggle.SHOPPING) {
         this.archiveItem(data);
-      } else {
+      } else if (this.state.mode === ModeToggle.EDITING) {
         this.deleteItem(data);
       }
     });
@@ -195,12 +185,37 @@ var App = Eventful.createClass({
     this.on('follow-user', function(data) {
       this.followUser(data);
     });
-        this.on('show-archive', function(data){
-      this.showPast(data);
-    });
 
     this.getList();
   },
+
+  addIngredients: function(ingredientArray) {
+    $.post(url.addRecipeItems, ingredientArray)
+    .fail(function(xhr, status, err){
+      console.log('failed in addingredients.app.jsx');
+    })
+  },
+
+  // addRecipeItems: function(item) {
+  //   $.post(url.addRecipeItems, item)
+  //   .done(function(data) {
+  //     this.setState({ items: data });
+  //   }.bind(this))
+  //   .fail(function(xhr, status, err) {
+  //     console.error('Error getting recipes list:', status, err);
+  //   });
+  // },
+
+  addItem: function(item) {
+    $.post(url.addItem, item)
+    .done(function(data) {
+      this.getList();
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error adding new item to list:', status, err);
+    });
+  },
+
 
   render: function() {
     //var loginOrOut = this.state.loggedIn ?

@@ -6,28 +6,26 @@ var ModeToggle = Eventful.createClass({
     // modes enum
     SHOPPING: {},
     EDITING: {},
-    FEED: {}
-  },
-  getInitialState: function() {
-    return {
-      mode: ModeToggle.EDITING
-    };
+    FEED: {},
+    RECIPES: {}
   },
   changeHandler: function(e) {
     var newMode = ModeToggle[e.target.value];
-    this.setState({ mode: newMode });
     this.emit('change-mode', { mode: newMode })
   },
   render: function() {
     var buttonClasses = {
       shopping: 'btn btn-sm btn-white',
       editing: 'btn btn-sm btn-white',
-      feed: 'btn btn-sm btn-white'
+      feed: 'btn btn-sm btn-white',
+      recipes: 'btn btn-sm btn-white'
     };
-    if (this.state.mode === ModeToggle.SHOPPING) {
+    if (this.props.mode === ModeToggle.SHOPPING) {
       buttonClasses.shopping += ' active';
-    } else if (this.state.mode === ModeToggle.FEED) {
+    } else if (this.props.mode === ModeToggle.FEED) {
       buttonClasses.feed += ' active';
+    } else if (this.props.mode === ModeToggle.RECIPES) {
+      buttonClasses.recipes += ' active';
     } else {
       buttonClasses.editing += ' active';
     }
@@ -41,13 +39,16 @@ var ModeToggle = Eventful.createClass({
             <div data-toggle="buttons" className="btn-group" id="mode-toggle-buttons">
               <form onChange={this.changeHandler}>
                 <label className={buttonClasses.shopping}>
-                  <input type="radio" name="shopping" value="SHOPPING" checked={this.state.mode === ModeToggle.SHOPPING} onChange={this.changeHandler} />&nbsp;&nbsp;&nbsp;Shopping Mode
+                  <input type="radio" name="shopping" value="SHOPPING" checked={this.props.mode === ModeToggle.SHOPPING} onChange={this.changeHandler} />&nbsp;&nbsp;&nbsp;Shopping Mode
                 </label>
                 <label className={buttonClasses.editing}>
-                  <input type="radio" name="editing" value="EDITING" checked={this.state.mode === ModeToggle.EDITING} onChange={this.changeHandler} />&nbsp;&nbsp;&nbsp;Editing Mode
+                  <input type="radio" name="editing" value="EDITING" checked={this.props.mode === ModeToggle.EDITING} onChange={this.changeHandler} />&nbsp;&nbsp;&nbsp;Editing Mode
                 </label>
                 <label className={buttonClasses.feed}>
-                  <input type="radio" name="feed" value="FEED" checked={this.state.mode === ModeToggle.FEED} onChange={this.changeHandler} />&nbsp;&nbsp;&nbsp;Feed Mode
+                  <input type="radio" name="feed" value="FEED" checked={this.props.mode === ModeToggle.FEED} onChange={this.changeHandler} />&nbsp;&nbsp;&nbsp;Feed Mode
+                </label>
+                <label className={buttonClasses.recipes}>
+                  <input type="radio" name="recipes" value="RECIPES" checked={this.props.mode === ModeToggle.RECIPES} onChange={this.changeHandler} />&nbsp;&nbsp;&nbsp;Recipes Mode
                 </label>
               </form>
             </div>
