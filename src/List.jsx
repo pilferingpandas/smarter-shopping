@@ -16,6 +16,12 @@ var List = Eventful.createClass({
       <ListItem key={id} index={id} name={itemData.name} mode={this.props.mode} foodCategory={itemData.data.food_category}/>
     );
   },
+  renderPastItems: function(data) {
+    console.log('inside of renderPastItems', data);
+    return (
+      <div>{data}</div>
+    );
+  },
   archiveAll: function (e) {
     e.preventDefault();
     var length = this.props.items.length;
@@ -57,6 +63,8 @@ var List = Eventful.createClass({
                 <ul>
                   {this.props.items.map(this.renderListItem)}
                 </ul>
+                <h2>Archived Items</h2>
+                <div>{this.props.pastItems.map(this.renderPastItems)}</div>
                 </div>
               </div>
             </div>
