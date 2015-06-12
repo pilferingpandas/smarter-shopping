@@ -21,6 +21,10 @@ var List = Eventful.createClass({
     var length = this.props.items.length;
     this.emit('archive-items', length);
   },
+    showArchive: function (e) {
+    e.preventDefault();
+     this.emit('show-archive');
+  },
   render: function() {
 
     return (
@@ -43,6 +47,11 @@ var List = Eventful.createClass({
                   <div className='archive-all-input'  onSubmit={this.archiveAll}>
                     <form name="archive-all-form" >
                       <input className='btn btn-sm btn-primary archive-all-button' type="submit" value="Archive all items on the list"/>
+                    </form>
+                </div>
+                  <div className='show-archive'  onSubmit={this.showArchive}>
+                    <form name="show-archive" >
+                      <input className='btn btn-sm btn-primary show-archive-button' type="submit" value="Show archived items"/>
                     </form>
                 </div>
                 <ul>

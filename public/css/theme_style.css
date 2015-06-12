@@ -601,6 +601,17 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   align: center;
   margin-top: 5px;
 }
+.show-archive-button {
+  display: block;
+  background-color: #FF00BD;
+  border-color: #B63229;
+  color: #FFFFFF;
+  width: 200px;
+  margin: 0 auto;
+  align: center;
+  margin-top: 5px;
+}
+
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active,

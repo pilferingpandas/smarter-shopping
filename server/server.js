@@ -44,7 +44,7 @@ app.delete('/api/item/delete', listController.deleteItemFromList);
 app.post('/api/item/archive', listController.addItemToArchive);
 
 app.post('/api/item/archiveAll',listController.addAllItemsToArchive);
-
+app.get('/api/item/showPast', listController.showPast);
 // AUTHENTICATION ROUTES
 app.use('/auth/register', firebaseAuth.createUser);
 app.post('/auth/register', firebaseAuth.signIn);
