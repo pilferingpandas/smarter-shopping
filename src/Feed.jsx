@@ -1,6 +1,7 @@
 var React = require('react');
 var Eventful = require('eventful-react');
 var ListItem = require('./ListItem');
+// var FeedItem = require('./FeedItem');
 
 var Feed = Eventful.createClass({
   followUser: function(e) {
@@ -25,14 +26,17 @@ var Feed = Eventful.createClass({
             <div className="ibox-title">
               <h5>Your Feed</h5>
             </div>
+
             <div className="ibox-content">
               <div className="row">
                 <div className="list">
                   <div className='new-item-input'>
+
                     <form name="new-item-form" onSubmit={this.followUser}>
                       <input className='new-item-input' type="text" ref="newItemInput" name="newItemInput" placeholder="Enter a user to follow"/>
                       <input className='btn btn-sm btn-primary add-item-button' type="submit" value="Follow User"/>
                     </form>
+
                 </div>
 
                 </div>

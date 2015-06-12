@@ -111,7 +111,8 @@ var App = Eventful.createClass({
     console.log('userData from app dot jsx event handler', userData);
     $.post(url.followUser, userData)
     .done(function(data) {
-      console.log('Response data: ', data);
+      console.log('FollowUser: ', data);
+      this.getFollowerItems({followerList: data});
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error following user: ', status, err);
@@ -121,7 +122,17 @@ var App = Eventful.createClass({
   getFollowingList: function(userData) {
      $.get(url.getFollowingList, userData)
     .done(function(data) {
-      console.log('Response data: ', data);
+      console.log('FollowingList: ', data);
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error('Error following user: ', status, err);
+    });
+  },
+
+  getFollowerItems: function(userData) {
+    $.post(url.getFollowerItems, userData)
+    .done(function(data) {
+      console.log('FollowerItems: ', JSON.stringify(data));
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error following user: ', status, err);
