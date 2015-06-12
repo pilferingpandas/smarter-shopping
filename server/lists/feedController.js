@@ -44,7 +44,8 @@ var addFollower = function(req, res) {
           } else {
             getFollowerList(req, res);
           }
-        });
+        }
+      );
     } else {
       console.log('User Does Not Exist. Please Enter A Valid User!');
       res.send('User Does Not Exist. Please Enter A Valid User!');
@@ -66,7 +67,6 @@ var getFollowerItems = function(req, res) {
   var allFollowerItems = [];
 
   var handleItems = function(followerItems) {
-    console.log('in handleitems life is great');
     console.log(followerItems);
     res.send(followerItems);
   };
@@ -109,22 +109,18 @@ var autocompleteUsername = function() {
   // Autofills the username in the input box on the news feed page
 };
 
-var removeFollower = function() {
-  // Allows users to unfollow other users once they are following them
-};
-
 var replaceIdWithUsername = function() {
   // Replaces the reference to the user to follower to the username instead of the user id
 };
 
 module.exports = {
   addFollower: addFollower,
-  removeFollower: removeFollower,
   checkUserExists: checkUserExists,
   getFollowerList: getFollowerList,
-  getFollowerItems: getFollowerItems,
-  addFollowerItem: addFollowerItem,
-  autocompleteUsername: autocompleteUsername
+  getFollowerItems: getFollowerItems
+  // addFollowerItem: addFollowerItem,
+  // autocompleteUsername: autocompleteUsername,
+  // replaceIdWithUsername: replaceIdWithUsername
 };
 
   

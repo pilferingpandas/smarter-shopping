@@ -11,5 +11,6 @@ module.exports = {
   token: '/auth/token',
   followUser: '/api/feed/follow',
   getFollowingList: '/api/feed/getFollowing',
-  getFollowerItems: '/api/feed/getFollowerItems'
+  getFollowerItems: '/api/feed/getFollowerItems',
+  
 };
