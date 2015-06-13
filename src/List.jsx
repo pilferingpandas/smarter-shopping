@@ -11,7 +11,8 @@ var List = Eventful.createClass({
     this.emit('add-item', { name: newItemName });
   },
   renderListItem: function(itemData, id) {
-   $('h2').css(['display','inline']); 
+  // $(document).on( $('h2').css({"display":"none"}) );
+
     return (
       <ListItem key={id} index={id} name={itemData.name} mode={this.props.mode} foodCategory={itemData.data.food_category}/>
     );
