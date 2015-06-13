@@ -1,7 +1,6 @@
 var React = require('react');
 var Eventful = require('eventful-react');
 var ListItem = require('./ListItem');
-// var FeedItem = require('./FeedItem');
 
 var Feed = Eventful.createClass({
   followUser: function(e) {
