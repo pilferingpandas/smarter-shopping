@@ -131,10 +131,11 @@ var App = Eventful.createClass({
     });
   },
 
-  getFollowingList: function(userData) {
-     $.get(url.getFollowingList, userData)
+  getFollowingList: function(callback) {
+     $.get(url.getFollowingList)
     .done(function(data) {
       console.log('FollowingList: ', data);
+      this.getFollowerItems(data);
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error following user: ', status, err);
@@ -145,6 +146,7 @@ var App = Eventful.createClass({
     $.post(url.getFollowerItems, userData)
     .done(function(data) {
       console.log('FollowerItems: ', JSON.stringify(data));
+      this.setState({ items: data });
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error following user: ', status, err);
@@ -153,6 +155,10 @@ var App = Eventful.createClass({
 
   changeMode: function(data) {
     this.setState({ mode: data.mode });
+  },
+
+  refreshFollowingItems: function() {
+    this.getFollowingList();
   },
 
   componentDidMount: function() {
@@ -169,7 +175,7 @@ var App = Eventful.createClass({
     this.on('add-item', function(data) {
       this.addItem(data);
     });
-    this.on('archive-items', function(data) {  
+    this.on('archive-items', function(data) {
       if (data>0 && this.state.mode === ModeToggle.SHOPPING){
       this.archiveAll(data);
     } else if (data===0){
@@ -186,6 +192,9 @@ var App = Eventful.createClass({
       }
     });
     this.on('change-mode', function(data) {
+      if ((this.state.mode == ModeToggle.EDITING || this.state.mode == ModeToggle.SHOPPING) && data.mode === ModeToggle.FEED) {
+        this.refreshFollowingItems();
+      }
       this.changeMode(data);
     });
 
@@ -212,3 +221,4 @@ var App = Eventful.createClass({
 });
 
 module.exports = App;
+

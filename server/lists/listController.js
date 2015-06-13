@@ -105,6 +105,7 @@ module.exports = {
   addItemToList: function(req, res) {
     
     var username = req.session.username;
+    console.log(username);
     var name = req.smartShoppingData.name;
 
     User.findOneAndUpdate(
