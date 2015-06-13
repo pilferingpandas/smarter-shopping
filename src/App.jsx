@@ -135,21 +135,18 @@ var App = Eventful.createClass({
      $.get(url.getFollowingList)
     .done(function(data) {
       console.log('FollowingList: ', data);
-      this.getFollowerItems(data, function(followerItems) {
-        this.setState({ items: followerItems });
-        console.log('refreshed following items...' + followerItems);
-      });
+      this.getFollowerItems(data);
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error following user: ', status, err);
     });
   },
 
-  getFollowerItems: function(userData, callback) {
+  getFollowerItems: function(userData) {
     $.post(url.getFollowerItems, userData)
     .done(function(data) {
       console.log('FollowerItems: ', JSON.stringify(data));
-      callback(data);
+      this.setState({ items: data });
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error('Error following user: ', status, err);
