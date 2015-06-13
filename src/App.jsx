@@ -30,6 +30,7 @@ var App = Eventful.createClass({
     .fail(function(xhr, status, err) {
       console.error('Error archiving item in list:', status, err);
     });
+     $(document).on( $('h2').css({"display":"inline"}) );
   },
 
   getList: function() {
